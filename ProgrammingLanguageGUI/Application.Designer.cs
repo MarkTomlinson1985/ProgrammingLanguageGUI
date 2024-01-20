@@ -1,6 +1,10 @@
-﻿namespace ProgrammingLanguageGUI
+﻿
+using Microsoft.VisualBasic.Logging;
+using System.Diagnostics;
+
+namespace ProgrammingLanguageGUI
 {
-    partial class Form1
+    partial class Application
     {
         /// <summary>
         ///  Required designer variable.
@@ -79,7 +83,8 @@
             textEditor.Name = "textEditor";
             textEditor.Size = new Size(580, 555);
             textEditor.TabIndex = 3;
-            textEditor.Text = "TESTING\nHELLO WORLD";
+            textEditor.Text = "";
+            textEditor.TextChanged += TextEditor_TextChanged;
             // 
             // terminalTabPanel
             // 
@@ -111,10 +116,10 @@
             lineText.Name = "lineText";
             lineText.Size = new Size(34, 555);
             lineText.TabIndex = 5;
-            lineText.Text = "1\r\n2";
+            lineText.Text = "1";
             lineText.TextAlign = HorizontalAlignment.Right;
             // 
-            // Form1
+            // Application
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -126,8 +131,8 @@
             Controls.Add(textEditor);
             Controls.Add(runPanel);
             Controls.Add(drawingPanel);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "Application";
+            Text = "Programming GUI";
             runPanel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

@@ -1,10 +1,10 @@
 namespace ProgrammingLanguageGUI
 {
-    public partial class Form1 : Form
-    {
-        public Form1()
-        {
+    public partial class Application : Form {
+
+        public Application() {
             InitializeComponent();
         }
+
     }
 }
