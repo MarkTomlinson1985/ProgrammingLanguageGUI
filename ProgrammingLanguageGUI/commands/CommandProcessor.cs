@@ -1,5 +1,5 @@
 ﻿namespace ProgrammingLanguageGUI.commands {
-    internal class CommandProcessor { 
+    public class CommandProcessor { 
 
         public CommandProcessor() {}
 

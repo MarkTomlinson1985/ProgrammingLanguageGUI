@@ -1,5 +1,5 @@
 ﻿namespace ProgrammingLanguageGUI {
-    partial class Application
+    public partial class Application
     {
         /// <summary>
         ///  Required designer variable.

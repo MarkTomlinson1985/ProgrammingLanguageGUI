@@ -1,11 +1,11 @@
 ﻿namespace ProgrammingLanguageGUI.commands {
-    abstract class Command : ICommand {
+    public abstract class Command : ICommand {
         protected string command;
         protected int numberOfArguments;
 
         public Command(string command) {
             this.command = command;
-            numberOfArguments = 0;
+            numberOfArguments = 1;
         }
 
         public abstract void Execute();

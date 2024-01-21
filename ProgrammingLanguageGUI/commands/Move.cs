@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
-    internal class Move : Command {
+    public class Move : Command {
         private int xCoordinate;
         private int yCoordinate;
 
