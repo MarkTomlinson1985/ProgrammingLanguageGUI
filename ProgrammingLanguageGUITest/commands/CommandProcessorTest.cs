@@ -17,6 +17,7 @@ namespace ProgrammingLanguageGUITest {
         [DataRow("MOVE 100 100", typeof(Move))]
         [DataRow("DRAWTO 100 100", typeof(DrawTo))]
         [DataRow("CIRCLE 100", typeof(Circle))]
+        [DataRow("CLEAR", typeof(Clear))]
         public void ParseCommandShouldReturnCommandWithValidCommand(string command, Type expectedType) {
             Assert.IsInstanceOfType(processor.ParseCommand(command), expectedType);
         }

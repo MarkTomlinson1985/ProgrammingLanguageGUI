@@ -29,6 +29,8 @@ namespace ProgrammingLanguageGUI.commands {
                     return new DrawTo(command, drawer);
                 case "circle":
                     return new Circle(command, drawer);
+                case "clear":
+                    return new Clear(command, drawer);
             }
             
             throw new NotImplementedException("Command " + commandType + " not recognised.");

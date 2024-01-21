@@ -52,5 +52,9 @@
             drawingBoxGraphics.DrawImage(baseBitmap, 0, 0);
             drawingBoxGraphics.DrawImage(cursorBitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
         }
+
+        public void Clear() {
+            drawingBoxGraphics.Clear(backgroundColour);
+        }
     }
 }
