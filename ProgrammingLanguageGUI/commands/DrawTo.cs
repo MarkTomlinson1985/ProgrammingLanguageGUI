@@ -2,20 +2,20 @@
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class Move : Command {
+    public class DrawTo : Command {
         private int xCoordinate;
         private int yCoordinate;
 
-        public Move(string command, Drawer drawer) : base(command, drawer) {
+        public DrawTo(string command, Drawer drawer) : base(command, drawer) {
             numberOfArguments = 3;
         }
 
         public override void Execute() {
-            drawer.MoveTo(xCoordinate, yCoordinate);
+            drawer.DrawLine(xCoordinate, yCoordinate);
         }
 
         public override void ValidateCommand() {
-            Debug.WriteLine("Processing move argument");
+            Debug.WriteLine("Processing draw argument");
             base.ValidateCommand();
 
             // Add specific validation for 'Move' command here.

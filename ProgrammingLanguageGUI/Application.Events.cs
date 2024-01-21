@@ -34,6 +34,8 @@ namespace ProgrammingLanguageGUI {
                 Debug.WriteLine("Command " + commandText.Text + " is not valid");
                 outputText.Text = ex.Message;
             }
+
+            commandText.Text = "";
         }
     }
 }

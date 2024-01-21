@@ -1,7 +1,12 @@
-﻿namespace ProgrammingLanguageGUI.commands {
-    public class CommandProcessor { 
+﻿using ProgrammingLanguageGUI.drawer;
 
-        public CommandProcessor() {}
+namespace ProgrammingLanguageGUI.commands {
+    public class CommandProcessor {
+        Drawer drawer;
+
+        public CommandProcessor(Drawer drawer) {
+            this.drawer = drawer;
+        }
 
         // write unit tests for this
         public Command ParseCommand(string command) {
@@ -9,7 +14,9 @@
 
             switch (commandType.ToLower()) {
                 case "move":
-                    return new Move(command);
+                    return new Move(command, drawer);
+                case "drawto":
+                    return new DrawTo(command, drawer);
             }
             
             throw new NotImplementedException("Command " + commandType + " not recognised.");

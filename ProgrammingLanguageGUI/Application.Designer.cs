@@ -25,9 +25,7 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
-            drawingPanel = new Panel();
+        private void InitializeComponent() {
             runPanel = new Panel();
             playButton = new Button();
             textEditor = new RichTextBox();
@@ -35,17 +33,10 @@
             lineText = new TextBox();
             commandText = new TextBox();
             runCommand = new Button();
+            drawingBox = new PictureBox();
             runPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)drawingBox).BeginInit();
             SuspendLayout();
-            // 
-            // drawingPanel
-            // 
-            drawingPanel.BackColor = SystemColors.ControlDarkDark;
-            drawingPanel.BorderStyle = BorderStyle.FixedSingle;
-            drawingPanel.Location = new Point(643, 48);
-            drawingPanel.Name = "drawingPanel";
-            drawingPanel.Size = new Size(620, 555);
-            drawingPanel.TabIndex = 1;
             // 
             // runPanel
             // 
@@ -129,29 +120,37 @@
             runCommand.UseVisualStyleBackColor = false;
             runCommand.Click += runCommand_Click;
             // 
+            // drawingBox
+            // 
+            drawingBox.BackColor = SystemColors.ControlDark;
+            drawingBox.Location = new Point(643, 48);
+            drawingBox.Name = "drawingBox";
+            drawingBox.Size = new Size(616, 554);
+            drawingBox.TabIndex = 7;
+            drawingBox.TabStop = false;
+            // 
             // Application
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(58, 60, 78);
             ClientSize = new Size(1275, 773);
+            Controls.Add(drawingBox);
             Controls.Add(runCommand);
             Controls.Add(commandText);
             Controls.Add(lineText);
             Controls.Add(outputText);
             Controls.Add(textEditor);
             Controls.Add(runPanel);
-            Controls.Add(drawingPanel);
             Name = "Application";
             Text = "Programming GUI";
             runPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)drawingBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Panel drawingPanel;
         private Panel runPanel;
         private RichTextBox textEditor;
         private RichTextBox outputText;
@@ -159,5 +158,6 @@
         private Button playButton;
         private TextBox commandText;
         private Button runCommand;
+        private PictureBox drawingBox;
     }
 }
