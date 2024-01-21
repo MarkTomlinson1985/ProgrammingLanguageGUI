@@ -17,6 +17,8 @@ namespace ProgrammingLanguageGUI.commands {
                     return new Move(command, drawer);
                 case "drawto":
                     return new DrawTo(command, drawer);
+                case "circle":
+                    return new Circle(command, drawer);
             }
             
             throw new NotImplementedException("Command " + commandType + " not recognised.");

@@ -42,5 +42,15 @@
             cursor.X = toX;
             cursor.Y = toY;
         }
+
+        public void DrawCircle(int radius) {
+            drawingBoxGraphics.Clear(backgroundColour);
+
+            Graphics baseGraphics = Graphics.FromImage(baseBitmap);
+            baseGraphics.DrawEllipse(Pens.Black, cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius);
+
+            drawingBoxGraphics.DrawImage(baseBitmap, 0, 0);
+            drawingBoxGraphics.DrawImage(cursorBitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
+        }
     }
 }
