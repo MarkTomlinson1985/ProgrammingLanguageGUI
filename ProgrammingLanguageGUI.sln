@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguageGUI", "ProgrammingLanguageGUI\ProgrammingLanguageGUI.csproj", "{F9B06D5D-B1A9-48F4-936D-A13202D50DC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguageGUITest", "..\ProgrammingLanguageGUITest\ProgrammingLanguageGUITest\ProgrammingLanguageGUITest.csproj", "{FE387478-F030-459F-B482-4D5B629452D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguageGUITest", "..\ProgrammingLanguageGUI\ProgrammingLanguageGUITest\ProgrammingLanguageGUITest.csproj", "{FE387478-F030-459F-B482-4D5B629452D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
