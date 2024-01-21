@@ -1,9 +1,4 @@
-﻿
-using Microsoft.VisualBasic.Logging;
-using System.Diagnostics;
-
-namespace ProgrammingLanguageGUI
-{
+﻿namespace ProgrammingLanguageGUI {
     partial class Application
     {
         /// <summary>
@@ -36,9 +31,10 @@ namespace ProgrammingLanguageGUI
             runPanel = new Panel();
             playButton = new Button();
             textEditor = new RichTextBox();
-            terminalTabPanel = new Panel();
             outputText = new RichTextBox();
             lineText = new TextBox();
+            commandText = new TextBox();
+            runCommand = new Button();
             runPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -81,28 +77,19 @@ namespace ProgrammingLanguageGUI
             textEditor.ForeColor = Color.FromArgb(232, 232, 232);
             textEditor.Location = new Point(57, 48);
             textEditor.Name = "textEditor";
-            textEditor.Size = new Size(580, 555);
+            textEditor.Size = new Size(580, 522);
             textEditor.TabIndex = 3;
             textEditor.Text = "";
             textEditor.TextChanged += TextEditor_TextChanged;
-            // 
-            // terminalTabPanel
-            // 
-            terminalTabPanel.BackColor = Color.FromArgb(84, 86, 109);
-            terminalTabPanel.BorderStyle = BorderStyle.FixedSingle;
-            terminalTabPanel.Location = new Point(17, 609);
-            terminalTabPanel.Name = "terminalTabPanel";
-            terminalTabPanel.Size = new Size(1246, 26);
-            terminalTabPanel.TabIndex = 3;
             // 
             // outputText
             // 
             outputText.BackColor = Color.FromArgb(69, 69, 84);
             outputText.BorderStyle = BorderStyle.None;
             outputText.ForeColor = Color.FromArgb(232, 232, 232);
-            outputText.Location = new Point(17, 641);
+            outputText.Location = new Point(17, 610);
             outputText.Name = "outputText";
-            outputText.Size = new Size(1246, 221);
+            outputText.Size = new Size(1246, 151);
             outputText.TabIndex = 4;
             outputText.Text = "Output text\n";
             // 
@@ -114,20 +101,44 @@ namespace ProgrammingLanguageGUI
             lineText.Location = new Point(17, 48);
             lineText.Multiline = true;
             lineText.Name = "lineText";
-            lineText.Size = new Size(34, 555);
+            lineText.Size = new Size(34, 522);
             lineText.TabIndex = 5;
             lineText.Text = "1";
             lineText.TextAlign = HorizontalAlignment.Right;
+            // 
+            // commandText
+            // 
+            commandText.BackColor = Color.FromArgb(69, 69, 84);
+            commandText.BorderStyle = BorderStyle.None;
+            commandText.ForeColor = Color.FromArgb(224, 224, 224);
+            commandText.Location = new Point(17, 579);
+            commandText.Name = "commandText";
+            commandText.Size = new Size(566, 20);
+            commandText.TabIndex = 6;
+            // 
+            // runCommand
+            // 
+            runCommand.BackColor = Color.FromArgb(84, 86, 109);
+            runCommand.FlatStyle = FlatStyle.Flat;
+            runCommand.ForeColor = Color.FromArgb(224, 224, 224);
+            runCommand.Location = new Point(589, 575);
+            runCommand.Name = "runCommand";
+            runCommand.Size = new Size(48, 29);
+            runCommand.TabIndex = 1;
+            runCommand.Text = "Run";
+            runCommand.UseVisualStyleBackColor = false;
+            runCommand.Click += runCommand_Click;
             // 
             // Application
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(58, 60, 78);
-            ClientSize = new Size(1275, 874);
+            ClientSize = new Size(1275, 773);
+            Controls.Add(runCommand);
+            Controls.Add(commandText);
             Controls.Add(lineText);
             Controls.Add(outputText);
-            Controls.Add(terminalTabPanel);
             Controls.Add(textEditor);
             Controls.Add(runPanel);
             Controls.Add(drawingPanel);
@@ -143,9 +154,10 @@ namespace ProgrammingLanguageGUI
         private Panel drawingPanel;
         private Panel runPanel;
         private RichTextBox textEditor;
-        private Panel terminalTabPanel;
         private RichTextBox outputText;
         private TextBox lineText;
         private Button playButton;
+        private TextBox commandText;
+        private Button runCommand;
     }
 }

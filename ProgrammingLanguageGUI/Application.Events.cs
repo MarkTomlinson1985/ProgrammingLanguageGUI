@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProgrammingLanguageGUI.commands;
+using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI {
     partial class Application {
@@ -22,5 +19,21 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        private void runCommand_Click(object sender, EventArgs e) {
+            Debug.WriteLine("Parsing command text: " + commandText.Text);
+
+            // This stuff probably needs to be in its own command controller class.
+            try {
+                Command command = commandProcessor.ParseCommand(commandText.Text);
+                command.ValidateCommand();
+                Debug.WriteLine("Executing valid command");
+                command.Execute();
+                outputText.Text = "Command run successfully";
+                // add a new CommandException that can be extended to more specific exception classes
+            } catch (Exception ex) {
+                Debug.WriteLine("Command " + commandText.Text + " is not valid");
+                outputText.Text = ex.Message;
+            }
+        }
     }
 }
