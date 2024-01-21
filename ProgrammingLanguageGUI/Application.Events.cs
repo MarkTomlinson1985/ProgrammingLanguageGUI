@@ -1,4 +1,5 @@
 ﻿using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.exception;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI {
@@ -29,7 +30,6 @@ namespace ProgrammingLanguageGUI {
                 outputText.Text = "Command run successfully";
                 // add a new CommandException that can be extended to more specific exception classes
             } catch (Exception ex) {
-                Debug.WriteLine("Command " + commandText.Text + " is not valid");
                 outputText.Text = ex.Message;
             }
 
@@ -37,23 +37,38 @@ namespace ProgrammingLanguageGUI {
         }
 
         private void runProgram_Click(object sender, EventArgs e) {
-            try {
-                string program = programEditor.Text;
-                List<Command> commands = commandProcessor.ParseProgram(program);
-                // Have a list of exceptions that can be caught for the whole program
-                // and printed out at the end.
+            string program = programEditor.Text;
+            List<CommandException> exceptions = new List<CommandException>();
+            List<Command> commands = new List<Command>();
 
-                foreach (Command command in commands) {
-                    // Have a try catch in here to catch individual exceptions.
+            ProgramResults results = commandProcessor.ParseProgram(program);
+            
+            foreach (Command command in results.GetCommands().Keys) {
+                commands.Add(command);
+            }
+
+            foreach (CommandException exception in results.GetExceptions().Keys) {
+                exceptions.Add(new CommandException($"Line {results.GetExceptions()[exception]}: {exception.Message}"));
+            }
+
+            foreach (Command command in commands) {
+                try {
                     command.ValidateCommand();
                     command.Execute();
+                } catch (CommandException ex) {
+                    exceptions.Add(new CommandException($"Line {results.GetCommands()[command]}: {ex.Message}"));
                 }
-
-                outputText.Text = "Program executed successfully.";
-
-            } catch (Exception ex) {
-                outputText.Text = ex.Message;
             }
+
+            if (exceptions.Count > 0) {
+                outputText.Text = "";
+                foreach (CommandException ex in exceptions) {
+                    outputText.Text = outputText.Text + ex.Message + "\n";
+                }
+                return;
+            }
+
+            outputText.Text = "Program executed successfully.";
         }
     }
 }

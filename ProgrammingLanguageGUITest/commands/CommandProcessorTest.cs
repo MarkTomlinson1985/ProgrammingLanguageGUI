@@ -1,5 +1,6 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.drawer;
+using ProgrammingLanguageGUI.exception;
 using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest {
@@ -24,11 +25,13 @@ namespace ProgrammingLanguageGUITest {
 
         [TestMethod]
         public void ParseCommandShouldThrowExceptionForInvalidCommand() { 
-            Exception ex = Assert.ThrowsException<NotImplementedException>(
+            Exception ex = Assert.ThrowsException<CommandNotFoundException>(
                 () => processor.ParseCommand("INVALID 100 100"));
 
             Assert.AreEqual("Command INVALID not recognised.", ex.Message);
         }
+
+        // Write a test for ParseProgram method.
 
     }
 }

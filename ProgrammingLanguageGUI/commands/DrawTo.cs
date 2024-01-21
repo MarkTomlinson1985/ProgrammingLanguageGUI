@@ -1,4 +1,5 @@
 ﻿using ProgrammingLanguageGUI.drawer;
+using ProgrammingLanguageGUI.exception;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
@@ -25,11 +26,11 @@ namespace ProgrammingLanguageGUI.commands {
                 yCoordinate = int.Parse(command.Split(" ")[2]);
 
                 if (xCoordinate < 0 || yCoordinate < 0) {
-                    throw new ArgumentException("Provided coordinate arguments must not be negative.");
+                    throw new CommandArgumentException("Provided coordinate arguments must not be negative.");
                 }
 
             } catch (FormatException) {
-                throw new ArgumentException("Provided arguments are not valid numbers.");
+                throw new CommandArgumentException("Provided arguments are not valid numbers.");
             }
         }
     }

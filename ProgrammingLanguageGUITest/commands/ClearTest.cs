@@ -1,5 +1,6 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.drawer;
+using ProgrammingLanguageGUI.exception;
 using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest {
@@ -22,7 +23,7 @@ namespace ProgrammingLanguageGUITest {
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments() {
             Clear command = new Clear("CLEAR ARGUMENT", drawer);
             
-            Exception ex = Assert.ThrowsException<ArgumentException>(() => command.ValidateCommand());
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
             string expectedExceptionMessage = "Number of arguments incorrect. Expected: 1 - Actual: 2";
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);

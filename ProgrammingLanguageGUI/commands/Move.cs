@@ -1,4 +1,5 @@
 ﻿using ProgrammingLanguageGUI.drawer;
+using ProgrammingLanguageGUI.exception;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
@@ -15,21 +16,18 @@ namespace ProgrammingLanguageGUI.commands {
         }
 
         public override void ValidateCommand() {
-            Debug.WriteLine("Processing move argument");
             base.ValidateCommand();
 
-            // Add specific validation for 'Move' command here.
-            // check other arguments are numbers.
             try {
                 xCoordinate = int.Parse(command.Split(" ")[1]);
                 yCoordinate = int.Parse(command.Split(" ")[2]);
 
                 if (xCoordinate < 0 || yCoordinate < 0) {
-                    throw new ArgumentException("Provided coordinate arguments must not be negative.");
+                    throw new CommandArgumentException("Provided coordinate arguments must not be negative.");
                 }
 
             } catch (FormatException) {
-                throw new ArgumentException("Provided arguments are not valid numbers.");
+                throw new CommandArgumentException("Provided arguments are not valid numbers.");
             }
         }
     }

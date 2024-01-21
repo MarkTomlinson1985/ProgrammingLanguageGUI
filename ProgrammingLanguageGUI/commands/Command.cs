@@ -1,4 +1,5 @@
 ﻿using ProgrammingLanguageGUI.drawer;
+using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
     public abstract class Command : ICommand {
@@ -18,7 +19,7 @@ namespace ProgrammingLanguageGUI.commands {
             string[] argumentArray = new string[command.Split(" ").Length];
 
             if (argumentArray.Length != numberOfArguments) {
-                throw new ArgumentException(
+                throw new CommandArgumentException(
                     "Number of arguments incorrect. Expected: " + numberOfArguments + " - Actual: " + argumentArray.Length);
             }
         }

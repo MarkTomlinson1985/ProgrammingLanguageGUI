@@ -1,4 +1,5 @@
 ﻿using ProgrammingLanguageGUI.drawer;
+using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
     public class CommandProcessor {
@@ -8,15 +9,20 @@ namespace ProgrammingLanguageGUI.commands {
             this.drawer = drawer;
         }
 
-        public List<Command> ParseProgram(string program) {
+        public ProgramResults ParseProgram(string program) {
             string[] textCommands = program.Split("\n");
-            List<Command> commands = new List<Command>();
+            Dictionary<Command, int> commands = new Dictionary<Command, int>();
+            Dictionary<CommandException, int> exceptions = new Dictionary<CommandException, int>();
 
-            foreach (string command in textCommands) {
-                commands.Add(ParseCommand(command));
+            for (int i = 0; i < textCommands.Length; i++) {
+                try {
+                    commands.Add(ParseCommand(textCommands[i]), i + 1);
+                } catch (CommandNotFoundException ex) {
+                    exceptions.Add(ex, i + 1);
+                }
             }
 
-            return commands;
+            return new ProgramResults(commands, exceptions);
         }
 
         public Command ParseCommand(string command) {
@@ -33,7 +39,7 @@ namespace ProgrammingLanguageGUI.commands {
                     return new Clear(command, drawer);
             }
             
-            throw new NotImplementedException("Command " + commandType + " not recognised.");
+            throw new CommandNotFoundException("Command " + commandType + " not recognised.");
         }
     }
 }

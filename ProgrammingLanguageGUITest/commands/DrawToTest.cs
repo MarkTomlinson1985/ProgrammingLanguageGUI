@@ -1,5 +1,6 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.drawer;
+using ProgrammingLanguageGUI.exception;
 using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest {
@@ -27,7 +28,7 @@ namespace ProgrammingLanguageGUITest {
             string expectedExceptionMessage) {
             DrawTo command = new DrawTo($"DRAWTO {argumentOne} {argumentTwo}", drawer);
             
-            Exception ex = Assert.ThrowsException<ArgumentException>(() => command.ValidateCommand());
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);
         }
