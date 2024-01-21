@@ -8,7 +8,17 @@ namespace ProgrammingLanguageGUI.commands {
             this.drawer = drawer;
         }
 
-        // write unit tests for this
+        public List<Command> ParseProgram(string program) {
+            string[] textCommands = program.Split("\n");
+            List<Command> commands = new List<Command>();
+
+            foreach (string command in textCommands) {
+                commands.Add(ParseCommand(command));
+            }
+
+            return commands;
+        }
+
         public Command ParseCommand(string command) {
             string commandType = command.Split(" ")[0];
 

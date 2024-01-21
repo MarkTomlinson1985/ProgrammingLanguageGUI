@@ -27,8 +27,8 @@
         /// </summary>
         private void InitializeComponent() {
             runPanel = new Panel();
-            playButton = new Button();
-            textEditor = new RichTextBox();
+            runProgram = new Button();
+            programEditor = new RichTextBox();
             outputText = new RichTextBox();
             lineText = new TextBox();
             commandText = new TextBox();
@@ -41,37 +41,38 @@
             // runPanel
             // 
             runPanel.BackColor = Color.FromArgb(84, 86, 109);
-            runPanel.Controls.Add(playButton);
+            runPanel.Controls.Add(runProgram);
             runPanel.ForeColor = SystemColors.ControlText;
             runPanel.Location = new Point(17, 3);
             runPanel.Name = "runPanel";
             runPanel.Size = new Size(1246, 39);
             runPanel.TabIndex = 2;
             // 
-            // playButton
+            // runProgram
             // 
-            playButton.BackColor = Color.FromArgb(84, 86, 109);
-            playButton.FlatStyle = FlatStyle.Flat;
-            playButton.ForeColor = Color.FromArgb(224, 224, 224);
-            playButton.Location = new Point(572, 7);
-            playButton.Name = "playButton";
-            playButton.Size = new Size(48, 29);
-            playButton.TabIndex = 0;
-            playButton.Text = "Run";
-            playButton.UseVisualStyleBackColor = false;
+            runProgram.BackColor = Color.FromArgb(84, 86, 109);
+            runProgram.FlatStyle = FlatStyle.Flat;
+            runProgram.ForeColor = Color.FromArgb(224, 224, 224);
+            runProgram.Location = new Point(572, 7);
+            runProgram.Name = "runProgram";
+            runProgram.Size = new Size(48, 29);
+            runProgram.TabIndex = 0;
+            runProgram.Text = "Run";
+            runProgram.UseVisualStyleBackColor = false;
+            runProgram.Click += runProgram_Click;
             // 
-            // textEditor
+            // programEditor
             // 
-            textEditor.AcceptsTab = true;
-            textEditor.BackColor = Color.FromArgb(69, 69, 84);
-            textEditor.BorderStyle = BorderStyle.None;
-            textEditor.ForeColor = Color.FromArgb(232, 232, 232);
-            textEditor.Location = new Point(57, 48);
-            textEditor.Name = "textEditor";
-            textEditor.Size = new Size(580, 522);
-            textEditor.TabIndex = 3;
-            textEditor.Text = "";
-            textEditor.TextChanged += TextEditor_TextChanged;
+            programEditor.AcceptsTab = true;
+            programEditor.BackColor = Color.FromArgb(69, 69, 84);
+            programEditor.BorderStyle = BorderStyle.None;
+            programEditor.ForeColor = Color.FromArgb(232, 232, 232);
+            programEditor.Location = new Point(57, 48);
+            programEditor.Name = "programEditor";
+            programEditor.Size = new Size(580, 522);
+            programEditor.TabIndex = 3;
+            programEditor.Text = "";
+            programEditor.TextChanged += TextEditor_TextChanged;
             // 
             // outputText
             // 
@@ -140,7 +141,7 @@
             Controls.Add(commandText);
             Controls.Add(lineText);
             Controls.Add(outputText);
-            Controls.Add(textEditor);
+            Controls.Add(programEditor);
             Controls.Add(runPanel);
             Name = "Application";
             Text = "Programming GUI";
@@ -152,10 +153,10 @@
 
         #endregion
         private Panel runPanel;
-        private RichTextBox textEditor;
+        private RichTextBox programEditor;
         private RichTextBox outputText;
         private TextBox lineText;
-        private Button playButton;
+        private Button runProgram;
         private TextBox commandText;
         private Button runCommand;
         private PictureBox drawingBox;

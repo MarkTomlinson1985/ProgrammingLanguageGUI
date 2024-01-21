@@ -7,7 +7,7 @@ namespace ProgrammingLanguageGUI {
         private static readonly string[] separator = ["\n"];
 
         private void TextEditor_TextChanged(object sender, EventArgs e) {
-            int numberOfLines = textEditor.Text.Split("\n").Length;
+            int numberOfLines = programEditor.Text.Split("\n").Length;
             int lineNumbersLength = lineText.Text.Split(separator, StringSplitOptions.None).Length - 1;
 
             if (lineNumbersLength != numberOfLines) {
@@ -20,13 +20,11 @@ namespace ProgrammingLanguageGUI {
         }
 
         private void runCommand_Click(object sender, EventArgs e) {
-            Debug.WriteLine("Parsing command text: " + commandText.Text);
 
             // This stuff probably needs to be in its own command controller class.
             try {
                 Command command = commandProcessor.ParseCommand(commandText.Text);
                 command.ValidateCommand();
-                Debug.WriteLine("Executing valid command");
                 command.Execute();
                 outputText.Text = "Command run successfully";
                 // add a new CommandException that can be extended to more specific exception classes
@@ -36,6 +34,26 @@ namespace ProgrammingLanguageGUI {
             }
 
             commandText.Text = "";
+        }
+
+        private void runProgram_Click(object sender, EventArgs e) {
+            try {
+                string program = programEditor.Text;
+                List<Command> commands = commandProcessor.ParseProgram(program);
+                // Have a list of exceptions that can be caught for the whole program
+                // and printed out at the end.
+
+                foreach (Command command in commands) {
+                    // Have a try catch in here to catch individual exceptions.
+                    command.ValidateCommand();
+                    command.Execute();
+                }
+
+                outputText.Text = "Program executed successfully.";
+
+            } catch (Exception ex) {
+                outputText.Text = ex.Message;
+            }
         }
     }
 }
