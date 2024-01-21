@@ -1,15 +1,17 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.drawer;
+using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest.commands
 {
     [TestClass]
-    public class CommandTest
-    {
+    public class CommandTest {
+        private Drawer drawer = new Drawer(new PictureBox());
 
         [TestMethod]
         public void ValidateCommandShouldSucceedWithCorrectNumberOfArguments()
         {
-            Command command = new BaseCommand("");
+            Command command = new BaseCommand("", drawer);
 
             try
             {
@@ -24,7 +26,7 @@ namespace ProgrammingLanguageGUITest.commands
         [TestMethod]
         public void ValidateCommandShouldThrowArgumentExceptionWithIncorrectNumberOfArguments()
         {
-            Command command = new BaseCommand("INVALID COMMAND");
+            Command command = new BaseCommand("INVALID COMMAND", drawer);
 
             Assert.ThrowsException<ArgumentException>(() => command.ValidateCommand());
         }
@@ -32,7 +34,7 @@ namespace ProgrammingLanguageGUITest.commands
         // Derived class that uses default implementation of ValidateCommand()
         private class BaseCommand : Command
         {
-            public BaseCommand(string command) : base(command) { }
+            public BaseCommand(string command, Drawer drawer) : base(command, drawer) { }
 
             public override void Execute()
             {

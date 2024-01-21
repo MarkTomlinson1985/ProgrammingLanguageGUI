@@ -1,13 +1,16 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.drawer;
+using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest {
     [TestClass]
     public class CommandProcessorTest {
         private CommandProcessor processor;
+        private Drawer drawer = new Drawer(new PictureBox());
 
         [TestInitialize]
         public void Initialize() {
-            processor = new CommandProcessor();
+            processor = new CommandProcessor(drawer);
         }
 
         [TestMethod]
