@@ -30,5 +30,13 @@ namespace ProgrammingLanguageGUI.commands {
                 throw new CommandArgumentException("Provided radius is not a valid number.");
             }
         }
+
+        public override bool Equals(object? obj) {
+            if (obj is Circle) {
+                Circle c = (Circle)obj;
+                return c.radius == radius;
+            }
+            return false;
+        }
     }
 }

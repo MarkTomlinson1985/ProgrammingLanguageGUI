@@ -30,5 +30,13 @@ namespace ProgrammingLanguageGUI.commands {
                 throw new CommandArgumentException("Provided arguments are not valid numbers.");
             }
         }
+
+        public override bool Equals(object? obj) {
+            if (obj is Move) {
+                Move m = (Move)obj;
+                return m.yCoordinate == yCoordinate && m.xCoordinate == xCoordinate;
+            }
+            return false;
+        }
     }
 }

@@ -12,13 +12,13 @@ namespace ProgrammingLanguageGUI.commands {
         public ProgramResults ParseProgram(string program) {
             string[] textCommands = program.Split("\n");
             Dictionary<Command, int> commands = new Dictionary<Command, int>();
-            Dictionary<CommandException, int> exceptions = new Dictionary<CommandException, int>();
+            List<CommandException> exceptions = new List<CommandException>();
 
             for (int i = 0; i < textCommands.Length; i++) {
                 try {
                     commands.Add(ParseCommand(textCommands[i]), i + 1);
                 } catch (CommandNotFoundException ex) {
-                    exceptions.Add(ex, i + 1);
+                    exceptions.Add(new CommandNotFoundException($"Line {(i + 1)}: {ex.Message}"));
                 }
             }
 

@@ -21,54 +21,14 @@ namespace ProgrammingLanguageGUI {
         }
 
         private void runCommand_Click(object sender, EventArgs e) {
-
-            // This stuff probably needs to be in its own command controller class.
-            try {
-                Command command = commandProcessor.ParseCommand(commandText.Text);
-                command.ValidateCommand();
-                command.Execute();
-                outputText.Text = "Command run successfully";
-                // add a new CommandException that can be extended to more specific exception classes
-            } catch (Exception ex) {
-                outputText.Text = ex.Message;
-            }
-
+            string command = commandText.Text;
+            outputText.Text = runner.RunCommand(command);
             commandText.Text = "";
         }
 
         private void runProgram_Click(object sender, EventArgs e) {
             string program = programEditor.Text;
-            List<CommandException> exceptions = new List<CommandException>();
-            List<Command> commands = new List<Command>();
-
-            ProgramResults results = commandProcessor.ParseProgram(program);
-            
-            foreach (Command command in results.GetCommands().Keys) {
-                commands.Add(command);
-            }
-
-            foreach (CommandException exception in results.GetExceptions().Keys) {
-                exceptions.Add(new CommandException($"Line {results.GetExceptions()[exception]}: {exception.Message}"));
-            }
-
-            foreach (Command command in commands) {
-                try {
-                    command.ValidateCommand();
-                    command.Execute();
-                } catch (CommandException ex) {
-                    exceptions.Add(new CommandException($"Line {results.GetCommands()[command]}: {ex.Message}"));
-                }
-            }
-
-            if (exceptions.Count > 0) {
-                outputText.Text = "";
-                foreach (CommandException ex in exceptions) {
-                    outputText.Text = outputText.Text + ex.Message + "\n";
-                }
-                return;
-            }
-
-            outputText.Text = "Program executed successfully.";
+            outputText.Text = runner.RunProgram(program);
         }
     }
 }
