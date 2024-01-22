@@ -6,8 +6,8 @@ namespace ProgrammingLanguageGUI.commands {
     public class Circle : Command {
         private int radius;
 
-        public Circle(string command) : base(command) {
-            numberOfArguments = 2;
+        public Circle(params string[] arguments) : base(arguments) {
+            numberOfArguments = 1;
         }
 
         public override void Execute(Drawer drawer) {
@@ -17,10 +17,8 @@ namespace ProgrammingLanguageGUI.commands {
         public override void ValidateCommand() {
             base.ValidateCommand();
 
-            // Add specific validation for 'Circle' command here.
-            // check other arguments are numbers.
             try {
-                radius = int.Parse(command.Split(" ")[1]);
+                radius = int.Parse(arguments[0]);
 
                 if (radius < 0) {
                     throw new CommandArgumentException("Provided radius must not be negative.");

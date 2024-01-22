@@ -14,7 +14,7 @@ namespace ProgrammingLanguageGUITest {
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldSucceedWithValidArguments() {
-            Clear command = new Clear("CLEAR");
+            Clear command = new Clear();
 
             try {
                 command.ValidateCommand();
@@ -29,10 +29,10 @@ namespace ProgrammingLanguageGUITest {
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments() {
-            Clear command = new Clear("CLEAR ARGUMENT");
+            Clear command = new Clear("ARGUMENT");
             
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
-            string expectedExceptionMessage = "Number of arguments incorrect. Expected: 1 - Actual: 2";
+            string expectedExceptionMessage = "Number of arguments incorrect. Expected: 0 - Actual: 1";
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);
         }

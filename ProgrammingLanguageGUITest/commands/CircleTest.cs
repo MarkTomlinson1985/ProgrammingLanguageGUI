@@ -14,7 +14,7 @@ namespace ProgrammingLanguageGUITest {
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldSucceedWithValidArguments() {
-            Circle command = new Circle("CIRCLE 100");
+            Circle command = new Circle("100");
 
             try {
                 command.ValidateCommand();
@@ -33,7 +33,7 @@ namespace ProgrammingLanguageGUITest {
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
             string expectedExceptionMessage) {
-            Circle command = new Circle($"CIRCLE {argumentOne}");
+            Circle command = new Circle($"{argumentOne}");
             
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 

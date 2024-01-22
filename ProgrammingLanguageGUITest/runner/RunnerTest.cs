@@ -32,7 +32,7 @@ namespace ProgrammingLanguageGUITest {
         /// </summary>
         [TestMethod]
         [DataRow("INVALID 100", "Command INVALID not recognised.")]
-        [DataRow("CIRCLE 50 50", "Number of arguments incorrect. Expected: 2 - Actual: 3")]
+        [DataRow("CIRCLE 50 50", "Number of arguments incorrect. Expected: 1 - Actual: 2")]
         public void RunCommandShouldReturnExceptionOutputForInvalidCommand(string input, string expectedMessage) {
             Assert.AreEqual(expectedMessage, runner.RunCommand(input));
         }

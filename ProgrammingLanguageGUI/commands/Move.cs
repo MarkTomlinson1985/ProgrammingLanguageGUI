@@ -7,8 +7,8 @@ namespace ProgrammingLanguageGUI.commands {
         private int xCoordinate;
         private int yCoordinate;
 
-        public Move(string command) : base(command) {
-            numberOfArguments = 3;
+        public Move(params string[] arguments) : base(arguments) {
+            numberOfArguments = 2;
         }
 
         public override void Execute(Drawer drawer) {
@@ -19,8 +19,8 @@ namespace ProgrammingLanguageGUI.commands {
             base.ValidateCommand();
 
             try {
-                xCoordinate = int.Parse(command.Split(" ")[1]);
-                yCoordinate = int.Parse(command.Split(" ")[2]);
+                xCoordinate = int.Parse(arguments[0]);
+                yCoordinate = int.Parse(arguments[1]);
 
                 if (xCoordinate < 0 || yCoordinate < 0) {
                     throw new CommandArgumentException("Provided coordinate arguments must not be negative.");

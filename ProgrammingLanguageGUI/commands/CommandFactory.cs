@@ -10,15 +10,16 @@ namespace ProgrammingLanguageGUI.commands {
     public class CommandFactory {
         public static Command? BuildCommand(string command) {
             string commandType = command.Split(" ")[0];
+            string[] arguments = command.Split(" ").Skip(1).ToArray();
             switch (commandType.ToLower()) {
                 case "move":
-                    return new Move(command);
+                    return new Move(arguments);
                 case "drawto":
-                    return new DrawTo(command);
+                    return new DrawTo(arguments);
                 case "circle":
-                    return new Circle(command);
+                    return new Circle(arguments);
                 case "clear":
-                    return new Clear(command);
+                    return new Clear(arguments);
             }
             return null;
         }

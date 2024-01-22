@@ -18,7 +18,7 @@ namespace ProgrammingLanguageGUITest.commands {
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldSucceedWithCorrectNumberOfArguments() {
-            Command command = new BaseCommand("");
+            Command command = new BaseCommand();
 
             try {
                 command.ValidateCommand();
@@ -34,7 +34,7 @@ namespace ProgrammingLanguageGUITest.commands {
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldThrowArgumentExceptionWithIncorrectNumberOfArguments() {
-            Command command = new BaseCommand("INVALID COMMAND");
+            Command command = new BaseCommand("INVALID");
 
             Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
         }
@@ -43,7 +43,7 @@ namespace ProgrammingLanguageGUITest.commands {
         /// Derived class that uses default implementation of ValidateCommand()
         /// </summary>
         private class BaseCommand : Command {
-            public BaseCommand(string command) : base(command) { }
+            public BaseCommand(params string[] arguments) : base(arguments) { }
 
             public override void Execute(Drawer drawer) {
                 throw new NotImplementedException();

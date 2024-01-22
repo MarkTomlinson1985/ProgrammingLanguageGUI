@@ -3,22 +3,20 @@ using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
     public abstract class Command : ICommand {
-        protected string command;
+        protected string[] arguments;
         protected int numberOfArguments;
 
-        public Command(string command) {
-            this.command = command;
-            numberOfArguments = 1;
+        public Command(params string[] arguments) {
+            this.arguments = arguments;
+            numberOfArguments = 0;
         }
 
         public abstract void Execute(Drawer drawer);
         
         public virtual void ValidateCommand() {
-            string[] argumentArray = new string[command.Split(" ").Length];
-
-            if (argumentArray.Length != numberOfArguments) {
+            if (arguments.Length != numberOfArguments) {
                 throw new CommandArgumentException(
-                    "Number of arguments incorrect. Expected: " + numberOfArguments + " - Actual: " + argumentArray.Length);
+                    "Number of arguments incorrect. Expected: " + numberOfArguments + " - Actual: " + arguments.Length);
             }
         }
     }

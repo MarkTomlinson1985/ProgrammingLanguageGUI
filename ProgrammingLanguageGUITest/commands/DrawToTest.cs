@@ -14,7 +14,7 @@ namespace ProgrammingLanguageGUITest {
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldSucceedWithValidArguments() {
-            DrawTo command = new DrawTo("DRAWTO 100 100");
+            DrawTo command = new DrawTo("100", "100");
 
             try {
                 command.ValidateCommand();
@@ -34,7 +34,7 @@ namespace ProgrammingLanguageGUITest {
             string argumentOne,
             string argumentTwo,
             string expectedExceptionMessage) {
-            DrawTo command = new DrawTo($"DRAWTO {argumentOne} {argumentTwo}");
+            DrawTo command = new DrawTo(argumentOne, argumentTwo);
             
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 

@@ -52,8 +52,8 @@ namespace ProgrammingLanguageGUITest {
             foreach (Command command in results.GetCommands().Keys) { command.ValidateCommand(); }
 
             Dictionary<Command, int> expectedCommands = new Dictionary<Command, int>() {
-                { new Move("MOVE 100 100"), 1 },
-                { new Circle("CIRCLE 50"), 2 }
+                { new Move("100", "100"), 1 },
+                { new Circle("50"), 2 }
             };
 
             foreach (Command command in expectedCommands.Keys) { command.ValidateCommand(); }
@@ -90,8 +90,8 @@ namespace ProgrammingLanguageGUITest {
             foreach (Command command in results.GetCommands().Keys) { command.ValidateCommand(); }
 
             Dictionary<Command, int> expectedCommands = new Dictionary<Command, int>() {
-                { new Move("MOVE 100 100"), 1 },
-                { new Circle("CIRCLE 50"), 2 }
+                { new Move("100", "100"), 1 },
+                { new Circle("50"), 2 }
             };
 
             foreach (Command command in expectedCommands.Keys) { command.ValidateCommand(); }

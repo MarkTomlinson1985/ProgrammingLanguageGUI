@@ -14,7 +14,7 @@ namespace ProgrammingLanguageGUITest {
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldSucceedWithValidArguments() {
-            Move command = new Move("MOVE 100 100");
+            Move command = new Move("100", "100");
 
             try {
                 command.ValidateCommand();
@@ -34,7 +34,7 @@ namespace ProgrammingLanguageGUITest {
             string argumentOne,
             string argumentTwo,
             string expectedExceptionMessage) {
-            Move command = new Move($"MOVE {argumentOne} {argumentTwo}");
+            Move command = new Move(argumentOne, argumentTwo);
             
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 
