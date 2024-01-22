@@ -3,17 +3,15 @@ using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
     public abstract class Command : ICommand {
-        protected Drawer drawer;
         protected string command;
         protected int numberOfArguments;
 
-        public Command(string command, Drawer drawer) {
+        public Command(string command) {
             this.command = command;
-            this.drawer = drawer;
             numberOfArguments = 1;
         }
 
-        public abstract void Execute();
+        public abstract void Execute(Drawer drawer);
         
         public virtual void ValidateCommand() {
             string[] argumentArray = new string[command.Split(" ").Length];

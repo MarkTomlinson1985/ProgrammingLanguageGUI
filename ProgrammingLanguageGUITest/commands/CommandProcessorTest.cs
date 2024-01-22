@@ -1,18 +1,14 @@
 using ProgrammingLanguageGUI.commands;
-using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest {
     [TestClass]
     public class CommandProcessorTest {
         private CommandProcessor processor;
-        private static Drawer drawer = new Drawer(new PictureBox());
 
         [TestInitialize]
         public void Initialize() {
-            processor = new CommandProcessor(drawer);
+            processor = new CommandProcessor();
         }
 
         [TestMethod]
@@ -39,8 +35,8 @@ namespace ProgrammingLanguageGUITest {
             foreach (Command command in results.GetCommands().Keys) { command.ValidateCommand(); }
 
             Dictionary<Command, int> expectedCommands = new Dictionary<Command, int>() {
-                { new Move("MOVE 100 100", drawer), 1 },
-                { new Circle("CIRCLE 50", drawer), 2 }
+                { new Move("MOVE 100 100"), 1 },
+                { new Circle("CIRCLE 50"), 2 }
             };
 
             foreach (Command command in expectedCommands.Keys) { command.ValidateCommand(); }
@@ -67,8 +63,8 @@ namespace ProgrammingLanguageGUITest {
             foreach (Command command in results.GetCommands().Keys) { command.ValidateCommand(); }
 
             Dictionary<Command, int> expectedCommands = new Dictionary<Command, int>() {
-                { new Move("MOVE 100 100", drawer), 1 },
-                { new Circle("CIRCLE 50", drawer), 2 }
+                { new Move("MOVE 100 100"), 1 },
+                { new Circle("CIRCLE 50"), 2 }
             };
 
             foreach (Command command in expectedCommands.Keys) { command.ValidateCommand(); }

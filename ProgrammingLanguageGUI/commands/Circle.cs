@@ -6,11 +6,11 @@ namespace ProgrammingLanguageGUI.commands {
     public class Circle : Command {
         private int radius;
 
-        public Circle(string command, Drawer drawer) : base(command, drawer) {
+        public Circle(string command) : base(command) {
             numberOfArguments = 2;
         }
 
-        public override void Execute() {
+        public override void Execute(Drawer drawer) {
             drawer.DrawCircle(radius);
         }
 

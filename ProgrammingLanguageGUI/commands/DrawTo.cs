@@ -7,20 +7,17 @@ namespace ProgrammingLanguageGUI.commands {
         private int xCoordinate;
         private int yCoordinate;
 
-        public DrawTo(string command, Drawer drawer) : base(command, drawer) {
+        public DrawTo(string command) : base(command) {
             numberOfArguments = 3;
         }
 
-        public override void Execute() {
+        public override void Execute(Drawer drawer) {
             drawer.DrawLine(xCoordinate, yCoordinate);
         }
 
         public override void ValidateCommand() {
-            Debug.WriteLine("Processing draw argument");
             base.ValidateCommand();
 
-            // Add specific validation for 'Move' command here.
-            // check other arguments are numbers.
             try {
                 xCoordinate = int.Parse(command.Split(" ")[1]);
                 yCoordinate = int.Parse(command.Split(" ")[2]);

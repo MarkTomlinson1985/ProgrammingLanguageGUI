@@ -1,6 +1,5 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.drawer;
-using ProgrammingLanguageGUI.exception;
 using ProgrammingLanguageGUI.runner;
 using System.Windows.Forms;
 
@@ -13,8 +12,8 @@ namespace ProgrammingLanguageGUITest {
 
         [TestInitialize]
         public void Initialize() {
-            processor = new CommandProcessor(drawer);
-            runner = new Runner(processor);
+            processor = new CommandProcessor();
+            runner = new Runner(processor, drawer);
         }
 
         [TestMethod]

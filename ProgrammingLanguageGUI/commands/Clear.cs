@@ -3,11 +3,11 @@
 namespace ProgrammingLanguageGUI.commands {
     public class Clear : Command {
 
-        public Clear(string command, Drawer drawer) : base(command, drawer) {
+        public Clear(string command) : base(command) {
             numberOfArguments = 1;
         }
 
-        public override void Execute() {
+        public override void Execute(Drawer drawer) {
             drawer.Clear();
         }
     }

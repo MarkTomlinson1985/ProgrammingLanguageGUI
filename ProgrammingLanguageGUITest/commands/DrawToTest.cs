@@ -1,16 +1,13 @@
 using ProgrammingLanguageGUI.commands;
-using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest {
     [TestClass]
     public class DrawToTest {
-        private Drawer drawer = new Drawer(new PictureBox());
 
         [TestMethod]
         public void ValidateCommandShouldSucceedWithValidArguments() {
-            DrawTo command = new DrawTo("DRAWTO 100 100", drawer);
+            DrawTo command = new DrawTo("DRAWTO 100 100");
 
             try {
                 command.ValidateCommand();
@@ -26,7 +23,7 @@ namespace ProgrammingLanguageGUITest {
             string argumentOne,
             string argumentTwo,
             string expectedExceptionMessage) {
-            DrawTo command = new DrawTo($"DRAWTO {argumentOne} {argumentTwo}", drawer);
+            DrawTo command = new DrawTo($"DRAWTO {argumentOne} {argumentTwo}");
             
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 

@@ -1,18 +1,22 @@
 ﻿using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.runner {
     public class Runner {
         private CommandProcessor processor;
-        public Runner(CommandProcessor processor) {
+        private Drawer drawer;
+
+        public Runner(CommandProcessor processor, Drawer drawer) {
             this.processor = processor;
+            this.drawer = drawer;
         }
 
         public string RunCommand(string input) {
             try {
                 Command command = processor.ParseCommand(input);
                 command.ValidateCommand();
-                command.Execute();
+                command.Execute(drawer);
                 return "Command run successfully";
             } catch (Exception ex) {
                 return ex.Message;
@@ -26,7 +30,7 @@ namespace ProgrammingLanguageGUI.runner {
             foreach (Command command in results.GetCommands().Keys) {
                 try {
                     command.ValidateCommand();
-                    command.Execute();
+                    command.Execute(drawer);
                 } catch (CommandException ex) {
                     exceptions.Add(new CommandException($"Line {results.GetCommands()[command]}: {ex.Message}"));
                 }

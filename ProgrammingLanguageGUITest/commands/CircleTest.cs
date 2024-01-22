@@ -1,16 +1,13 @@
 using ProgrammingLanguageGUI.commands;
-using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest {
     [TestClass]
     public class CircleTest {
-        private Drawer drawer = new Drawer(new PictureBox());
 
         [TestMethod]
         public void ValidateCommandShouldSucceedWithValidArguments() {
-            Circle command = new Circle("CIRCLE 100", drawer);
+            Circle command = new Circle("CIRCLE 100");
 
             try {
                 command.ValidateCommand();
@@ -25,7 +22,7 @@ namespace ProgrammingLanguageGUITest {
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
             string expectedExceptionMessage) {
-            Circle command = new Circle($"CIRCLE {argumentOne}", drawer);
+            Circle command = new Circle($"CIRCLE {argumentOne}");
             
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 

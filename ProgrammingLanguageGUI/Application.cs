@@ -13,8 +13,8 @@ namespace ProgrammingLanguageGUI
         public Application() {
             InitializeComponent();
             drawer = new Drawer(drawingBox);
-            commandProcessor = new CommandProcessor(drawer);
-            runner = new Runner(commandProcessor);
+            commandProcessor = new CommandProcessor();
+            runner = new Runner(commandProcessor, drawer);
         }
     }
 }

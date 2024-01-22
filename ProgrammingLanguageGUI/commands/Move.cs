@@ -7,11 +7,11 @@ namespace ProgrammingLanguageGUI.commands {
         private int xCoordinate;
         private int yCoordinate;
 
-        public Move(string command, Drawer drawer) : base(command, drawer) {
+        public Move(string command) : base(command) {
             numberOfArguments = 3;
         }
 
-        public override void Execute() {
+        public override void Execute(Drawer drawer) {
             drawer.MoveTo(xCoordinate, yCoordinate);
         }
 

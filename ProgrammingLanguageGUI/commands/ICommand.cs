@@ -1,6 +1,8 @@
-﻿namespace ProgrammingLanguageGUI.commands {
+﻿using ProgrammingLanguageGUI.drawer;
+
+namespace ProgrammingLanguageGUI.commands {
     internal interface ICommand
     {
-        void Execute();
+        void Execute(Drawer drawer);
     }
 }
