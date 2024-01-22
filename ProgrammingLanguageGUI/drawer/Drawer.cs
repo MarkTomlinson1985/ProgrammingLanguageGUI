@@ -35,7 +35,7 @@
             drawingBoxGraphics.Clear(backgroundColour);
 
             Graphics baseGraphics = Graphics.FromImage(baseBitmap);
-            baseGraphics.DrawLine(new Pen(Color.Black), cursor.X, cursor.Y, toX, toY);
+            baseGraphics.DrawLine(Pens.White, cursor.X, cursor.Y, toX, toY);
 
             drawingBoxGraphics.DrawImage(baseBitmap, 0, 0);
             drawingBoxGraphics.DrawImage(cursorBitmap, toX - (cursor.Width / 4), toY - (cursor.Height / 4));
@@ -47,7 +47,7 @@
             drawingBoxGraphics.Clear(backgroundColour);
 
             Graphics baseGraphics = Graphics.FromImage(baseBitmap);
-            baseGraphics.DrawEllipse(Pens.Black, cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius);
+            baseGraphics.DrawEllipse(Pens.White, cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius);
 
             drawingBoxGraphics.DrawImage(baseBitmap, 0, 0);
             drawingBoxGraphics.DrawImage(cursorBitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
