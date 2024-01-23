@@ -27,6 +27,8 @@
         /// </summary>
         private void InitializeComponent() {
             runPanel = new Panel();
+            saveButton = new Button();
+            openButton = new Button();
             runProgram = new Button();
             programEditor = new RichTextBox();
             outputText = new RichTextBox();
@@ -41,6 +43,8 @@
             // runPanel
             // 
             runPanel.BackColor = Color.FromArgb(84, 86, 109);
+            runPanel.Controls.Add(saveButton);
+            runPanel.Controls.Add(openButton);
             runPanel.Controls.Add(runProgram);
             runPanel.ForeColor = SystemColors.ControlText;
             runPanel.Location = new Point(15, 2);
@@ -49,17 +53,49 @@
             runPanel.Size = new Size(1090, 29);
             runPanel.TabIndex = 2;
             // 
+            // saveButton
+            // 
+            saveButton.BackColor = Color.FromArgb(84, 86, 109);
+            saveButton.BackgroundImage = Properties.Resources.save_icon;
+            saveButton.BackgroundImageLayout = ImageLayout.Center;
+            saveButton.FlatAppearance.BorderSize = 0;
+            saveButton.FlatStyle = FlatStyle.Flat;
+            saveButton.ForeColor = Color.FromArgb(224, 224, 224);
+            saveButton.Location = new Point(31, 3);
+            saveButton.Margin = new Padding(3, 2, 3, 2);
+            saveButton.Name = "saveButton";
+            saveButton.Size = new Size(28, 22);
+            saveButton.TabIndex = 2;
+            saveButton.UseVisualStyleBackColor = false;
+            // 
+            // openButton
+            // 
+            openButton.BackColor = Color.FromArgb(84, 86, 109);
+            openButton.BackgroundImage = Properties.Resources.open_icon;
+            openButton.BackgroundImageLayout = ImageLayout.Center;
+            openButton.FlatAppearance.BorderSize = 0;
+            openButton.FlatStyle = FlatStyle.Flat;
+            openButton.ForeColor = Color.FromArgb(224, 224, 224);
+            openButton.Location = new Point(4, 3);
+            openButton.Margin = new Padding(3, 2, 3, 2);
+            openButton.Name = "openButton";
+            openButton.Size = new Size(28, 22);
+            openButton.TabIndex = 1;
+            openButton.UseVisualStyleBackColor = false;
+            // 
             // runProgram
             // 
             runProgram.BackColor = Color.FromArgb(84, 86, 109);
+            runProgram.BackgroundImage = Properties.Resources.play_icon;
+            runProgram.BackgroundImageLayout = ImageLayout.Center;
+            runProgram.FlatAppearance.BorderSize = 0;
             runProgram.FlatStyle = FlatStyle.Flat;
             runProgram.ForeColor = Color.FromArgb(224, 224, 224);
-            runProgram.Location = new Point(500, 5);
+            runProgram.Location = new Point(514, 4);
             runProgram.Margin = new Padding(3, 2, 3, 2);
             runProgram.Name = "runProgram";
-            runProgram.Size = new Size(42, 22);
+            runProgram.Size = new Size(28, 22);
             runProgram.TabIndex = 0;
-            runProgram.Text = "Run";
             runProgram.UseVisualStyleBackColor = false;
             runProgram.Click += runProgram_Click;
             // 
@@ -87,7 +123,7 @@
             outputText.Name = "outputText";
             outputText.Size = new Size(1090, 113);
             outputText.TabIndex = 4;
-            outputText.Text = "Output text\n";
+            outputText.Text = "";
             // 
             // lineText
             // 
@@ -117,6 +153,9 @@
             // runCommand
             // 
             runCommand.BackColor = Color.FromArgb(84, 86, 109);
+            runCommand.BackgroundImage = Properties.Resources.play_icon;
+            runCommand.BackgroundImageLayout = ImageLayout.Center;
+            runCommand.FlatAppearance.BorderSize = 0;
             runCommand.FlatStyle = FlatStyle.Flat;
             runCommand.ForeColor = Color.FromArgb(224, 224, 224);
             runCommand.Location = new Point(515, 431);
@@ -124,7 +163,6 @@
             runCommand.Name = "runCommand";
             runCommand.Size = new Size(42, 22);
             runCommand.TabIndex = 1;
-            runCommand.Text = "Run";
             runCommand.UseVisualStyleBackColor = false;
             runCommand.Click += runCommand_Click;
             // 
@@ -169,5 +207,7 @@
         private TextBox commandText;
         private Button runCommand;
         private PictureBox drawingBox;
+        private Button openButton;
+        private Button saveButton;
     }
 }
