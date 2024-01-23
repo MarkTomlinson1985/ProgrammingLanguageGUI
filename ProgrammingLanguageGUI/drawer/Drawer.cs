@@ -1,4 +1,6 @@
-﻿namespace ProgrammingLanguageGUI.drawer {
+﻿using ProgrammingLanguageGUI.commands;
+
+namespace ProgrammingLanguageGUI.drawer {
     public class Drawer {
         private readonly Graphics drawingBoxGraphics;
         private readonly Cursor cursor;
@@ -26,9 +28,10 @@
         }
 
         public void DrawLine(int toX, int toY) {
-            Draw(baseGraphics => baseGraphics.DrawLine(Pens.White, cursor.X, cursor.Y, toX, toY));
-            cursor.X = toX;
-            cursor.Y = toY;
+            Draw(baseGraphics => {
+                baseGraphics.DrawLine(Pens.White, cursor.X, cursor.Y, toX, toY);
+                MoveTo(toX, toY);
+            });
         }
 
         public void DrawCircle(int radius) {
@@ -47,14 +50,33 @@
             Draw(baseGraphics => baseGraphics.DrawRectangle(Pens.White, cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
         }
 
+        public void DrawTriangle(int width, int height) {
+            int originalX = cursor.X;
+            int originalY = cursor.Y;
+            Draw(baseGraphics => {
+                MoveTo(cursor.X, cursor.Y - (height / 2));
+                DrawLine(cursor.X + (width / 2), cursor.Y + height);
+                DrawLine(cursor.X - width, cursor.Y);
+                DrawLine(cursor.X + (width / 2), cursor.Y - height);
+            }, false);
+            MoveTo(originalX, originalY);
+        }
+
         public void Draw(Action<Graphics> drawAction) {
+            Draw(drawAction, true);
+        }
+
+        public void Draw(Action<Graphics> drawAction, bool paintCursor) {
             drawingBoxGraphics.Clear(backgroundColour);
 
             Graphics baseGraphics = Graphics.FromImage(baseBitmap);
             drawAction(baseGraphics);
 
             drawingBoxGraphics.DrawImage(baseBitmap, 0, 0);
-            drawingBoxGraphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
+
+            if (paintCursor) {
+                drawingBoxGraphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
     /// Tests relating to the Rectangle class.
     /// </summary>
     [TestClass]
-    public class RectangleTest
+    public class TriangleTest
     {
 
         /// <summary>
@@ -17,7 +17,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         [TestMethod]
         public void ValidateCommandShouldSucceedWithValidArguments()
         {
-            Rectangle command = new Rectangle("100", "100");
+            Triangle command = new Triangle("100", "100");
 
             try
             {
@@ -39,9 +39,8 @@ namespace ProgrammingLanguageGUITest.tests.commands
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
             string argumentTwo,
-            string expectedExceptionMessage)
-        {
-            Rectangle command = new Rectangle(argumentOne, argumentTwo);
+            string expectedExceptionMessage) {
+            Triangle command = new Triangle(argumentOne, argumentTwo);
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 

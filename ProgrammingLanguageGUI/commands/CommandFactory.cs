@@ -25,7 +25,7 @@ namespace ProgrammingLanguageGUI.commands {
                 case "rectangle":
                     return new Rectangle(arguments);
                 case "triangle":
-                    return null;
+                    return new Triangle(arguments);
                 case "pen":
                     return null;
                 case "fill":

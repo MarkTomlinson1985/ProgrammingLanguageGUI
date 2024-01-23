@@ -15,12 +15,13 @@ namespace ProgrammingLanguageGUITest.tests.commands
         /// derived type with a valid command type.
         /// </summary>
         [TestMethod]
-        [DataRow("MOVE 100 100", typeof(Move))]
-        [DataRow("DRAWTO 100 100", typeof(DrawTo))]
-        [DataRow("CIRCLE 100", typeof(Circle))]
+        [DataRow("MOVE", typeof(Move))]
+        [DataRow("DRAWTO", typeof(DrawTo))]
+        [DataRow("CIRCLE", typeof(Circle))]
         [DataRow("CLEAR", typeof(Clear))]
         [DataRow("RESET", typeof(Reset))]
         [DataRow("RECTANGLE", typeof(Rectangle))]
+        [DataRow("TRIANGLE", typeof(Triangle))]
         public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType)
         {
             Assert.IsInstanceOfType(CommandFactory.BuildCommand(command), expectedType);
