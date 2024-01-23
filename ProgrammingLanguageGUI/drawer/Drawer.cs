@@ -5,16 +5,18 @@ namespace ProgrammingLanguageGUI.drawer {
         private readonly Graphics drawingBoxGraphics;
         private readonly Cursor cursor;
         private readonly Bitmap baseBitmap;
+        private System.Drawing.Pen pen;
         private Color backgroundColour;
 
         public Drawer(PictureBox drawingBox) {
             cursor = DrawerFactory.CreateCursor();
             baseBitmap = DrawerFactory.CreateBitmap(drawingBox.Width, drawingBox.Height);
             backgroundColour = drawingBox.BackColor;
+            pen = new System.Drawing.Pen(Color.White);
 
             using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap)) {
                 bitmapGraphics.Clear(Color.Transparent);
-                bitmapGraphics.DrawEllipse(Pens.Red, 0, 0, 5, 5);
+                bitmapGraphics.DrawEllipse(pen, 0, 0, 5, 5);
             }
 
             drawingBoxGraphics = drawingBox.CreateGraphics();
@@ -29,13 +31,13 @@ namespace ProgrammingLanguageGUI.drawer {
 
         public void DrawLine(int toX, int toY) {
             Draw(baseGraphics => {
-                baseGraphics.DrawLine(Pens.White, cursor.X, cursor.Y, toX, toY);
+                baseGraphics.DrawLine(pen, cursor.X, cursor.Y, toX, toY);
                 MoveTo(toX, toY);
             });
         }
 
         public void DrawCircle(int radius) {
-            Draw(baseGraphics => baseGraphics.DrawEllipse(Pens.White, cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius));
+            Draw(baseGraphics => baseGraphics.DrawEllipse(pen, cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius));
         }
 
         public void Clear() {
@@ -47,7 +49,7 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         public void DrawRectangle(int width, int height) {
-            Draw(baseGraphics => baseGraphics.DrawRectangle(Pens.White, cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
+            Draw(baseGraphics => baseGraphics.DrawRectangle(pen, cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
         }
 
         public void DrawTriangle(int width, int height) {
@@ -60,6 +62,16 @@ namespace ProgrammingLanguageGUI.drawer {
                 DrawLine(cursor.X + (width / 2), cursor.Y - height);
             }, false);
             MoveTo(originalX, originalY);
+        }
+
+        public void ChangePenColour(Color colour) {
+            pen.Color = colour;
+            using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap))
+            {
+                bitmapGraphics.Clear(Color.Transparent);
+                bitmapGraphics.DrawEllipse(pen, 0, 0, 5, 5);
+            }
+            MoveTo(cursor.X, cursor.Y);
         }
 
         public void Draw(Action<Graphics> drawAction) {

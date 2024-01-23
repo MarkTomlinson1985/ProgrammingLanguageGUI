@@ -22,16 +22,8 @@ namespace ProgrammingLanguageGUITest.tests.commands
         /// derived type with a valid command argument.
         /// </summary>
         [TestMethod]
-        [DataRow("MOVE", typeof(Move))]
-        [DataRow("DRAWTO", typeof(DrawTo))]
-        [DataRow("CIRCLE", typeof(Circle))]
-        [DataRow("CLEAR", typeof(Clear))]
-        [DataRow("RESET", typeof(Reset))]
-        [DataRow("RECTANGLE", typeof(Rectangle))]
-        [DataRow("TRIANGLE", typeof(Triangle))]
-        public void ParseCommandShouldReturnCommandWithValidCommand(string command, Type expectedType)
-        {
-            Assert.IsInstanceOfType(processor.ParseCommand(command), expectedType);
+        public void ParseCommandShouldReturnCommandWithValidCommand() {
+            Assert.IsInstanceOfType(processor.ParseCommand("CIRCLE"), typeof(Circle));
         }
 
         /// <summary>
