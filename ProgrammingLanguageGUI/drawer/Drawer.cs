@@ -56,5 +56,9 @@
         public void Clear() {
             drawingBoxGraphics.Clear(backgroundColour);
         }
+
+        public void Reset() {
+            MoveTo(0, 0);
+        }
     }
 }

@@ -20,6 +20,8 @@ namespace ProgrammingLanguageGUI.commands {
                     return new Circle(arguments);
                 case "clear":
                     return new Clear(arguments);
+                case "reset":
+                    return new Reset(arguments);
             }
             return null;
         }

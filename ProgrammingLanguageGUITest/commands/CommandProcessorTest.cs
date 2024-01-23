@@ -23,6 +23,7 @@ namespace ProgrammingLanguageGUITest {
         [DataRow("DRAWTO 100 100", typeof(DrawTo))]
         [DataRow("CIRCLE 100", typeof(Circle))]
         [DataRow("CLEAR", typeof(Clear))]
+        [DataRow("RESET", typeof(Reset))]
         public void ParseCommandShouldReturnCommandWithValidCommand(string command, Type expectedType) {
             Assert.IsInstanceOfType(processor.ParseCommand(command), expectedType);
         }

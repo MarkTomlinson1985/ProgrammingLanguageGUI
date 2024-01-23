@@ -17,6 +17,7 @@ namespace ProgrammingLanguageGUITest {
         [DataRow("DRAWTO 100 100", typeof(DrawTo))]
         [DataRow("CIRCLE 100", typeof(Circle))]
         [DataRow("CLEAR", typeof(Clear))]
+        [DataRow("RESET", typeof(Reset))]
         public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType) {
             Assert.IsInstanceOfType(CommandFactory.BuildCommand(command), expectedType);
         }
