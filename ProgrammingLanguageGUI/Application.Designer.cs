@@ -36,6 +36,7 @@
             commandText = new TextBox();
             runCommand = new Button();
             drawingBox = new PictureBox();
+            newButton = new Button();
             runPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)drawingBox).BeginInit();
             SuspendLayout();
@@ -43,6 +44,7 @@
             // runPanel
             // 
             runPanel.BackColor = Color.FromArgb(84, 86, 109);
+            runPanel.Controls.Add(newButton);
             runPanel.Controls.Add(saveButton);
             runPanel.Controls.Add(openButton);
             runPanel.Controls.Add(runProgram);
@@ -61,12 +63,13 @@
             saveButton.FlatAppearance.BorderSize = 0;
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.ForeColor = Color.FromArgb(224, 224, 224);
-            saveButton.Location = new Point(31, 3);
+            saveButton.Location = new Point(50, 3);
             saveButton.Margin = new Padding(3, 2, 3, 2);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(28, 22);
             saveButton.TabIndex = 2;
             saveButton.UseVisualStyleBackColor = false;
+            saveButton.Click += saveButton_Click;
             // 
             // openButton
             // 
@@ -76,12 +79,13 @@
             openButton.FlatAppearance.BorderSize = 0;
             openButton.FlatStyle = FlatStyle.Flat;
             openButton.ForeColor = Color.FromArgb(224, 224, 224);
-            openButton.Location = new Point(4, 3);
+            openButton.Location = new Point(28, 3);
             openButton.Margin = new Padding(3, 2, 3, 2);
             openButton.Name = "openButton";
             openButton.Size = new Size(28, 22);
             openButton.TabIndex = 1;
             openButton.UseVisualStyleBackColor = false;
+            openButton.Click += openButton_Click;
             // 
             // runProgram
             // 
@@ -176,6 +180,22 @@
             drawingBox.TabIndex = 7;
             drawingBox.TabStop = false;
             // 
+            // newButton
+            // 
+            newButton.BackColor = Color.FromArgb(84, 86, 109);
+            newButton.BackgroundImage = Properties.Resources.new_icon1;
+            newButton.BackgroundImageLayout = ImageLayout.Stretch;
+            newButton.FlatAppearance.BorderSize = 0;
+            newButton.FlatStyle = FlatStyle.Flat;
+            newButton.ForeColor = Color.FromArgb(224, 224, 224);
+            newButton.Location = new Point(7, 7);
+            newButton.Margin = new Padding(3, 2, 3, 2);
+            newButton.Name = "newButton";
+            newButton.Size = new Size(19, 16);
+            newButton.TabIndex = 3;
+            newButton.UseVisualStyleBackColor = false;
+            newButton.Click += newButton_Click;
+            // 
             // Application
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -209,5 +229,6 @@
         private PictureBox drawingBox;
         private Button openButton;
         private Button saveButton;
+        private Button newButton;
     }
 }
