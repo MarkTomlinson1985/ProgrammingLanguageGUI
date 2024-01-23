@@ -2,8 +2,7 @@ using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest.tests.commands
-{
+namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
     /// Tests relating to the Command abstract class.
     /// As this class is abstract but contains logic that should be tested in the 
@@ -11,24 +10,19 @@ namespace ProgrammingLanguageGUITest.tests.commands
     /// and uses this default implementation of the ValidateCommand method.
     /// </summary>
     [TestClass]
-    public class CommandTest
-    {
+    public class CommandTest {
 
         /// <summary>
         /// Tests the creation and validation of a Command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithCorrectNumberOfArguments()
-        {
+        public void ValidateCommandShouldSucceedWithCorrectNumberOfArguments() {
             Command command = new BaseCommand();
 
-            try
-            {
+            try {
                 command.ValidateCommand();
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
                 Assert.Fail();
             }
         }
@@ -38,8 +32,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldThrowArgumentExceptionWithIncorrectNumberOfArguments()
-        {
+        public void ValidateCommandShouldThrowArgumentExceptionWithIncorrectNumberOfArguments() {
             Command command = new BaseCommand("INVALID");
 
             Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
@@ -48,12 +41,10 @@ namespace ProgrammingLanguageGUITest.tests.commands
         /// <summary>
         /// Derived class that uses default implementation of ValidateCommand()
         /// </summary>
-        private class BaseCommand : Command
-        {
+        private class BaseCommand : Command {
             public BaseCommand(params string[] arguments) : base(arguments) { }
 
-            public override void Execute(Drawer drawer)
-            {
+            public override void Execute(Drawer drawer) {
                 throw new NotImplementedException();
             }
         }

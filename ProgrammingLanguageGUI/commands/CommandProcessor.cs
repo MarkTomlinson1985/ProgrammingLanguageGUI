@@ -1,5 +1,4 @@
-﻿using ProgrammingLanguageGUI.drawer;
-using ProgrammingLanguageGUI.exception;
+﻿using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
     public class CommandProcessor {
@@ -28,7 +27,7 @@ namespace ProgrammingLanguageGUI.commands {
             }
 
             string commandType = command.Split(" ")[0];
-            throw new CommandNotFoundException("Command " + commandType + " not recognised.");            
+            throw new CommandNotFoundException("Command " + commandType + " not recognised.");
         }
     }
 }

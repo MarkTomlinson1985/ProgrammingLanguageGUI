@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace ProgrammingLanguageGUI.drawer {
+﻿namespace ProgrammingLanguageGUI.drawer {
     public class DrawerFactory {
 
         public static Cursor CreateCursor() {

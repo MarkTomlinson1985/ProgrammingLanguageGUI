@@ -12,7 +12,7 @@ namespace ProgrammingLanguageGUI.commands {
         }
 
         public abstract void Execute(Drawer drawer);
-        
+
         public virtual void ValidateCommand() {
             if (arguments.Length != numberOfArguments) {
                 throw new CommandArgumentException(

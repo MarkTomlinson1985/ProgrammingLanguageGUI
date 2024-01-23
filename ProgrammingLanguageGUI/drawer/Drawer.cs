@@ -1,6 +1,4 @@
-﻿using ProgrammingLanguageGUI.commands;
-
-namespace ProgrammingLanguageGUI.drawer {
+﻿namespace ProgrammingLanguageGUI.drawer {
     public class Drawer {
         private readonly Graphics drawingBoxGraphics;
         private readonly Cursor cursor;
@@ -77,8 +75,7 @@ namespace ProgrammingLanguageGUI.drawer {
 
         public void ChangePenColour(Color colour) {
             pen.Color = colour;
-            using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap))
-            {
+            using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap)) {
                 bitmapGraphics.Clear(Color.Transparent);
                 bitmapGraphics.DrawEllipse(pen, 0, 0, 5, 5);
             }

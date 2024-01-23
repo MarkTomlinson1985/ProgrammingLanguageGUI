@@ -1,6 +1,5 @@
 ﻿using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
     public class Fill : Command {
@@ -16,7 +15,7 @@ namespace ProgrammingLanguageGUI.commands {
 
         public override void ValidateCommand() {
             base.ValidateCommand();
-            
+
             if (arguments[0].ToLower().Equals("on")) {
                 fill = true;
             } else if (arguments[0].ToLower().Equals("off")) {

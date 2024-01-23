@@ -1,16 +1,12 @@
-using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.drawer;
-using ProgrammingLanguageGUI.runner;
 using System.Drawing;
 
-namespace ProgrammingLanguageGUITest.tests.file
-{
+namespace ProgrammingLanguageGUITest.tests.file {
     /// <summary>
     /// Tests relating to the DrawerFactory class which handles IO operations.
     /// </summary>
     [TestClass]
-    public class DrawerFactoryTest
-    {
+    public class DrawerFactoryTest {
         /// <summary>
         /// Tests that the CreateCursor method returns a Cussor with the correct
         /// width, height and bitmap values.

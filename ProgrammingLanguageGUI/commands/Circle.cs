@@ -1,6 +1,5 @@
 ﻿using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
     public class Circle : Command {

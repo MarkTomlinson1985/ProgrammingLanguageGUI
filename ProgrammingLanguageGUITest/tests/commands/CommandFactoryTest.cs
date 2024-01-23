@@ -1,14 +1,11 @@
 using ProgrammingLanguageGUI.commands;
-using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest.tests.commands
-{
+namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
     /// Tests relating to the CommandFactory factory class.
     /// </summary>
     [TestClass]
-    public class CommandFactoryTest
-    {
+    public class CommandFactoryTest {
 
         /// <summary>
         /// Tests that the BuildCommand method returns a Command with the correct
@@ -24,8 +21,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         [DataRow("TRIANGLE", typeof(Triangle))]
         [DataRow("PEN", typeof(Pen))]
         [DataRow("FILL", typeof(Fill))]
-        public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType)
-        {
+        public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType) {
             Assert.IsInstanceOfType(CommandFactory.BuildCommand(command), expectedType);
         }
 
@@ -34,8 +30,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         /// command type.
         /// </summary>
         [TestMethod]
-        public void CommandFactoryShouldReturnNullWithInvalidCommandType()
-        {
+        public void CommandFactoryShouldReturnNullWithInvalidCommandType() {
             Assert.IsNull(CommandFactory.BuildCommand("INVALID"));
         }
     }

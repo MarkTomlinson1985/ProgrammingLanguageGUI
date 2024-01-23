@@ -1,30 +1,24 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest.tests.commands
-{
+namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
     /// Tests relating to the Triangle class.
     /// </summary>
     [TestClass]
-    public class TriangleTest
-    {
+    public class TriangleTest {
 
         /// <summary>
         /// Tests the creation and validation of a valid Triangle command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithValidArguments()
-        {
+        public void ValidateCommandShouldSucceedWithValidArguments() {
             Triangle command = new Triangle("100", "100");
 
-            try
-            {
+            try {
                 command.ValidateCommand();
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
                 Assert.Fail();
             }
         }

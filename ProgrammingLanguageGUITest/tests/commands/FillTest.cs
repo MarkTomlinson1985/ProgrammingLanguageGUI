@@ -1,8 +1,7 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest.tests.commands
-{
+namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
     /// Tests relating to the Fill class.
     /// </summary>
@@ -16,14 +15,12 @@ namespace ProgrammingLanguageGUITest.tests.commands
         [DataRow("on")]
         [DataRow("oN")]
         [DataRow("off")]
-        public void ValidateCommandShouldSucceedWithValidArguments(string colour)
-        {
+        public void ValidateCommandShouldSucceedWithValidArguments(string colour) {
             Fill command = new Fill(colour);
 
             try {
                 command.ValidateCommand();
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 Assert.Fail();
             }
         }
@@ -37,8 +34,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         [DataRow("100", "Provided argument invalid - expected on/off.")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
-            string expectedExceptionMessage)
-        {
+            string expectedExceptionMessage) {
             Fill command = new Fill(argumentOne);
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());

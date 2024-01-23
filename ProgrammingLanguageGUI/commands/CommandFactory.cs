@@ -1,12 +1,4 @@
-﻿using ProgrammingLanguageGUI.drawer;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProgrammingLanguageGUI.commands {
+﻿namespace ProgrammingLanguageGUI.commands {
     public class CommandFactory {
         public static Command? BuildCommand(string command) {
             string commandType = command.Split(" ")[0];

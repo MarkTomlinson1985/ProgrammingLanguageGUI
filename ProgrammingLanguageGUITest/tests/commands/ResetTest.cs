@@ -1,30 +1,24 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest.tests.commands
-{
+namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
     /// Tests relating to the Reset class.
     /// </summary>
     [TestClass]
-    public class ResetTest
-    {
+    public class ResetTest {
 
         /// <summary>
         /// Tests the creation and validation of a valid Reset command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithValidArguments()
-        {
+        public void ValidateCommandShouldSucceedWithValidArguments() {
             Reset command = new Reset();
 
-            try
-            {
+            try {
                 command.ValidateCommand();
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
                 Assert.Fail();
             }
         }
@@ -34,8 +28,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments()
-        {
+        public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments() {
             Reset command = new Reset("ARGUMENT");
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());

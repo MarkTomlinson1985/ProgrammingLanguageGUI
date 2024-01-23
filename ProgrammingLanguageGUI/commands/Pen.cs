@@ -17,7 +17,7 @@ namespace ProgrammingLanguageGUI.commands {
         public override void ValidateCommand() {
             base.ValidateCommand();
             colour = Color.FromName(arguments[0].Substring(0, 1).ToUpper() + arguments[0].Substring(1).ToLower());
-            
+
             if (!colour.IsKnownColor && !colour.IsSystemColor) {
                 throw new CommandArgumentException("Colour '" + colour.Name + "' is not a valid colour.");
             }

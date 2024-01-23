@@ -1,12 +1,11 @@
 ﻿using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
     public class Triangle : Command {
         private int width;
         private int height;
-        
+
         public Triangle(params string[] arguments) : base(arguments) {
             numberOfArguments = 2;
         }
