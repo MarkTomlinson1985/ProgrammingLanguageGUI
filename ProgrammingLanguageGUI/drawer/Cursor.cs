@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProgrammingLanguageGUI.drawer {
     public class Cursor : PictureBox {
+        private Bitmap bitmap;
+        public Bitmap Bitmap { 
+            get { return bitmap; }
+            set { bitmap = value; }}
         private int xPosition = 0;
         private int yPosition = 0;
         public int X {
@@ -17,6 +21,5 @@ namespace ProgrammingLanguageGUI.drawer {
             set { yPosition = value; }
         }
 
-        public Cursor() { }
     }
 }

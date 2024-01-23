@@ -22,6 +22,14 @@ namespace ProgrammingLanguageGUI.commands {
                     return new Clear(arguments);
                 case "reset":
                     return new Reset(arguments);
+                case "rectangle":
+                    return new Rectangle(arguments);
+                case "triangle":
+                    return null;
+                case "pen":
+                    return null;
+                case "fill":
+                    return null;
             }
             return null;
         }

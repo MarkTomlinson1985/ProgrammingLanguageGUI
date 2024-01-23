@@ -1,0 +1,39 @@
+using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.drawer;
+using ProgrammingLanguageGUI.runner;
+using System.Drawing;
+
+namespace ProgrammingLanguageGUITest.tests.file
+{
+    /// <summary>
+    /// Tests relating to the DrawerFactory class which handles IO operations.
+    /// </summary>
+    [TestClass]
+    public class DrawerFactoryTest
+    {
+        /// <summary>
+        /// Tests that the CreateCursor method returns a Cussor with the correct
+        /// width, height and bitmap values.
+        /// </summary>
+        [TestMethod]
+        public void CreateCursorShouldReturnCursor() {
+            Cursor cursor = DrawerFactory.CreateCursor();
+            Assert.AreEqual(10, cursor.Width);
+            Assert.AreEqual(10, cursor.Height);
+            Assert.IsNotNull(cursor.Bitmap);
+        }
+
+        /// <summary>
+        /// Tests that the CreateBitmap method returns with an invalid/not implemented
+        /// command type.
+        /// </summary>
+        [TestMethod]
+        public void CreateBitmapShouldReturnBitmap() {
+            Bitmap bitmap = DrawerFactory.CreateBitmap(20, 30);
+            Assert.IsNotNull(bitmap);
+            Assert.AreEqual(20, bitmap.Width);
+            Assert.AreEqual(30, bitmap.Height);
+        }
+
+    }
+}

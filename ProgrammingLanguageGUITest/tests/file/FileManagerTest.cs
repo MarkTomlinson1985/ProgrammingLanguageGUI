@@ -3,12 +3,14 @@ using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.runner;
 using System.Windows.Forms;
 
-namespace ProgrammingLanguageGUITest {
+namespace ProgrammingLanguageGUITest.tests.file
+{
     /// <summary>
     /// Tests relating to the FileManager class which handles IO operations.
     /// </summary>
     [TestClass]
-    public class FileManagerTest {
+    public class FileManagerTest
+    {
         // Look in to how to test this. Requires user input in form of dialog boxes.
 
     }

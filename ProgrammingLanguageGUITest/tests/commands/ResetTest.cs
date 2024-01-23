@@ -1,36 +1,43 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest {
+namespace ProgrammingLanguageGUITest.tests.commands
+{
     /// <summary>
-    /// Tests relating to the Clear class.
+    /// Tests relating to the Reset class.
     /// </summary>
     [TestClass]
-    public class ClearTest {
+    public class ResetTest
+    {
 
         /// <summary>
-        /// Tests the creation and validation of a valid Clear command. Any exception will result
+        /// Tests the creation and validation of a valid Reset command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithValidArguments() {
-            Clear command = new Clear();
+        public void ValidateCommandShouldSucceedWithValidArguments()
+        {
+            Reset command = new Reset();
 
-            try {
+            try
+            {
                 command.ValidateCommand();
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 Assert.Fail();
             }
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Clear object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Reset object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments() {
-            Clear command = new Clear("ARGUMENT");
-            
+        public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments()
+        {
+            Reset command = new Reset("ARGUMENT");
+
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
             string expectedExceptionMessage = "Number of arguments incorrect. Expected: 0 - Actual: 1";
 

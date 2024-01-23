@@ -1,16 +1,19 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest {
+namespace ProgrammingLanguageGUITest.tests.commands
+{
     /// <summary>
     /// Tests relating to the CommandProcessor class.
     /// </summary>
     [TestClass]
-    public class CommandProcessorTest {
+    public class CommandProcessorTest
+    {
         private CommandProcessor processor;
 
         [TestInitialize]
-        public void Initialize() {
+        public void Initialize()
+        {
             processor = new CommandProcessor();
         }
 
@@ -24,7 +27,9 @@ namespace ProgrammingLanguageGUITest {
         [DataRow("CIRCLE 100", typeof(Circle))]
         [DataRow("CLEAR", typeof(Clear))]
         [DataRow("RESET", typeof(Reset))]
-        public void ParseCommandShouldReturnCommandWithValidCommand(string command, Type expectedType) {
+        [DataRow("RECTANGLE", typeof(Rectangle))]
+        public void ParseCommandShouldReturnCommandWithValidCommand(string command, Type expectedType)
+        {
             Assert.IsInstanceOfType(processor.ParseCommand(command), expectedType);
         }
 
@@ -33,7 +38,8 @@ namespace ProgrammingLanguageGUITest {
         /// an unknown/not implemented command argument.
         /// </summary>
         [TestMethod]
-        public void ParseCommandShouldThrowExceptionForInvalidCommand() { 
+        public void ParseCommandShouldThrowExceptionForInvalidCommand()
+        {
             Exception ex = Assert.ThrowsException<CommandNotFoundException>(
                 () => processor.ParseCommand("INVALID 100 100"));
 
@@ -47,7 +53,8 @@ namespace ProgrammingLanguageGUITest {
         /// two different Command objects of the same type with the same values would be considered equal.
         /// </summary>
         [TestMethod]
-        public void ParseProgramShouldReturnProgramResultsWithCommands() {
+        public void ParseProgramShouldReturnProgramResultsWithCommands()
+        {
             string input = "MOVE 100 100\nCIRCLE 50";
             ProgramResults results = processor.ParseProgram(input);
             foreach (Command command in results.GetCommands().Keys) { command.ValidateCommand(); }
@@ -69,7 +76,8 @@ namespace ProgrammingLanguageGUITest {
         /// program flow. Known commands with invalid parameters are validated later in the flow.
         /// </summary>
         [TestMethod]
-        public void ParseProgramShouldReturnExceptionsWithCommandsNotFound() {
+        public void ParseProgramShouldReturnExceptionsWithCommandsNotFound()
+        {
             string input = "MOV 100 100\nCIRCLE 50 50\nDRAWTO 100 -100\nINVALID 50";
             ProgramResults results = processor.ParseProgram(input);
 
@@ -85,7 +93,8 @@ namespace ProgrammingLanguageGUITest {
         /// and exceptions. Combination of the above tests.
         /// </summary>
         [TestMethod]
-        public void ParseProgramShouldReturnProgramResultsWithCommandsAndExceptions() {
+        public void ParseProgramShouldReturnProgramResultsWithCommandsAndExceptions()
+        {
             string input = "MOVE 100 100\nCIRCLE 50\nDRAWT 100 100";
             ProgramResults results = processor.ParseProgram(input);
             foreach (Command command in results.GetCommands().Keys) { command.ValidateCommand(); }

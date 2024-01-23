@@ -1,24 +1,30 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest {
+namespace ProgrammingLanguageGUITest.tests.commands
+{
     /// <summary>
     /// Tests relating to the Circle class.
     /// </summary>
     [TestClass]
-    public class CircleTest {
+    public class CircleTest
+    {
 
         /// <summary>
         /// Tests the creation and validation of a valid Circle command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithValidArguments() {
+        public void ValidateCommandShouldSucceedWithValidArguments()
+        {
             Circle command = new Circle("100");
 
-            try {
+            try
+            {
                 command.ValidateCommand();
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 Assert.Fail();
             }
         }
@@ -32,9 +38,10 @@ namespace ProgrammingLanguageGUITest {
         [DataRow("-100", "Provided radius must not be negative.")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
-            string expectedExceptionMessage) {
+            string expectedExceptionMessage)
+        {
             Circle command = new Circle($"{argumentOne}");
-            
+
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);
