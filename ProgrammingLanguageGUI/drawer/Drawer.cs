@@ -7,6 +7,7 @@ namespace ProgrammingLanguageGUI.drawer {
         private Bitmap baseBitmap;
         private System.Drawing.Pen pen;
         private Color backgroundColour;
+        private bool fillModeEnabled;
 
         public Drawer(PictureBox drawingBox) {
             cursor = DrawerFactory.CreateCursor();
@@ -37,7 +38,11 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         public void DrawCircle(int radius) {
-            Draw(baseGraphics => baseGraphics.DrawEllipse(pen, cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius));
+            if (fillModeEnabled) {
+                Draw(baseGraphics => baseGraphics.FillEllipse(new SolidBrush(pen.Color), cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius));
+            } else {
+                Draw(baseGraphics => baseGraphics.DrawEllipse(pen, cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius));
+            }
         }
 
         public void Clear() {
@@ -51,7 +56,11 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         public void DrawRectangle(int width, int height) {
-            Draw(baseGraphics => baseGraphics.DrawRectangle(pen, cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
+            if (fillModeEnabled) {
+                Draw(baseGraphics => baseGraphics.FillRectangle(new SolidBrush(pen.Color), cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
+            } else {
+                Draw(baseGraphics => baseGraphics.DrawRectangle(pen, cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
+            }
         }
 
         public void DrawTriangle(int width, int height) {
@@ -74,6 +83,10 @@ namespace ProgrammingLanguageGUI.drawer {
                 bitmapGraphics.DrawEllipse(pen, 0, 0, 5, 5);
             }
             MoveTo(cursor.X, cursor.Y);
+        }
+
+        public void SetFillMode(bool enabled) {
+            fillModeEnabled = enabled;
         }
 
         public void Draw(Action<Graphics> drawAction) {

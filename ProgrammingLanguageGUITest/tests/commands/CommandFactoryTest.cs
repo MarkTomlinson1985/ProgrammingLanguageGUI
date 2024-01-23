@@ -23,6 +23,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         [DataRow("RECTANGLE", typeof(Rectangle))]
         [DataRow("TRIANGLE", typeof(Triangle))]
         [DataRow("PEN", typeof(Pen))]
+        [DataRow("FILL", typeof(Fill))]
         public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType)
         {
             Assert.IsInstanceOfType(CommandFactory.BuildCommand(command), expectedType);

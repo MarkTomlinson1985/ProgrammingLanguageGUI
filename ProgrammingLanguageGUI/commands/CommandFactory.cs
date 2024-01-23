@@ -29,7 +29,7 @@ namespace ProgrammingLanguageGUI.commands {
                 case "pen":
                     return new Pen(arguments);
                 case "fill":
-                    return null;
+                    return new Fill(arguments);
             }
             return null;
         }

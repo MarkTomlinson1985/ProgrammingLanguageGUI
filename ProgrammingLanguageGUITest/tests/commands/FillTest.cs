@@ -4,44 +4,42 @@ using ProgrammingLanguageGUI.exception;
 namespace ProgrammingLanguageGUITest.tests.commands
 {
     /// <summary>
-    /// Tests relating to the Pen class.
+    /// Tests relating to the Fill class.
     /// </summary>
     [TestClass]
-    public class PenTest {
+    public class FillTest {
         /// <summary>
-        /// Tests the creation and validation of a valid Pen command. Any exception will result
+        /// Tests the creation and validation of a valid Fill command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        [DataRow("blue")]
-        [DataRow("BLUE")]
-        [DataRow("rED")]
+        [DataRow("on")]
+        [DataRow("oN")]
+        [DataRow("off")]
         public void ValidateCommandShouldSucceedWithValidArguments(string colour)
         {
-            Pen command = new Pen(colour);
+            Fill command = new Fill(colour);
 
-            try
-            {
+            try {
                 command.ValidateCommand();
             }
-            catch (Exception)
-            {
+            catch (Exception) {
                 Assert.Fail();
             }
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Pen object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Fill object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
-        [DataRow("NOTACOLOUR", "Colour 'Notacolour' is not a valid colour.")]
-        [DataRow("100", "Colour '100' is not a valid colour.")]
+        [DataRow("INVALID", "Provided argument invalid - expected on/off.")]
+        [DataRow("100", "Provided argument invalid - expected on/off.")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
             string expectedExceptionMessage)
         {
-            Pen command = new Pen(argumentOne);
+            Fill command = new Fill(argumentOne);
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
 

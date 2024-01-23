@@ -4,14 +4,14 @@ using ProgrammingLanguageGUI.exception;
 namespace ProgrammingLanguageGUITest.tests.commands
 {
     /// <summary>
-    /// Tests relating to the Rectangle class.
+    /// Tests relating to the Triangle class.
     /// </summary>
     [TestClass]
     public class TriangleTest
     {
 
         /// <summary>
-        /// Tests the creation and validation of a valid Rectangle command. Any exception will result
+        /// Tests the creation and validation of a valid Triangle command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
@@ -30,7 +30,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Rectangle object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Triangle object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
