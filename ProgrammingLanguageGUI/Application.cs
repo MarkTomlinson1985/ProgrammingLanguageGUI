@@ -29,6 +29,8 @@ namespace ProgrammingLanguageGUI {
                     lineText.AppendText(Environment.NewLine);
                 }
             }
+
+            // Implement Syntax parser code here.
         }
 
         private void runCommand_Click(object sender, EventArgs e) {
