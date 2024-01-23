@@ -25,8 +25,11 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Application));
             runPanel = new Panel();
+            newButton = new Button();
             saveButton = new Button();
             openButton = new Button();
             runProgram = new Button();
@@ -36,7 +39,6 @@
             commandText = new TextBox();
             runCommand = new Button();
             drawingBox = new PictureBox();
-            newButton = new Button();
             runPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)drawingBox).BeginInit();
             SuspendLayout();
@@ -55,10 +57,26 @@
             runPanel.Size = new Size(1090, 29);
             runPanel.TabIndex = 2;
             // 
+            // newButton
+            // 
+            newButton.BackColor = Color.FromArgb(84, 86, 109);
+            newButton.BackgroundImage = (Image)resources.GetObject("newButton.BackgroundImage");
+            newButton.BackgroundImageLayout = ImageLayout.Stretch;
+            newButton.FlatAppearance.BorderSize = 0;
+            newButton.FlatStyle = FlatStyle.Flat;
+            newButton.ForeColor = Color.FromArgb(224, 224, 224);
+            newButton.Location = new Point(7, 7);
+            newButton.Margin = new Padding(3, 2, 3, 2);
+            newButton.Name = "newButton";
+            newButton.Size = new Size(19, 16);
+            newButton.TabIndex = 3;
+            newButton.UseVisualStyleBackColor = false;
+            newButton.Click += newButton_Click;
+            // 
             // saveButton
             // 
             saveButton.BackColor = Color.FromArgb(84, 86, 109);
-            saveButton.BackgroundImage = Properties.Resources.save_icon;
+            saveButton.BackgroundImage = (Image)resources.GetObject("saveButton.BackgroundImage");
             saveButton.BackgroundImageLayout = ImageLayout.Center;
             saveButton.FlatAppearance.BorderSize = 0;
             saveButton.FlatStyle = FlatStyle.Flat;
@@ -74,7 +92,7 @@
             // openButton
             // 
             openButton.BackColor = Color.FromArgb(84, 86, 109);
-            openButton.BackgroundImage = Properties.Resources.open_icon;
+            openButton.BackgroundImage = (Image)resources.GetObject("openButton.BackgroundImage");
             openButton.BackgroundImageLayout = ImageLayout.Center;
             openButton.FlatAppearance.BorderSize = 0;
             openButton.FlatStyle = FlatStyle.Flat;
@@ -90,7 +108,7 @@
             // runProgram
             // 
             runProgram.BackColor = Color.FromArgb(84, 86, 109);
-            runProgram.BackgroundImage = Properties.Resources.play_icon;
+            runProgram.BackgroundImage = (Image)resources.GetObject("runProgram.BackgroundImage");
             runProgram.BackgroundImageLayout = ImageLayout.Center;
             runProgram.FlatAppearance.BorderSize = 0;
             runProgram.FlatStyle = FlatStyle.Flat;
@@ -157,7 +175,7 @@
             // runCommand
             // 
             runCommand.BackColor = Color.FromArgb(84, 86, 109);
-            runCommand.BackgroundImage = Properties.Resources.play_icon;
+            runCommand.BackgroundImage = (Image)resources.GetObject("runCommand.BackgroundImage");
             runCommand.BackgroundImageLayout = ImageLayout.Center;
             runCommand.FlatAppearance.BorderSize = 0;
             runCommand.FlatStyle = FlatStyle.Flat;
@@ -179,22 +197,6 @@
             drawingBox.Size = new Size(542, 416);
             drawingBox.TabIndex = 7;
             drawingBox.TabStop = false;
-            // 
-            // newButton
-            // 
-            newButton.BackColor = Color.FromArgb(84, 86, 109);
-            newButton.BackgroundImage = Properties.Resources.new_icon1;
-            newButton.BackgroundImageLayout = ImageLayout.Stretch;
-            newButton.FlatAppearance.BorderSize = 0;
-            newButton.FlatStyle = FlatStyle.Flat;
-            newButton.ForeColor = Color.FromArgb(224, 224, 224);
-            newButton.Location = new Point(7, 7);
-            newButton.Margin = new Padding(3, 2, 3, 2);
-            newButton.Name = "newButton";
-            newButton.Size = new Size(19, 16);
-            newButton.TabIndex = 3;
-            newButton.UseVisualStyleBackColor = false;
-            newButton.Click += newButton_Click;
             // 
             // Application
             // 
