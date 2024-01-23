@@ -24,6 +24,7 @@ namespace ProgrammingLanguageGUI.runner {
         }
 
         public string RunProgram(string input) {
+            drawer.Clear();
             ProgramResults results = processor.ParseProgram(input);
             List<CommandException> exceptions = results.GetExceptions();
 

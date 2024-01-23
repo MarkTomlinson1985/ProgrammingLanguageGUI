@@ -4,7 +4,7 @@ namespace ProgrammingLanguageGUI.drawer {
     public class Drawer {
         private readonly Graphics drawingBoxGraphics;
         private readonly Cursor cursor;
-        private readonly Bitmap baseBitmap;
+        private Bitmap baseBitmap;
         private System.Drawing.Pen pen;
         private Color backgroundColour;
 
@@ -42,6 +42,8 @@ namespace ProgrammingLanguageGUI.drawer {
 
         public void Clear() {
             drawingBoxGraphics.Clear(backgroundColour);
+            baseBitmap = DrawerFactory.CreateBitmap(baseBitmap.Width, baseBitmap.Height);
+            ChangePenColour(Color.White);
         }
 
         public void Reset() {
