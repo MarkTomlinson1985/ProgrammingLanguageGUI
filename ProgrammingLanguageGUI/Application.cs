@@ -1,4 +1,5 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.syntaxparser;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.file;
 using ProgrammingLanguageGUI.runner;
@@ -8,12 +9,14 @@ namespace ProgrammingLanguageGUI {
         private Drawer drawer;
         private CommandProcessor commandProcessor;
         private Runner runner;
+        private SyntaxParser syntaxParser;
 
         public Application() {
             InitializeComponent();
             drawer = new Drawer(drawingBox);
             commandProcessor = new CommandProcessor();
             runner = new Runner(commandProcessor, drawer);
+            syntaxParser = new SyntaxParser();
         }
 
         private static readonly string[] separator = ["\n"];
@@ -30,7 +33,46 @@ namespace ProgrammingLanguageGUI {
                 }
             }
 
-            // Implement Syntax parser code here.
+            // Currently disabled due to selection flickering. Looks a bit naff!
+            // Needs reworking.
+            // ColorProgram();
+            
+        }
+
+        private void ColorProgram() {
+            int indexOfNextSpace = programEditor.Text.IndexOf(" ");
+            for (int i = 0; i < programEditor.Text.Length; i++) {
+                if (indexOfNextSpace == -1 || indexOfNextSpace < i) {
+                    break;
+                }
+
+                string word = programEditor.Text.Substring(i, indexOfNextSpace - i);
+                Color wordColour = syntaxParser.ParseWord(word);
+
+                //if (!wordColour.Equals(Color.Empty)) {
+                int currentCursorIndex = programEditor.SelectionStart;
+                programEditor.SelectionStart = i;
+                programEditor.SelectionLength = indexOfNextSpace - i;
+                programEditor.SelectionColor = wordColour;
+                programEditor.SelectionStart = currentCursorIndex;
+                //}
+
+                if (indexOfNextSpace == programEditor.Text.Length - 1) {
+                    break;
+                }
+
+                i = indexOfNextSpace;
+                int indexOfSpace = programEditor.Text.IndexOf(" ", indexOfNextSpace + 1);
+                int indexOfNewLine = programEditor.Text.IndexOf("\n", indexOfNextSpace + 1);
+
+                if (indexOfSpace != -1 || indexOfNewLine != -1) {
+                    if (indexOfSpace != -1 && indexOfNewLine != -1) {
+                        indexOfNextSpace = Math.Min(programEditor.Text.IndexOf(" ", indexOfNextSpace + 1), programEditor.Text.IndexOf("\n", indexOfNextSpace + 1));
+                    } else {
+                        indexOfNextSpace = Math.Max(indexOfSpace, indexOfNewLine);
+                    }
+                }
+            }
         }
 
         private void runCommand_Click(object sender, EventArgs e) {
