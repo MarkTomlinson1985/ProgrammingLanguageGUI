@@ -21,11 +21,7 @@ namespace ProgrammingLanguageGUI.runner
             try {
                 Command command = processor.ParseCommand(input);
 
-                if (command is DrawCommand drawCommand) {
-                    drawCommand.Execute(drawer, variableManager);
-                } else if (command is FunctionCommand functionCommand) {
-                    functionCommand.Execute(variableManager);
-                }
+                command.Execute(drawer, variableManager);
 
                 return "Command run successfully";
             } catch (Exception ex) {
@@ -40,15 +36,24 @@ namespace ProgrammingLanguageGUI.runner
 
             for (int i = 0; i < commands.Count; i++) {
                 try {
-                    if (commands[i] is DrawCommand drawCommand) {
-                        drawCommand.Execute(drawer, variableManager);
-                    } else if (commands[i] is FunctionCommand functionCommand) {
-                        functionCommand.Execute(variableManager);
-                        if (functionCommand is ILoop) {
+                    commands[i].Execute(drawer, variableManager);
+
+                    if (commands[i] is ISelection) {
+                        if (commands[i] is While) {
                             i = HandleLoop(i, commands);
                             continue;
                         }
-                    }
+                        if (commands[i] is If ifCommand) {
+                            if (ifCommand.Evaluate()) {
+                                if (ifCommand.HasInlineCommand()) {
+                                    Command inlineCommand = ifCommand.Retrieve();
+                                    inlineCommand.Execute(drawer, variableManager);
+                                    continue;
+                                }
+                            }
+                            i = HandleIfBlock(i, commands);
+                        }
+                    }                 
                 } catch (CommandException ex) {
                     exceptions.Add(new CommandException($"Line {results.GetCommands()[commands[i]]}: {ex.Message}"));
                 }
@@ -74,12 +79,28 @@ namespace ProgrammingLanguageGUI.runner
 
             string loopedProgram = string.Join("\n", commands.Skip(loopIndex + 1).Take(endLoopIndex - loopIndex - 1).Select(command => command.ToString()).ToArray());
 
-            while (((ILoop) commands[loopIndex]).Evaluate()) {
+            while (((ISelection) commands[loopIndex]).Evaluate()) {
                 RunProgram(loopedProgram);
-                ((FunctionCommand) commands[loopIndex]).Execute(variableManager);
+                commands[loopIndex].Execute(drawer, variableManager);
             }
 
             return endLoopIndex;
+        }
+
+        private int HandleIfBlock(int ifIndex, List<Command> commands) {
+            int endIfIndex = commands.IndexOf(commands.Skip(ifIndex).FirstOrDefault(command => command is EndIf, new EndIf()));
+
+            if (endIfIndex == -1) {
+                throw new CommandNotFoundException("If block has no defined end.");
+            }
+
+            string ifBlock = string.Join("\n", commands.Skip(ifIndex + 1).Take(endIfIndex - ifIndex - 1).Select(command => command.ToString()).ToArray());
+
+            if (((ISelection) commands[ifIndex]).Evaluate()) {
+                RunProgram(ifBlock);
+            }
+
+            return endIfIndex;
         }
     }
 }

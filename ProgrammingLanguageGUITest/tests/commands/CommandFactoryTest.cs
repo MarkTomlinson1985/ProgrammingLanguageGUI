@@ -26,6 +26,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         [DataRow("VAR", typeof(Var))]
         [DataRow("WHILE", typeof(While))]
         [DataRow("ENDLOOP", typeof(EndLoop))]
+        [DataRow("IF", typeof(If))]
         public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType) {
             Assert.IsInstanceOfType(CommandFactory.BuildCommand(command), expectedType);
         }

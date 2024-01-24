@@ -1,6 +1,6 @@
 ﻿namespace ProgrammingLanguageGUI.commands.keywords.loop
 {
-    internal interface ILoop
+    internal interface ISelection
     {
         bool Evaluate();
     }

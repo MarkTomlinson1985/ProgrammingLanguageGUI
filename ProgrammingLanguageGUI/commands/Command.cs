@@ -8,6 +8,8 @@ namespace ProgrammingLanguageGUI.commands {
         public string[] Arguments { get { return arguments; } set { arguments = value; } }
         protected int numberOfArguments;
 
+        public abstract void Execute(Drawer drawer, VariableManager variableManager);
+
         public Command(params string[] arguments) {
             this.arguments = arguments;
             numberOfArguments = 0;
@@ -25,5 +27,7 @@ namespace ProgrammingLanguageGUI.commands {
                 ? variableManager.GetVariable(argument)
                 : argument;
         }
+
+        public static Empty Empty { get { return new Empty(); } }
     }
 }

@@ -30,6 +30,10 @@ namespace ProgrammingLanguageGUI.commands {
                     return new While(arguments);
                 case "endloop":
                     return new EndLoop(arguments);
+                case "if":
+                    return new If(arguments);
+                case "endif":
+                    return new EndIf(arguments);
             }
             return null;
         }

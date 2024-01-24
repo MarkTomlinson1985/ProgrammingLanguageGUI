@@ -1,5 +1,6 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
@@ -8,6 +9,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
     /// </summary>
     [TestClass]
     public class VarTest {
+        Drawer drawer = new Drawer(new System.Windows.Forms.PictureBox());
         VariableManager variableManager = new VariableManager();
 
         /// <summary>
@@ -24,7 +26,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             Var command = new Var(arguments.Split(" "));
 
             try {
-                command.Execute(variableManager);
+                command.Execute(drawer, variableManager);
             } catch (Exception) {
                 Assert.Fail();
             }
@@ -46,7 +48,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             string arguments, string expectedExceptionMessage) {
             Var command = new Var(arguments.Split(" "));
 
-            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(variableManager));
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);
         }

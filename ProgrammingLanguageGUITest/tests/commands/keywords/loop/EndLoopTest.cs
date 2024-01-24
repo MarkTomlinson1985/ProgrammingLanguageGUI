@@ -1,5 +1,6 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
@@ -8,6 +9,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
     /// </summary>
     [TestClass]
     public class EndLoopTest {
+        Drawer drawer = new Drawer(new System.Windows.Forms.PictureBox());
         VariableManager variableManager = new VariableManager();
 
         /// <summary>
@@ -19,7 +21,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             EndLoop command = new EndLoop();
 
             try {
-                command.Execute(variableManager);
+                command.Execute(drawer, variableManager);
             } catch (Exception) {
                 Assert.Fail();
             }
@@ -33,7 +35,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments() {
             EndLoop command = new EndLoop("ARGUMENT");
 
-            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(variableManager));
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
             string expectedExceptionMessage = "Number of arguments incorrect. Expected: 0 - Actual: 1";
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);

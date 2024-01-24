@@ -3,8 +3,8 @@ using ProgrammingLanguageGUI.drawer;
 
 namespace ProgrammingLanguageGUI.commands
 {
-    public class EndLoop : Command {
-        public EndLoop(params string[] arguments) : base(arguments) {
+    public class EndIf : Command {
+        public EndIf(params string[] arguments) : base(arguments) {
             numberOfArguments = 0;
         }
 

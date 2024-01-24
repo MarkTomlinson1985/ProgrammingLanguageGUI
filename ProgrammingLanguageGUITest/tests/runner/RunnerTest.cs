@@ -45,6 +45,7 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         [TestMethod]
         [DataRow("CIRCLE 50\nMOVE 100 100\nDRAWTO 200 200")]
         [DataRow("CIRCLE 50\nMOVE 100 100\nVAR a = 1\nWHILE a < 10\nCIRCLE a\nVAR a = a + 1\nENDLOOP")]
+        [DataRow("CIRCLE 50\nMOVE 100 100\nIF 10 == 10 CIRCLE 50\nIF 10 != 10\nCIRCLE 50\nENDIF")]
         public void RunProgramShouldReturnSuccessOutput(string program) {
             Assert.AreEqual("Program executed successfully.", runner.RunProgram(program));
         }
@@ -55,8 +56,8 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         /// </summary>
         [TestMethod]
         public void RunProgramShouldReturnExceptionOutputWithInvalidCommands() {
-            string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100";
-            string expectedMessage = "Line 2: Command INVALID not recognised.\nLine 3: Provided coordinate arguments must not be negative.\nLine 4: Loop command has no defined end.\n";
+            string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100\nIF 10 == 10\nCIRCLE 50";
+            string expectedMessage = "Line 2: Command INVALID not recognised.\nLine 3: Provided coordinate arguments must not be negative.\nLine 4: Loop command has no defined end.\nLine 6: If block has no defined end.\n";
             Assert.AreEqual(expectedMessage, runner.RunProgram(program));
         }
 

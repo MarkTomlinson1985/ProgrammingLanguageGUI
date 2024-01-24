@@ -5,15 +5,15 @@ using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
     /// <summary>
-    /// Tests relating to the While class.
+    /// Tests relating to the If class.
     /// </summary>
     [TestClass]
-    public class WhileTest {
+    public class IfTest {
         Drawer drawer = new Drawer(new System.Windows.Forms.PictureBox());
         VariableManager variableManager = new VariableManager();
 
         /// <summary>
-        /// Tests the creation and validation of a valid While command. Any exception will result
+        /// Tests the creation and validation of a valid If command. Any exception will result
         /// in a failure assertion.
         /// Note that in proper usage these values would not be hard-coded, instead at least one
         /// variable would be used. This variable assignment is done as part of the command processing flow.
@@ -32,7 +32,7 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         [DataRow("15 >= 10", true)]
         [DataRow("15 >= 100", false)]
         public void WhileCommandShouldEvaluateCorrectlyWithValidArguments(string arguments, bool evaluation) {
-            While command = new While(arguments.Split(" "));
+            If command = new If(arguments.Split(" "));
 
             try {
                 command.Execute(drawer, variableManager);
@@ -44,17 +44,15 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a While object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a If object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
         [DataRow("10 * 10", "Invalid comparison operator in loop condition.")]
         [DataRow("10 < INVALID", "Provided value is not a valid number.")]
-        [DataRow("10 <", "Number of arguments incorrect. Provide at least 3 arguments for comparison.")]
-        [DataRow("10 < ", "Invalid comparator.")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string arguments, string expectedExceptionMessage) {
-            While command = new While(arguments.Split(" "));
+            If command = new If(arguments.Split(" "));
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
 

@@ -1,13 +1,14 @@
 ﻿using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands
 {
-    public class Var(params string[] arguments) : FunctionCommand(arguments) {
+    public class Var(params string[] arguments) : ConditionalCommand(arguments) {
         private string variableName;
         private string variableValue;
 
-        public override void Execute(VariableManager variableManager) {
+        public override void Execute(Drawer drawer, VariableManager variableManager) {
             ValidateCommand(variableManager);
             variableManager.AddVariable(variableName, variableValue);
         }
