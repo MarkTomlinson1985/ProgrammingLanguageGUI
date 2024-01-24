@@ -3,8 +3,8 @@
 namespace ProgrammingLanguageGUI.commands {
     public class CommandFactory {
         public static Command? BuildCommand(string command) {
-            string commandType = command.Split(" ")[0];
-            string[] arguments = command.Split(" ").Skip(1).ToArray();
+            string commandType = command.Split(" ")[0].Trim();
+            string[] arguments = command.Split(" ").Skip(1).Select(argument => argument.Trim()).ToArray();
             switch (commandType.ToLower()) {
                 case "move":
                     return new Move(arguments);
