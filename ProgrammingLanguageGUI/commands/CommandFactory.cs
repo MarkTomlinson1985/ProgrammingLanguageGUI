@@ -1,4 +1,6 @@
-﻿namespace ProgrammingLanguageGUI.commands {
+﻿using ProgrammingLanguageGUI.commands.keywords.loop;
+
+namespace ProgrammingLanguageGUI.commands {
     public class CommandFactory {
         public static Command? BuildCommand(string command) {
             string commandType = command.Split(" ")[0];
@@ -24,6 +26,10 @@
                     return new Fill(arguments);
                 case "var":
                     return new Var(arguments);
+                case "while":
+                    return new While(arguments);
+                case "endloop":
+                    return new EndLoop(arguments);
             }
             return null;
         }

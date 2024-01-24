@@ -1,4 +1,5 @@
-﻿using ProgrammingLanguageGUI.drawer;
+﻿using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
@@ -10,16 +11,17 @@ namespace ProgrammingLanguageGUI.commands {
             numberOfArguments = 2;
         }
 
-        public override void Execute(Drawer drawer) {
+        public override void Execute(Drawer drawer, VariableManager variableManager) {
+            ValidateCommand(variableManager);
             drawer.DrawTriangle(width, height);
         }
 
-        public override void ValidateCommand() {
-            base.ValidateCommand();
+        protected override void ValidateCommand(VariableManager variableManager) {
+            base.ValidateCommand(variableManager);
 
             try {
-                width = int.Parse(arguments[0]);
-                height = int.Parse(arguments[1]);
+                width = int.Parse(GetVariableOrValue(arguments[0], variableManager));
+                height = int.Parse(GetVariableOrValue(arguments[1], variableManager));
 
                 if (width < 0 || height < 0) {
                     throw new CommandArgumentException("Provided size arguments must not be negative.");
@@ -28,6 +30,10 @@ namespace ProgrammingLanguageGUI.commands {
             } catch (FormatException) {
                 throw new CommandArgumentException("Provided arguments are not valid numbers.");
             }
+        }
+
+        public override string ToString() {
+            return $"TRIANGLE {arguments[0]} {arguments[1]}";
         }
     }
 }

@@ -35,15 +35,5 @@ namespace ProgrammingLanguageGUI.commands {
             string commandType = command.Split(" ")[0];
             throw new CommandNotFoundException("Command " + commandType + " not recognised.");
         }
-
-        public void AssignVariables(Command command) {
-            string[] arguments = command.Arguments;
-            for (int i = command is Var ? 1 : 0; i < arguments.Length; i++) {
-                if (variableManager.HasVariable(arguments[i])) {
-                    arguments[i] = variableManager.GetVariable(arguments[i]);
-                }
-            }
-            command.Arguments = arguments;
-        }
     }
 }

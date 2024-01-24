@@ -1,4 +1,5 @@
-﻿using ProgrammingLanguageGUI.drawer;
+﻿using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
@@ -9,15 +10,17 @@ namespace ProgrammingLanguageGUI.commands {
             numberOfArguments = 1;
         }
 
-        public override void Execute(Drawer drawer) {
+        public override void Execute(Drawer drawer, VariableManager variableManager) {
+            ValidateCommand(variableManager);
+
             drawer.DrawCircle(radius);
         }
 
-        public override void ValidateCommand() {
-            base.ValidateCommand();
+        protected override void ValidateCommand(VariableManager variableManager) {
+            base.ValidateCommand(variableManager);
 
             try {
-                radius = int.Parse(arguments[0]);
+                radius = int.Parse(GetVariableOrValue(arguments[0], variableManager));
 
                 if (radius < 0) {
                     throw new CommandArgumentException("Provided radius must not be negative.");
@@ -34,6 +37,10 @@ namespace ProgrammingLanguageGUI.commands {
                 return c.radius == radius;
             }
             return false;
+        }
+
+        public override string ToString() {
+            return $"CIRCLE {arguments[0]}";
         }
     }
 }

@@ -1,6 +1,8 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords.loop;
 
-namespace ProgrammingLanguageGUITest.tests.commands {
+namespace ProgrammingLanguageGUITest.tests.commands
+{
     /// <summary>
     /// Tests relating to the CommandFactory factory class.
     /// </summary>
@@ -22,6 +24,8 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         [DataRow("PEN", typeof(Pen))]
         [DataRow("FILL", typeof(Fill))]
         [DataRow("VAR", typeof(Var))]
+        [DataRow("WHILE", typeof(While))]
+        [DataRow("ENDLOOP", typeof(EndLoop))]
         public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType) {
             Assert.IsInstanceOfType(CommandFactory.BuildCommand(command), expectedType);
         }

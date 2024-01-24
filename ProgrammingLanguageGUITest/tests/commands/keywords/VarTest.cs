@@ -1,4 +1,5 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
@@ -7,6 +8,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
     /// </summary>
     [TestClass]
     public class VarTest {
+        VariableManager variableManager = new VariableManager();
 
         /// <summary>
         /// Tests the creation and validation of a valid Var command. Any exception will result
@@ -22,7 +24,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             Var command = new Var(arguments.Split(" "));
 
             try {
-                command.ValidateCommand();
+                command.Execute(variableManager);
             } catch (Exception) {
                 Assert.Fail();
             }
@@ -44,7 +46,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             string arguments, string expectedExceptionMessage) {
             Var command = new Var(arguments.Split(" "));
 
-            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(variableManager));
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);
         }

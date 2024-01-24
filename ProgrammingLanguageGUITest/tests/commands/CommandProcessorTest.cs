@@ -1,6 +1,7 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.exception;
+using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
@@ -47,16 +48,12 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         public void ParseProgramShouldReturnProgramResultsWithCommands() {
             string input = "MOVE 100 100\nCIRCLE 50";
             ProgramResults results = processor.ParseProgram(input);
-            foreach (Command command in results.GetCommands().Keys) { command.ValidateCommand(); }
 
-            Dictionary<Command, int> expectedCommands = new Dictionary<Command, int>() {
-                { new Move("100", "100"), 1 },
-                { new Circle("50"), 2 }
-            };
+            Assert.IsTrue(results.GetCommands().Keys.First().GetType().Equals(typeof(Move)));
+            Assert.IsTrue(results.GetCommands().Keys.ElementAt(1).GetType().Equals(typeof(Circle)));
 
-            foreach (Command command in expectedCommands.Keys) { command.ValidateCommand(); }
-
-            Assert.IsTrue(expectedCommands.Keys.All(expectedKey => results.GetCommands().Keys.Any(resultKey => expectedKey.Equals(resultKey))));
+            Assert.IsTrue(results.GetCommands().Values.First() == 1);
+            Assert.IsTrue(results.GetCommands().Values.ElementAt(1) == 2);
         }
 
         /// <summary>
@@ -83,23 +80,17 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         /// </summary>
         [TestMethod]
         public void ParseProgramShouldReturnProgramResultsWithCommandsAndExceptions() {
-            string input = "MOVE 100 100\nCIRCLE 50\nDRAWT 100 100";
+            string input = "MOVE 100 100\nDRAWT 100 100\nCIRCLE 50";
             ProgramResults results = processor.ParseProgram(input);
-            foreach (Command command in results.GetCommands().Keys) { command.ValidateCommand(); }
 
-            Dictionary<Command, int> expectedCommands = new Dictionary<Command, int>() {
-                { new Move("100", "100"), 1 },
-                { new Circle("50"), 2 }
-            };
+            Assert.IsTrue(results.GetCommands().Keys.First().GetType().Equals(typeof(Move)));
+            Assert.IsTrue(results.GetCommands().Keys.ElementAt(1).GetType().Equals(typeof(Circle)));
 
-            foreach (Command command in expectedCommands.Keys) { command.ValidateCommand(); }
+            Assert.IsTrue(results.GetCommands().Values.First() == 1);
+            Assert.IsTrue(results.GetCommands().Values.ElementAt(1) == 3);
 
-            Assert.IsTrue(expectedCommands.Keys.All(expectedKey => results.GetCommands().Keys.Any(resultKey => expectedKey.Equals(resultKey))));
-
-            List<CommandException> expectedExceptions = new List<CommandException>() {
-                new CommandNotFoundException("Line 3: Command DRAWT not recognised.")};
-
-            Assert.IsTrue(expectedExceptions.All(expectedException => results.GetExceptions().Any(resultException => expectedException.Message.Equals(resultException.Message))));
+            Assert.IsTrue(results.GetExceptions().Count() == 1);
+            Assert.IsTrue(results.GetExceptions().First().Message.Equals("Line 2: Command DRAWT not recognised."));
         }
     }
 }

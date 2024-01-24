@@ -1,4 +1,5 @@
-﻿using ProgrammingLanguageGUI.drawer;
+﻿using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
@@ -12,11 +13,17 @@ namespace ProgrammingLanguageGUI.commands {
             numberOfArguments = 0;
         }
 
-        public virtual void ValidateCommand() {
+        protected virtual void ValidateCommand(VariableManager variableManager) {
             if (arguments.Length != numberOfArguments) {
                 throw new CommandArgumentException(
                     "Number of arguments incorrect. Expected: " + numberOfArguments + " - Actual: " + arguments.Length);
             }
+        }
+
+        protected string GetVariableOrValue(string argument, VariableManager variableManager) {
+            return variableManager.HasVariable(argument)
+                ? variableManager.GetVariable(argument)
+                : argument;
         }
     }
 }

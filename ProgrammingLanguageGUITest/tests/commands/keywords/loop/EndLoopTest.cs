@@ -1,42 +1,39 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.commands.keywords;
-using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
-    /// Tests relating to the Clear class.
+    /// Tests relating to the EndLoop class.
     /// </summary>
     [TestClass]
-    public class ClearTest {
-        Drawer drawer = new Drawer(new PictureBox());
+    public class EndLoopTest {
         VariableManager variableManager = new VariableManager();
 
         /// <summary>
-        /// Tests the creation and validation of a valid Clear command. Any exception will result
+        /// Tests the creation and validation of a valid EndLoop command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldSucceedWithValidArguments() {
-            Clear command = new Clear();
+            EndLoop command = new EndLoop();
 
             try {
-                command.Execute(drawer, variableManager);
+                command.Execute(variableManager);
             } catch (Exception) {
                 Assert.Fail();
             }
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Clear object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a EndLoop object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments() {
-            Clear command = new Clear("ARGUMENT");
+            EndLoop command = new EndLoop("ARGUMENT");
 
-            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(variableManager));
             string expectedExceptionMessage = "Number of arguments incorrect. Expected: 0 - Actual: 1";
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);

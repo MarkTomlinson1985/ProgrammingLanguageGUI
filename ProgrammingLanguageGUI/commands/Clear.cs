@@ -1,4 +1,5 @@
-﻿using ProgrammingLanguageGUI.drawer;
+﻿using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 
 namespace ProgrammingLanguageGUI.commands {
     public class Clear : DrawCommand {
@@ -7,8 +8,13 @@ namespace ProgrammingLanguageGUI.commands {
             numberOfArguments = 0;
         }
 
-        public override void Execute(Drawer drawer) {
+        public override void Execute(Drawer drawer, VariableManager variableManager) {
+            ValidateCommand(variableManager);
             drawer.Clear();
+        }
+
+        public override string ToString() {
+            return "CLEAR";
         }
     }
 }

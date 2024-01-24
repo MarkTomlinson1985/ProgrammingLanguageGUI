@@ -1,5 +1,8 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
+using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
@@ -7,6 +10,8 @@ namespace ProgrammingLanguageGUITest.tests.commands {
     /// </summary>
     [TestClass]
     public class ResetTest {
+        Drawer drawer = new Drawer(new PictureBox());
+        VariableManager variableManager = new VariableManager();
 
         /// <summary>
         /// Tests the creation and validation of a valid Reset command. Any exception will result
@@ -17,7 +22,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             Reset command = new Reset();
 
             try {
-                command.ValidateCommand();
+                command.Execute(drawer, variableManager);
             } catch (Exception) {
                 Assert.Fail();
             }
@@ -31,7 +36,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments() {
             Reset command = new Reset("ARGUMENT");
 
-            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
             string expectedExceptionMessage = "Number of arguments incorrect. Expected: 0 - Actual: 1";
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);

@@ -1,6 +1,6 @@
-﻿using ProgrammingLanguageGUI.drawer;
+﻿using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
     public class DrawTo : DrawCommand {
@@ -11,16 +11,17 @@ namespace ProgrammingLanguageGUI.commands {
             numberOfArguments = 2;
         }
 
-        public override void Execute(Drawer drawer) {
+        public override void Execute(Drawer drawer, VariableManager variableManager) {
+            ValidateCommand(variableManager);
             drawer.DrawLine(xCoordinate, yCoordinate);
         }
 
-        public override void ValidateCommand() {
-            base.ValidateCommand();
+        protected override void ValidateCommand(VariableManager variableManager) {
+            base.ValidateCommand(variableManager);
 
             try {
-                xCoordinate = int.Parse(arguments[0]);
-                yCoordinate = int.Parse(arguments[1]);
+                xCoordinate = int.Parse(GetVariableOrValue(arguments[0], variableManager));
+                yCoordinate = int.Parse(GetVariableOrValue(arguments[1], variableManager));
 
                 if (xCoordinate < 0 || yCoordinate < 0) {
                     throw new CommandArgumentException("Provided coordinate arguments must not be negative.");
@@ -29,6 +30,10 @@ namespace ProgrammingLanguageGUI.commands {
             } catch (FormatException) {
                 throw new CommandArgumentException("Provided arguments are not valid numbers.");
             }
+        }
+
+        public override string ToString() {
+            return $"DRAWTO {arguments[0]} {arguments[1]}";
         }
     }
 }

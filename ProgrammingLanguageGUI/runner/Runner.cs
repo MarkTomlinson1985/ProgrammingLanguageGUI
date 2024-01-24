@@ -1,9 +1,12 @@
 ﻿using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.commands.keywords.loop;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
+using System.Windows.Forms.VisualStyles;
 
-namespace ProgrammingLanguageGUI.runner {
+namespace ProgrammingLanguageGUI.runner
+{
     public class Runner {
         private CommandProcessor processor;
         private Drawer drawer;
@@ -18,11 +21,10 @@ namespace ProgrammingLanguageGUI.runner {
         public string RunCommand(string input) {
             try {
                 Command command = processor.ParseCommand(input);
-                processor.AssignVariables(command);
+                //processor.AssignVariables(command);
 
-                command.ValidateCommand();
                 if (command is DrawCommand drawCommand) {
-                    drawCommand.Execute(drawer);
+                    drawCommand.Execute(drawer, variableManager);
                 } else if (command is FunctionCommand functionCommand) {
                     functionCommand.Execute(variableManager);
                 }
@@ -34,23 +36,36 @@ namespace ProgrammingLanguageGUI.runner {
         }
 
         public string RunProgram(string input) {
-            drawer.Clear();
             ProgramResults results = processor.ParseProgram(input);
             List<CommandException> exceptions = results.GetExceptions();
+            List<Command> commands = results.GetCommands().Keys.ToList();
 
-            foreach (Command command in results.GetCommands().Keys) {
+            for (int i = 0; i < commands.Count; i++) {
                 try {
-                    processor.AssignVariables(command);
-                    command.ValidateCommand();
+                    //processor.AssignVariables(commands[i]);
+                    //commands[i].ValidateCommand();
 
-                    if (command is DrawCommand drawCommand) {
-                        drawCommand.Execute(drawer);
-                    } else if (command is FunctionCommand functionCommand) {
+                    if (commands[i] is DrawCommand drawCommand) {
+                        drawCommand.Execute(drawer, variableManager);
+                    } else if (commands[i] is FunctionCommand functionCommand) {
                         functionCommand.Execute(variableManager);
+                        if (functionCommand is ILoop loop) {
+                            int loopIndex = i;                  
+                            int endLoopIndex = commands.IndexOf(commands.Skip(i).First(command => command is EndLoop));
+                            string loopedProgram = string.Join("\n", commands.Skip(i + 1).Take(endLoopIndex - i - 1).Select(command => command.ToString()).ToArray());
+                            
+                            while (loop.Evaluate()) {
+                                RunProgram(loopedProgram);
+                                functionCommand.Execute(variableManager);
+                            }
+
+                            i = endLoopIndex;
+                            continue;
+                        }
                     }
 
                 } catch (CommandException ex) {
-                    exceptions.Add(new CommandException($"Line {results.GetCommands()[command]}: {ex.Message}"));
+                    exceptions.Add(new CommandException($"Line {results.GetCommands()[commands[i]]}: {ex.Message}"));
                 }
             }
 

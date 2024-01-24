@@ -8,10 +8,11 @@ namespace ProgrammingLanguageGUI.commands
         private string variableValue;
 
         public override void Execute(VariableManager variableManager) {
+            ValidateCommand(variableManager);
             variableManager.AddVariable(variableName, variableValue);
         }
 
-        public override void ValidateCommand() {
+        protected override void ValidateCommand(VariableManager variableManager) {
             if (arguments.Length < 3) {
                 throw new CommandArgumentException(
                     "Number of arguments incorrect. Provide at least 3 arguments for variable assignment.");
@@ -29,7 +30,7 @@ namespace ProgrammingLanguageGUI.commands
 
             try {
                 if (arguments.Length == 3) {
-                    variableValue = int.Parse(arguments[2]).ToString();
+                    variableValue = int.Parse(GetVariableOrValue(arguments[2], variableManager)).ToString();
                     return;
                 }
 
@@ -42,16 +43,23 @@ namespace ProgrammingLanguageGUI.commands
                     throw new CommandArgumentException("Invalid number of arguments for variable assignment.");
                 }
 
+                int argumentOne = int.Parse(GetVariableOrValue(arguments[2], variableManager));
+                int argumentTwo = int.Parse(GetVariableOrValue(arguments[4], variableManager));
+
                 variableValue = arguments[3] switch {
-                    "+" => (int.Parse(arguments[2]) + int.Parse(arguments[4])).ToString(),
-                    "-" => (int.Parse(arguments[2]) - int.Parse(arguments[4])).ToString(),
-                    "*" => (int.Parse(arguments[2]) * int.Parse(arguments[4])).ToString(),
-                    "/" => (int.Parse(arguments[2]) / int.Parse(arguments[4])).ToString(),
+                    "+" => (argumentOne + argumentTwo).ToString(),
+                    "-" => (argumentOne - argumentTwo).ToString(),
+                    "*" => (argumentOne * argumentTwo).ToString(),
+                    "/" => (argumentOne / argumentTwo).ToString(),
                     _ => throw new CommandArgumentException("Invalid operator in variable assignment."),
                 };
             } catch (FormatException) {
                 throw new CommandArgumentException("Provided variable assignment is not a valid number.");
             }
+        }
+
+        public override string ToString() {
+            return $"VAR {string.Join(" ", arguments)}";
         }
     }
 }

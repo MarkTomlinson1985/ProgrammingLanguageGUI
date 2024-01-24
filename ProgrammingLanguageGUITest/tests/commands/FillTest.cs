@@ -1,5 +1,8 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
+using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
@@ -7,6 +10,9 @@ namespace ProgrammingLanguageGUITest.tests.commands {
     /// </summary>
     [TestClass]
     public class FillTest {
+        Drawer drawer = new Drawer(new PictureBox());
+        VariableManager variableManager = new VariableManager();
+
         /// <summary>
         /// Tests the creation and validation of a valid Fill command. Any exception will result
         /// in a failure assertion.
@@ -19,7 +25,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             Fill command = new Fill(colour);
 
             try {
-                command.ValidateCommand();
+                command.Execute(drawer, variableManager);
             } catch (Exception) {
                 Assert.Fail();
             }
@@ -37,7 +43,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             string expectedExceptionMessage) {
             Fill command = new Fill(argumentOne);
 
-            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);
         }

@@ -1,5 +1,8 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
+using System.Windows.Forms;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
     /// <summary>
@@ -7,6 +10,8 @@ namespace ProgrammingLanguageGUITest.tests.commands {
     /// </summary>
     [TestClass]
     public class MoveTest {
+        Drawer drawer = new Drawer(new PictureBox());
+        VariableManager variableManager = new VariableManager();
 
         /// <summary>
         /// Tests the creation and validation of a valid Move command. Any exception will result
@@ -17,7 +22,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             Move command = new Move("100", "100");
 
             try {
-                command.ValidateCommand();
+                command.Execute(drawer, variableManager);
             } catch (Exception) {
                 Assert.Fail();
             }
@@ -36,7 +41,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
             string expectedExceptionMessage) {
             Move command = new Move(argumentOne, argumentTwo);
 
-            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.ValidateCommand());
+            Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
 
             Assert.AreEqual(expectedExceptionMessage, ex.Message);
         }
