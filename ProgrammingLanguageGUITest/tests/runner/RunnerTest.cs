@@ -43,10 +43,12 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         /// Tests that the RunProgram method returns a success message with a valid program argument.
         /// </summary>
         [TestMethod]
-        public void RunProgramShouldReturnSuccessOutput() {
-            string program = "CIRCLE 50\nMOVE 100 100\nDRAWTO 200 200";
+        [DataRow("CIRCLE 50\nMOVE 100 100\nDRAWTO 200 200")]
+        [DataRow("CIRCLE 50\nMOVE 100 100\nVAR a = 1\nWHILE a < 10\nCIRCLE a\nVAR a = a + 1\nENDLOOP")]
+        public void RunProgramShouldReturnSuccessOutput(string program) {
             Assert.AreEqual("Program executed successfully.", runner.RunProgram(program));
         }
+
 
         /// <summary>
         /// Tests that the RunProgram method returns multiple expected exception messages with invalid program argument.

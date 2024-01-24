@@ -21,7 +21,6 @@ namespace ProgrammingLanguageGUI.runner
         public string RunCommand(string input) {
             try {
                 Command command = processor.ParseCommand(input);
-                //processor.AssignVariables(command);
 
                 if (command is DrawCommand drawCommand) {
                     drawCommand.Execute(drawer, variableManager);
@@ -46,22 +45,8 @@ namespace ProgrammingLanguageGUI.runner
                         drawCommand.Execute(drawer, variableManager);
                     } else if (commands[i] is FunctionCommand functionCommand) {
                         functionCommand.Execute(variableManager);
-                        if (functionCommand is ILoop loop) {
-                            int loopIndex = i;                  
-                            int endLoopIndex = commands.IndexOf(commands.Skip(i).FirstOrDefault(command => command is EndLoop, new EndLoop()));
-
-                            if (endLoopIndex == -1) {
-                                throw new CommandNotFoundException("Loop command has no defined end.");
-                            }
-
-                            string loopedProgram = string.Join("\n", commands.Skip(i + 1).Take(endLoopIndex - i - 1).Select(command => command.ToString()).ToArray());
-                            
-                            while (loop.Evaluate()) {
-                                RunProgram(loopedProgram);
-                                functionCommand.Execute(variableManager);
-                            }
-
-                            i = endLoopIndex;
+                        if (functionCommand is ILoop) {
+                            i = HandleLoop(i, commands);
                             continue;
                         }
                     }
@@ -79,6 +64,23 @@ namespace ProgrammingLanguageGUI.runner
             }
 
             return "Program executed successfully.";
+        }
+
+        private int HandleLoop(int loopIndex, List<Command> commands) {
+            int endLoopIndex = commands.IndexOf(commands.Skip(loopIndex).FirstOrDefault(command => command is EndLoop, new EndLoop()));
+
+            if (endLoopIndex == -1) {
+                throw new CommandNotFoundException("Loop command has no defined end.");
+            }
+
+            string loopedProgram = string.Join("\n", commands.Skip(loopIndex + 1).Take(endLoopIndex - loopIndex - 1).Select(command => command.ToString()).ToArray());
+
+            while (((ILoop) commands[loopIndex]).Evaluate()) {
+                RunProgram(loopedProgram);
+                ((FunctionCommand) commands[loopIndex]).Execute(variableManager);
+            }
+
+            return endLoopIndex;
         }
     }
 }
