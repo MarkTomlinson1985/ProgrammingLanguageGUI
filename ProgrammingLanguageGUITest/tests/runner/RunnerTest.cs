@@ -12,12 +12,13 @@ namespace ProgrammingLanguageGUITest.tests.runner {
     [TestClass]
     public class RunnerTest {
         private Runner runner;
-        private static VariableManager variableManager = new VariableManager();
-        private CommandProcessor processor = new CommandProcessor(variableManager);
+        private static VariableManager variableManager;
+        private CommandProcessor processor = new CommandProcessor();
         private Drawer drawer = new Drawer(new PictureBox());
 
         [TestInitialize]
         public void Initialize() {
+            variableManager = new VariableManager();
             runner = new Runner(processor, drawer, variableManager);
         }
 
@@ -39,6 +40,8 @@ namespace ProgrammingLanguageGUITest.tests.runner {
             Assert.AreEqual(expectedMessage, runner.RunCommand(input));
         }
 
+        // Add runner tests for methods.
+
         /// <summary>
         /// Tests that the RunProgram method returns a success message with a valid program argument.
         /// </summary>
@@ -46,6 +49,8 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         [DataRow("CIRCLE 50\nMOVE 100 100\nDRAWTO 200 200")]
         [DataRow("CIRCLE 50\nMOVE 100 100\nVAR a = 1\nWHILE a < 10\nCIRCLE a\nVAR a = a + 1\nENDLOOP")]
         [DataRow("CIRCLE 50\nMOVE 100 100\nIF 10 == 10 CIRCLE 50\nIF 10 != 10\nCIRCLE 50\nENDIF")]
+        [DataRow("CIRCLE 50\nMOVE 100 100\nMETHOD myMethod\nMOVE 100 100\nENDMETHOD\nmyMethod()")]
+        [DataRow("CIRCLE 50\nMOVE 100 100\nMETHOD myMethod(xPos,yPos)\nMOVE xPos yPos\nENDMETHOD\nmyMethod(200,200)")]
         public void RunProgramShouldReturnSuccessOutput(string program) {
             Assert.AreEqual("Program executed successfully.", runner.RunProgram(program));
         }

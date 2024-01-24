@@ -17,7 +17,7 @@ namespace ProgrammingLanguageGUI {
             InitializeComponent();
             drawer = new Drawer(drawingBox);
             variableManager = new VariableManager();
-            commandProcessor = new CommandProcessor(variableManager);
+            commandProcessor = new CommandProcessor();
             runner = new Runner(commandProcessor, drawer, variableManager);
             syntaxParser = new SyntaxParser();
         }

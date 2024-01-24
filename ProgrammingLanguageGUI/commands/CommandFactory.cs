@@ -1,4 +1,6 @@
-﻿using ProgrammingLanguageGUI.commands.keywords.loop;
+﻿using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.commands.keywords.loop;
+using ProgrammingLanguageGUI.commands.keywords.method;
 
 namespace ProgrammingLanguageGUI.commands {
     public class CommandFactory {
@@ -34,7 +36,24 @@ namespace ProgrammingLanguageGUI.commands {
                     return new If(arguments);
                 case "endif":
                     return new EndIf(arguments);
+                case "method":
+                    return new Method(arguments);
+                case "endmethod":
+                    return new EndMethod(arguments);
             }
+
+            if (commandType.Contains('(') && commandType.Contains(')')) {
+                string[] methodComponents = commandType.Split("(");
+
+                if (")".Equals(methodComponents[1])) {
+                    return new CallMethod(methodComponents[0]);
+                }
+
+                string[] methodName = [methodComponents[0]];
+                string[] methodArguments = [.. methodName, .. methodComponents[1].Split(',').Select(component => component.Replace(")", "").Trim()).ToArray()];
+                return new CallMethod(methodArguments);
+            }
+
             return null;
         }
     }

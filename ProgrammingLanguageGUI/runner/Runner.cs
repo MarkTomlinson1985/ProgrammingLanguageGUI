@@ -1,6 +1,7 @@
 ﻿using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.commands.keywords.loop;
+using ProgrammingLanguageGUI.commands.keywords.method;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
@@ -53,7 +54,36 @@ namespace ProgrammingLanguageGUI.runner
                             }
                             i = HandleIfBlock(i, commands);
                         }
-                    }                 
+                    }
+
+                    if (commands[i] is Method method) {
+                        method.StartLineNumber = results.GetCommands().GetValueOrDefault(method) + 1;
+                        int endMethodIndex = commands.IndexOf(commands.Skip(i).FirstOrDefault(command => command is EndMethod, new EndMethod()));
+
+                        if (endMethodIndex == -1) {
+                            method.EndLineNumber = -1;
+                            throw new CommandNotFoundException("Method command has no defined end.");
+                        }
+
+                        method.EndLineNumber = results.GetCommands().GetValueOrDefault(commands[endMethodIndex]) - 1;
+                        i = method.EndLineNumber;
+                        continue;
+                    }
+
+                    if (commands[i] is CallMethod callMethod) {
+                        if (callMethod.GetMethodEnd() == -1) {
+                            callMethod.UnassignVariables(variableManager);
+                            throw new CommandNotFoundException("Improperly declared method: " + callMethod.MethodName);
+                        }
+
+                        for (int j = callMethod.GetMethodStart();  j <= callMethod.GetMethodEnd(); j++) {
+                            Command command = results.GetCommands().First(entry => entry.Value == j).Key;
+                            command.Execute(drawer, variableManager);
+                        }
+                        // Descope variables declared in method.
+                        callMethod.UnassignVariables(variableManager);
+                    }
+
                 } catch (CommandException ex) {
                     exceptions.Add(new CommandException($"Line {results.GetCommands()[commands[i]]}: {ex.Message}"));
                 }

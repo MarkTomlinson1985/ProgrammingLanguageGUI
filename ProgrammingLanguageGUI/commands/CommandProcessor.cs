@@ -3,11 +3,6 @@ using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
     public class CommandProcessor {
-        private VariableManager variableManager;
-
-        public CommandProcessor(VariableManager variableManager) {
-            this.variableManager = variableManager;
-        }
 
         public ProgramResults ParseProgram(string program) {
             string[] textCommands = program.Split("\n");

@@ -1,5 +1,7 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.commands.keywords.loop;
+using ProgrammingLanguageGUI.commands.keywords.method;
 
 namespace ProgrammingLanguageGUITest.tests.commands
 {
@@ -8,6 +10,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
     /// </summary>
     [TestClass]
     public class CommandFactoryTest {
+        private VariableManager variableManager = new VariableManager();
 
         /// <summary>
         /// Tests that the BuildCommand method returns a Command with the correct
@@ -27,6 +30,10 @@ namespace ProgrammingLanguageGUITest.tests.commands
         [DataRow("WHILE", typeof(While))]
         [DataRow("ENDLOOP", typeof(EndLoop))]
         [DataRow("IF", typeof(If))]
+        [DataRow("ENDIF", typeof(EndIf))]
+        [DataRow("METHOD", typeof(Method))]
+        [DataRow("ENDMETHOD", typeof(EndMethod))]
+        [DataRow("myMethod()", typeof(CallMethod))]
         public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType) {
             Assert.IsInstanceOfType(CommandFactory.BuildCommand(command), expectedType);
         }
@@ -37,7 +44,7 @@ namespace ProgrammingLanguageGUITest.tests.commands
         /// </summary>
         [TestMethod]
         public void CommandFactoryShouldReturnNullWithInvalidCommandType() {
-            Assert.IsNull(CommandFactory.BuildCommand("INVALID"));
+            Assert.IsNull(CommandFactory.BuildCommand("INVALID 100"));
         }
     }
 }
