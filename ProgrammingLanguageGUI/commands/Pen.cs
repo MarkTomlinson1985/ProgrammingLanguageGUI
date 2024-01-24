@@ -18,6 +18,25 @@ namespace ProgrammingLanguageGUI.commands {
 
         protected override void ValidateCommand(VariableManager variableManager) {
             base.ValidateCommand(variableManager);
+
+            if (arguments[0].Contains(',')) {
+                try {
+                    int[] rgbValues = arguments[0].Split(',').Select(value => int.Parse(GetVariableOrValue(value, variableManager))).ToArray();
+                    
+                    foreach (int rgbValue in rgbValues) {
+                        if (rgbValue < 0 || rgbValue > 255) {
+                            throw new CommandArgumentException("Provided rgb values must be between 0 and 255.");
+                        }
+                    }
+                    
+                    colour = Color.FromArgb(rgbValues[0], rgbValues[1], rgbValues[2]);
+
+                } catch (FormatException) {
+                    throw new CommandArgumentException("Provided rgb values are not valid numbers.");
+                }
+                return;
+            }
+
             colour = Color.FromName(arguments[0].Substring(0, 1).ToUpper() + arguments[0].Substring(1).ToLower());
 
             if (!colour.IsKnownColor && !colour.IsSystemColor) {

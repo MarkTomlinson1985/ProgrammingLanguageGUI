@@ -50,6 +50,9 @@
         }
 
         public void Reset() {
+            Clear();
+            fillModeEnabled = false;
+            ChangePenColour(Color.White);
             MoveTo(0, 0);
         }
 

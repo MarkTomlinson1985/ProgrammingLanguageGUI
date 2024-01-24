@@ -42,16 +42,18 @@ namespace ProgrammingLanguageGUI.runner
 
             for (int i = 0; i < commands.Count; i++) {
                 try {
-                    //processor.AssignVariables(commands[i]);
-                    //commands[i].ValidateCommand();
-
                     if (commands[i] is DrawCommand drawCommand) {
                         drawCommand.Execute(drawer, variableManager);
                     } else if (commands[i] is FunctionCommand functionCommand) {
                         functionCommand.Execute(variableManager);
                         if (functionCommand is ILoop loop) {
                             int loopIndex = i;                  
-                            int endLoopIndex = commands.IndexOf(commands.Skip(i).First(command => command is EndLoop));
+                            int endLoopIndex = commands.IndexOf(commands.Skip(i).FirstOrDefault(command => command is EndLoop, new EndLoop()));
+
+                            if (endLoopIndex == -1) {
+                                throw new CommandNotFoundException("Loop command has no defined end.");
+                            }
+
                             string loopedProgram = string.Join("\n", commands.Skip(i + 1).Take(endLoopIndex - i - 1).Select(command => command.ToString()).ToArray());
                             
                             while (loop.Evaluate()) {
@@ -63,7 +65,6 @@ namespace ProgrammingLanguageGUI.runner
                             continue;
                         }
                     }
-
                 } catch (CommandException ex) {
                     exceptions.Add(new CommandException($"Line {results.GetCommands()[commands[i]]}: {ex.Message}"));
                 }

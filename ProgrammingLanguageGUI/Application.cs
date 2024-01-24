@@ -86,6 +86,7 @@ namespace ProgrammingLanguageGUI {
 
         private void runProgram_Click(object sender, EventArgs e) {
             string program = programEditor.Text;
+            drawer.Reset();
             outputText.Text = runner.RunProgram(program);
         }
 
@@ -109,6 +110,7 @@ namespace ProgrammingLanguageGUI {
 
         private void newButton_Click(object sender, EventArgs e) {
             programEditor.Text = "";
+            drawer.Reset();
             FileManager.NewFile();
         }
 

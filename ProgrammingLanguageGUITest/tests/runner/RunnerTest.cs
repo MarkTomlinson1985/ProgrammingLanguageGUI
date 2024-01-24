@@ -53,8 +53,8 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         /// </summary>
         [TestMethod]
         public void RunProgramShouldReturnExceptionOutputWithInvalidCommands() {
-            string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100";
-            string expectedMessage = "Line 2: Command INVALID not recognised.\nLine 3: Provided coordinate arguments must not be negative.\n";
+            string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100";
+            string expectedMessage = "Line 2: Command INVALID not recognised.\nLine 3: Provided coordinate arguments must not be negative.\nLine 4: Loop command has no defined end.\n";
             Assert.AreEqual(expectedMessage, runner.RunProgram(program));
         }
 
