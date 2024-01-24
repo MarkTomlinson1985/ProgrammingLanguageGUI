@@ -1,7 +1,13 @@
-﻿using ProgrammingLanguageGUI.exception;
+﻿using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
     public class CommandProcessor {
+        private VariableManager variableManager;
+
+        public CommandProcessor(VariableManager variableManager) {
+            this.variableManager = variableManager;
+        }
 
         public ProgramResults ParseProgram(string program) {
             string[] textCommands = program.Split("\n");
@@ -28,6 +34,16 @@ namespace ProgrammingLanguageGUI.commands {
 
             string commandType = command.Split(" ")[0];
             throw new CommandNotFoundException("Command " + commandType + " not recognised.");
+        }
+
+        public void AssignVariables(Command command) {
+            string[] arguments = command.Arguments;
+            for (int i = command is Var ? 1 : 0; i < arguments.Length; i++) {
+                if (variableManager.HasVariable(arguments[i])) {
+                    arguments[i] = variableManager.GetVariable(arguments[i]);
+                }
+            }
+            command.Arguments = arguments;
         }
     }
 }

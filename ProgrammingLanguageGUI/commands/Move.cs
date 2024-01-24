@@ -2,7 +2,7 @@
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class Move : Command {
+    public class Move : DrawCommand {
         private int xCoordinate;
         private int yCoordinate;
 

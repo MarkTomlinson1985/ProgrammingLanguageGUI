@@ -1,4 +1,5 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.commands.syntaxparser;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.file;
@@ -10,12 +11,14 @@ namespace ProgrammingLanguageGUI {
         private CommandProcessor commandProcessor;
         private Runner runner;
         private SyntaxParser syntaxParser;
+        private VariableManager variableManager;
 
         public Application() {
             InitializeComponent();
             drawer = new Drawer(drawingBox);
-            commandProcessor = new CommandProcessor();
-            runner = new Runner(commandProcessor, drawer);
+            variableManager = new VariableManager();
+            commandProcessor = new CommandProcessor(variableManager);
+            runner = new Runner(commandProcessor, drawer, variableManager);
             syntaxParser = new SyntaxParser();
         }
 

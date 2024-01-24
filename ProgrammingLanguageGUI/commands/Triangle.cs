@@ -2,7 +2,7 @@
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class Triangle : Command {
+    public class Triangle : DrawCommand {
         private int width;
         private int height;
 

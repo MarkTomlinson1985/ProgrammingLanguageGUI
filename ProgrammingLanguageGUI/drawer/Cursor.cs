@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProgrammingLanguageGUI.drawer {
+﻿namespace ProgrammingLanguageGUI.drawer {
     public class Cursor : PictureBox {
         private Bitmap bitmap;
         public Bitmap Bitmap { 

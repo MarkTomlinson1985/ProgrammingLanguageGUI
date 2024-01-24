@@ -1,7 +1,7 @@
 ﻿using ProgrammingLanguageGUI.drawer;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class Reset : Command {
+    public class Reset : DrawCommand {
 
         public Reset(params string[] arguments) : base(arguments) {
             numberOfArguments = 0;

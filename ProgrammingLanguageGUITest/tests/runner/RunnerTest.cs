@@ -1,4 +1,5 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.runner;
 using System.Windows.Forms;
@@ -11,12 +12,13 @@ namespace ProgrammingLanguageGUITest.tests.runner {
     [TestClass]
     public class RunnerTest {
         private Runner runner;
-        private CommandProcessor processor = new CommandProcessor();
+        private static VariableManager variableManager = new VariableManager();
+        private CommandProcessor processor = new CommandProcessor(variableManager);
         private Drawer drawer = new Drawer(new PictureBox());
 
         [TestInitialize]
         public void Initialize() {
-            runner = new Runner(processor, drawer);
+            runner = new Runner(processor, drawer, variableManager);
         }
 
         /// <summary>

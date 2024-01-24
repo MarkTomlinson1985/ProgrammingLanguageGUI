@@ -43,11 +43,6 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         /// </summary>
         private class BaseCommand : Command {
             public BaseCommand(params string[] arguments) : base(arguments) { }
-
-            public override void Execute(Drawer drawer) {
-                throw new NotImplementedException();
-            }
         }
-
     }
 }

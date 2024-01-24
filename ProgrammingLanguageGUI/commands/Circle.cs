@@ -2,7 +2,7 @@
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class Circle : Command {
+    public class Circle : DrawCommand {
         private int radius;
 
         public Circle(params string[] arguments) : base(arguments) {

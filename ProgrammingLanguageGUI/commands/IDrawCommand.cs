@@ -1,7 +1,7 @@
 ﻿using ProgrammingLanguageGUI.drawer;
 
 namespace ProgrammingLanguageGUI.commands {
-    internal interface ICommand {
+    internal interface IDrawCommand {
         void Execute(Drawer drawer);
     }
 }

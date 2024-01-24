@@ -2,7 +2,7 @@
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class Fill : Command {
+    public class Fill : DrawCommand {
         private bool fill;
 
         public Fill(params string[] arguments) : base(arguments) {

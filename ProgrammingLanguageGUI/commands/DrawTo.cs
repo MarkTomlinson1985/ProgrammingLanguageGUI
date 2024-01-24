@@ -3,7 +3,7 @@ using ProgrammingLanguageGUI.exception;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class DrawTo : Command {
+    public class DrawTo : DrawCommand {
         private int xCoordinate;
         private int yCoordinate;
 

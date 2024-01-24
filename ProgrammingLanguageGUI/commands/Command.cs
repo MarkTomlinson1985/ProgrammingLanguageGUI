@@ -2,16 +2,15 @@
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
-    public abstract class Command : ICommand {
+    public abstract class Command {
         protected string[] arguments;
+        public string[] Arguments { get { return arguments; } set { arguments = value; } }
         protected int numberOfArguments;
 
         public Command(params string[] arguments) {
             this.arguments = arguments;
             numberOfArguments = 0;
         }
-
-        public abstract void Execute(Drawer drawer);
 
         public virtual void ValidateCommand() {
             if (arguments.Length != numberOfArguments) {

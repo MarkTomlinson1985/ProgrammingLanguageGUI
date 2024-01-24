@@ -22,6 +22,8 @@
                     return new Pen(arguments);
                 case "fill":
                     return new Fill(arguments);
+                case "var":
+                    return new Var(arguments);
             }
             return null;
         }

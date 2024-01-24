@@ -3,7 +3,7 @@ using ProgrammingLanguageGUI.exception;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class Pen : Command {
+    public class Pen : DrawCommand {
         private Color colour;
 
         public Pen(params string[] arguments) : base(arguments) {

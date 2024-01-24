@@ -1,4 +1,5 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUITest.tests.commands {
@@ -8,10 +9,11 @@ namespace ProgrammingLanguageGUITest.tests.commands {
     [TestClass]
     public class CommandProcessorTest {
         private CommandProcessor processor;
+        private VariableManager variableManager = new VariableManager();
 
         [TestInitialize]
         public void Initialize() {
-            processor = new CommandProcessor();
+            processor = new CommandProcessor(variableManager);
         }
 
         /// <summary>
