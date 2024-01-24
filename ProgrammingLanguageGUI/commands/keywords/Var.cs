@@ -24,7 +24,7 @@ namespace ProgrammingLanguageGUI.commands
             }
 
             if (!arguments[1].Equals("=")) {
-                throw new CommandArgumentException("'=' operator not found. Usage var <variableName> = <value>");
+                throw new CommandArgumentException("'=' operator not found. Usage var <variableName> = <value>.");
             }
 
             try {
@@ -38,27 +38,17 @@ namespace ProgrammingLanguageGUI.commands
                 }
 
                 // Limit to 5 arguments for now. a = 1 * 2
-                if (arguments.Length != 5) {
+                if (arguments.Length > 5) {
                     throw new CommandArgumentException("Invalid number of arguments for variable assignment.");
                 }
 
-                switch (arguments[3]) {
-                    case "+":
-                        variableValue = (int.Parse(arguments[2]) + int.Parse(arguments[4])).ToString();
-                        break;
-                    case "-":
-                        variableValue = (int.Parse(arguments[2]) - int.Parse(arguments[4])).ToString();
-                        break;
-                    case "*":
-                        variableValue = (int.Parse(arguments[2]) * int.Parse(arguments[4])).ToString();
-                        break;
-                    case "/":
-                        variableValue = (int.Parse(arguments[2]) / int.Parse(arguments[4])).ToString();
-                        break;
-                    default: throw new CommandArgumentException("Invalid operator in variable assignment.");
-
-                }
-
+                variableValue = arguments[3] switch {
+                    "+" => (int.Parse(arguments[2]) + int.Parse(arguments[4])).ToString(),
+                    "-" => (int.Parse(arguments[2]) - int.Parse(arguments[4])).ToString(),
+                    "*" => (int.Parse(arguments[2]) * int.Parse(arguments[4])).ToString(),
+                    "/" => (int.Parse(arguments[2]) / int.Parse(arguments[4])).ToString(),
+                    _ => throw new CommandArgumentException("Invalid operator in variable assignment."),
+                };
             } catch (FormatException) {
                 throw new CommandArgumentException("Provided variable assignment is not a valid number.");
             }
