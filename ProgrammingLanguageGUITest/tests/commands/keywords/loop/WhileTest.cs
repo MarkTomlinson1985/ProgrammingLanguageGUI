@@ -19,6 +19,8 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         /// variable would be used. This variable assignment is done as part of the command processing flow.
         /// </summary>
         [TestMethod]
+        [DataRow("10 != 9", true)]
+        [DataRow("10 != 10", false)]
         [DataRow("10 == 10", true)]
         [DataRow("10 == 12", false)]
         [DataRow("5 < 10", true)]
@@ -48,10 +50,10 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
-        [DataRow("10 * 10", "Invalid comparison operator in loop condition.")]
+        [DataRow("10 ==", "Number of arguments incorrect. Provide at least 3 arguments for comparison.")]
+        [DataRow("10 * 10", "Invalid comparison operator: '*'.")]
+        [DataRow("10 ==  ", "Invalid comparator.")]
         [DataRow("10 < INVALID", "Provided value is not a valid number.")]
-        [DataRow("10 <", "Number of arguments incorrect. Provide at least 3 arguments for comparison.")]
-        [DataRow("10 < ", "Invalid comparator.")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string arguments, string expectedExceptionMessage) {
             While command = new While(arguments.Split(" "));

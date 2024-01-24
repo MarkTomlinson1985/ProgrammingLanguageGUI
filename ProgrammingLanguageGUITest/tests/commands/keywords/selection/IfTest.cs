@@ -19,6 +19,8 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         /// variable would be used. This variable assignment is done as part of the command processing flow.
         /// </summary>
         [TestMethod]
+        [DataRow("10 != 9", true)]
+        [DataRow("10 != 10", false)]
         [DataRow("10 == 10", true)]
         [DataRow("10 == 12", false)]
         [DataRow("5 < 10", true)]
@@ -43,13 +45,28 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
             Assert.AreEqual(evaluation, command.Evaluate());
         }
 
+        public void WhileCommandShouldExecuteWithInlineCommand() {
+            If command = new If("10", "==", "10", "CIRCLE", "50");
+
+            try {
+                command.Execute(drawer, variableManager);
+            } catch (Exception) {
+                Assert.Fail();
+            }
+        }
+
         /// <summary>
         /// Tests that the ValidateCommand method throws specific exceptions and messages when a If object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
-        [DataRow("10 * 10", "Invalid comparison operator in loop condition.")]
+        [DataRow("10 ==", "Number of arguments incorrect. Provide at least 3 arguments for comparison.")]
+        [DataRow("10 * 10", "Invalid comparison operator: '*'.")]
+        [DataRow("10 ==  ", "Invalid comparator.")]
         [DataRow("10 < INVALID", "Provided value is not a valid number.")]
+        [DataRow("10 == 10 IF", "Unsupported command defined in selection statement.")]
+        [DataRow("10 == 10 INVALID 50", "Invalid command defined in selection statement.")]
+        [DataRow("10 == 10  50", "Invalid command defined in selection statement.")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string arguments, string expectedExceptionMessage) {
             If command = new If(arguments.Split(" "));

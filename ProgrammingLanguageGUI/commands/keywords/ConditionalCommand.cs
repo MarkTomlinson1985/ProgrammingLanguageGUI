@@ -28,7 +28,7 @@ namespace ProgrammingLanguageGUI.commands {
                     "<=" => leftValue <= rightValue,
                     ">" => leftValue > rightValue,
                     ">=" => leftValue >= rightValue,
-                    _ => throw new CommandArgumentException("Invalid comparison operator in loop condition."),
+                    _ => throw new CommandArgumentException($"Invalid comparison operator: '{conditionOperator}'."),
                 };
             } catch (FormatException) {
                 throw new CommandArgumentException("Provided value is not a valid number.");
