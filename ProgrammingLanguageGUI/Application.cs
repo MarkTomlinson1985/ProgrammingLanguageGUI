@@ -5,14 +5,15 @@ using ProgrammingLanguageGUI.file;
 using ProgrammingLanguageGUI.runner;
 using ProgrammingLanguageGUI.syntaxparser;
 
-namespace ProgrammingLanguageGUI
-{
+namespace ProgrammingLanguageGUI {
     public partial class Application : Form {
         private Drawer drawer;
         private CommandProcessor commandProcessor;
         private Runner runner;
         private SyntaxParser syntaxParser;
         private VariableManager variableManager;
+        private Color defaultColour;
+        private static bool hasErrors = false;
 
         public Application() {
             InitializeComponent();
@@ -21,6 +22,7 @@ namespace ProgrammingLanguageGUI
             commandProcessor = new CommandProcessor();
             runner = new Runner(commandProcessor, drawer, variableManager);
             syntaxParser = new SyntaxParser();
+            defaultColour = programEditor.ForeColor;
         }
 
         private static readonly string[] separator = ["\n"];
@@ -36,15 +38,11 @@ namespace ProgrammingLanguageGUI
                     lineText.AppendText(Environment.NewLine);
                 }
             }
-
-            // Currently disabled due to selection flickering. Looks a bit naff!
-            // Needs reworking.
-            // ColorProgram();
-            
         }
 
         private void ColorProgram() {
             int indexOfNextSpace = programEditor.Text.IndexOf(" ");
+            programEditor.StopRepaint();
             for (int i = 0; i < programEditor.Text.Length; i++) {
                 if (indexOfNextSpace == -1 || indexOfNextSpace < i) {
                     break;
@@ -77,6 +75,7 @@ namespace ProgrammingLanguageGUI
                     }
                 }
             }
+            programEditor.StartRepaint();
         }
 
         private void runCommand_Click(object sender, EventArgs e) {
@@ -120,6 +119,57 @@ namespace ProgrammingLanguageGUI
             if (e.KeyChar == (char)13) {
                 runCommand_Click(sender, e);
             }
+        }
+
+        private void programEditor_KeyPress(object sender, KeyPressEventArgs e) {
+            // on Enter keypress
+            if (e.KeyChar == (char)13) {
+                
+                //ColorProgram();
+                SyntaxResults results = runner.CheckProgramSyntax(programEditor.Text);
+
+                if (!hasErrors && !results.HasErrors) { return; }
+
+                if (!results.HasErrors) {
+                    ColourText(0, programEditor.Text.Length);
+                    hasErrors = false;
+                    return;
+                }
+
+                ShowErrors(results);
+                hasErrors = true;
+            }
+        }
+
+        private void ShowErrors(SyntaxResults results) {
+            outputText.Text = string.Join("\n", results.SyntaxErrors);
+
+            for (int i = 0; i < programEditor.Lines.Length; i++) {
+                int startIndex = programEditor.GetFirstCharIndexFromLine(i);
+                int length = programEditor.Lines[i].Length;
+
+                if (results.LineNumbers.Contains(i + 1)) {
+                    ColourText(startIndex, length, Color.Red);
+                } else {
+                    ColourText(startIndex, length);
+                }
+            }
+        }
+
+        private void ColourText(int startIndex, int length) {
+            ColourText(startIndex, length, defaultColour);
+        }
+
+        private void ColourText(int startIndex, int length, Color colour) {
+            programEditor.StopRepaint();
+            int currentIndex = programEditor.SelectionStart;
+
+            programEditor.SelectionStart = startIndex;
+            programEditor.SelectionLength = length;
+            programEditor.SelectionColor = colour;
+            programEditor.SelectionStart = currentIndex;
+            programEditor.SelectionLength = 0;
+            programEditor.StartRepaint();
         }
     }
 }

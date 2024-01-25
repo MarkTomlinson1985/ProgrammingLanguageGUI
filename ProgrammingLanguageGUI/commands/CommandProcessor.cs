@@ -11,6 +11,8 @@ namespace ProgrammingLanguageGUI.commands {
 
             for (int i = 0; i < textCommands.Length; i++) {
                 try {
+                    Command command = ParseCommand(textCommands[i]);
+                    if (command is Empty) { continue; }
                     commands.Add(ParseCommand(textCommands[i]), i + 1);
                 } catch (CommandNotFoundException ex) {
                     exceptions.Add(new CommandNotFoundException($"Line {(i + 1)}: {ex.Message}"));
@@ -21,6 +23,10 @@ namespace ProgrammingLanguageGUI.commands {
         }
 
         public Command ParseCommand(string command) {
+            if (command.Equals(string.Empty)) {
+                return Command.Empty;
+            }
+
             Command? builtCommand = CommandFactory.BuildCommand(command);
 
             if (builtCommand != null) {

@@ -3,12 +3,12 @@ using System.Drawing;
 
 namespace ProgrammingLanguageGUITest.tests.file {
     /// <summary>
-    /// Tests relating to the DrawerFactory class which handles IO operations.
+    /// Tests relating to the DrawerFactory class.
     /// </summary>
     [TestClass]
     public class DrawerFactoryTest {
         /// <summary>
-        /// Tests that the CreateCursor method returns a Cussor with the correct
+        /// Tests that the CreateCursor method returns a Cursor with the correct
         /// width, height and bitmap values.
         /// </summary>
         [TestMethod]

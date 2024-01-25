@@ -25,15 +25,14 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Application));
             runPanel = new Panel();
             newButton = new Button();
             saveButton = new Button();
             openButton = new Button();
             runProgram = new Button();
-            programEditor = new RichTextBox();
+            programEditor = new ProgramEditor();
             outputText = new RichTextBox();
             lineText = new TextBox();
             commandText = new TextBox();
@@ -51,10 +50,9 @@
             runPanel.Controls.Add(openButton);
             runPanel.Controls.Add(runProgram);
             runPanel.ForeColor = SystemColors.ControlText;
-            runPanel.Location = new Point(15, 2);
-            runPanel.Margin = new Padding(3, 2, 3, 2);
+            runPanel.Location = new Point(17, 3);
             runPanel.Name = "runPanel";
-            runPanel.Size = new Size(1090, 29);
+            runPanel.Size = new Size(1246, 39);
             runPanel.TabIndex = 2;
             // 
             // newButton
@@ -65,10 +63,9 @@
             newButton.FlatAppearance.BorderSize = 0;
             newButton.FlatStyle = FlatStyle.Flat;
             newButton.ForeColor = Color.FromArgb(224, 224, 224);
-            newButton.Location = new Point(7, 7);
-            newButton.Margin = new Padding(3, 2, 3, 2);
+            newButton.Location = new Point(8, 9);
             newButton.Name = "newButton";
-            newButton.Size = new Size(19, 16);
+            newButton.Size = new Size(22, 21);
             newButton.TabIndex = 3;
             newButton.UseVisualStyleBackColor = false;
             newButton.Click += newButton_Click;
@@ -81,10 +78,9 @@
             saveButton.FlatAppearance.BorderSize = 0;
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.ForeColor = Color.FromArgb(224, 224, 224);
-            saveButton.Location = new Point(50, 3);
-            saveButton.Margin = new Padding(3, 2, 3, 2);
+            saveButton.Location = new Point(57, 4);
             saveButton.Name = "saveButton";
-            saveButton.Size = new Size(28, 22);
+            saveButton.Size = new Size(32, 29);
             saveButton.TabIndex = 2;
             saveButton.UseVisualStyleBackColor = false;
             saveButton.Click += saveButton_Click;
@@ -97,10 +93,9 @@
             openButton.FlatAppearance.BorderSize = 0;
             openButton.FlatStyle = FlatStyle.Flat;
             openButton.ForeColor = Color.FromArgb(224, 224, 224);
-            openButton.Location = new Point(28, 3);
-            openButton.Margin = new Padding(3, 2, 3, 2);
+            openButton.Location = new Point(32, 4);
             openButton.Name = "openButton";
-            openButton.Size = new Size(28, 22);
+            openButton.Size = new Size(32, 29);
             openButton.TabIndex = 1;
             openButton.UseVisualStyleBackColor = false;
             openButton.Click += openButton_Click;
@@ -113,10 +108,9 @@
             runProgram.FlatAppearance.BorderSize = 0;
             runProgram.FlatStyle = FlatStyle.Flat;
             runProgram.ForeColor = Color.FromArgb(224, 224, 224);
-            runProgram.Location = new Point(514, 4);
-            runProgram.Margin = new Padding(3, 2, 3, 2);
+            runProgram.Location = new Point(587, 5);
             runProgram.Name = "runProgram";
-            runProgram.Size = new Size(28, 22);
+            runProgram.Size = new Size(32, 29);
             runProgram.TabIndex = 0;
             runProgram.UseVisualStyleBackColor = false;
             runProgram.Click += runProgram_Click;
@@ -127,23 +121,22 @@
             programEditor.BackColor = Color.FromArgb(69, 69, 84);
             programEditor.BorderStyle = BorderStyle.None;
             programEditor.ForeColor = Color.FromArgb(232, 232, 232);
-            programEditor.Location = new Point(50, 36);
-            programEditor.Margin = new Padding(3, 2, 3, 2);
+            programEditor.Location = new Point(57, 48);
             programEditor.Name = "programEditor";
-            programEditor.Size = new Size(508, 392);
+            programEditor.Size = new Size(581, 523);
             programEditor.TabIndex = 3;
             programEditor.Text = "";
             programEditor.TextChanged += TextEditor_TextChanged;
+            programEditor.KeyPress += programEditor_KeyPress;
             // 
             // outputText
             // 
             outputText.BackColor = Color.FromArgb(69, 69, 84);
             outputText.BorderStyle = BorderStyle.None;
             outputText.ForeColor = Color.FromArgb(232, 232, 232);
-            outputText.Location = new Point(15, 458);
-            outputText.Margin = new Padding(3, 2, 3, 2);
+            outputText.Location = new Point(17, 611);
             outputText.Name = "outputText";
-            outputText.Size = new Size(1090, 113);
+            outputText.Size = new Size(1246, 151);
             outputText.TabIndex = 4;
             outputText.Text = "";
             // 
@@ -152,11 +145,10 @@
             lineText.BackColor = Color.FromArgb(69, 69, 84);
             lineText.BorderStyle = BorderStyle.None;
             lineText.ForeColor = Color.FromArgb(232, 232, 232);
-            lineText.Location = new Point(15, 36);
-            lineText.Margin = new Padding(3, 2, 3, 2);
+            lineText.Location = new Point(17, 48);
             lineText.Multiline = true;
             lineText.Name = "lineText";
-            lineText.Size = new Size(30, 392);
+            lineText.Size = new Size(34, 523);
             lineText.TabIndex = 5;
             lineText.Text = "1";
             lineText.TextAlign = HorizontalAlignment.Right;
@@ -166,10 +158,9 @@
             commandText.BackColor = Color.FromArgb(69, 69, 84);
             commandText.BorderStyle = BorderStyle.None;
             commandText.ForeColor = Color.FromArgb(224, 224, 224);
-            commandText.Location = new Point(15, 434);
-            commandText.Margin = new Padding(3, 2, 3, 2);
+            commandText.Location = new Point(17, 579);
             commandText.Name = "commandText";
-            commandText.Size = new Size(495, 16);
+            commandText.Size = new Size(566, 20);
             commandText.TabIndex = 6;
             commandText.KeyPress += commandText_KeyPress;
             // 
@@ -181,10 +172,9 @@
             runCommand.FlatAppearance.BorderSize = 0;
             runCommand.FlatStyle = FlatStyle.Flat;
             runCommand.ForeColor = Color.FromArgb(224, 224, 224);
-            runCommand.Location = new Point(515, 431);
-            runCommand.Margin = new Padding(3, 2, 3, 2);
+            runCommand.Location = new Point(589, 575);
             runCommand.Name = "runCommand";
-            runCommand.Size = new Size(42, 22);
+            runCommand.Size = new Size(48, 29);
             runCommand.TabIndex = 1;
             runCommand.UseVisualStyleBackColor = false;
             runCommand.Click += runCommand_Click;
@@ -192,19 +182,18 @@
             // drawingBox
             // 
             drawingBox.BackColor = Color.FromArgb(71, 74, 92);
-            drawingBox.Location = new Point(563, 36);
-            drawingBox.Margin = new Padding(3, 2, 3, 2);
+            drawingBox.Location = new Point(643, 48);
             drawingBox.Name = "drawingBox";
-            drawingBox.Size = new Size(542, 416);
+            drawingBox.Size = new Size(619, 555);
             drawingBox.TabIndex = 7;
             drawingBox.TabStop = false;
             // 
             // Application
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(58, 60, 78);
-            ClientSize = new Size(1116, 580);
+            ClientSize = new Size(1275, 773);
             Controls.Add(drawingBox);
             Controls.Add(runCommand);
             Controls.Add(commandText);
@@ -212,7 +201,6 @@
             Controls.Add(outputText);
             Controls.Add(programEditor);
             Controls.Add(runPanel);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "Application";
             Text = "Programming GUI";
             runPanel.ResumeLayout(false);
@@ -223,7 +211,7 @@
 
         #endregion
         private Panel runPanel;
-        private RichTextBox programEditor;
+        private ProgramEditor programEditor;
         private RichTextBox outputText;
         private TextBox lineText;
         private Button runProgram;

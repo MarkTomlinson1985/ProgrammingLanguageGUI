@@ -4,9 +4,9 @@ using ProgrammingLanguageGUI.commands.keywords.loop;
 using ProgrammingLanguageGUI.commands.keywords.method;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
+using System.Diagnostics;
 
-namespace ProgrammingLanguageGUI.runner
-{
+namespace ProgrammingLanguageGUI.runner {
     public class Runner {
         private CommandProcessor processor;
         private Drawer drawer;
@@ -73,10 +73,10 @@ namespace ProgrammingLanguageGUI.runner
                     if (commands[i] is CallMethod callMethod) {
                         if (callMethod.GetMethodEnd() == -1) {
                             callMethod.UnassignVariables(variableManager);
-                            throw new CommandNotFoundException("Improperly declared method: " + callMethod.MethodName);
+                            throw new CommandNotFoundException($"Improperly declared method: '{callMethod.MethodName}'.");
                         }
 
-                        for (int j = callMethod.GetMethodStart();  j <= callMethod.GetMethodEnd(); j++) {
+                        for (int j = callMethod.GetMethodStart(); j <= callMethod.GetMethodEnd(); j++) {
                             Command command = results.GetCommands().First(entry => entry.Value == j).Key;
                             command.Execute(drawer, variableManager);
                         }
@@ -100,6 +100,31 @@ namespace ProgrammingLanguageGUI.runner
             return "Program executed successfully.";
         }
 
+        public SyntaxResults CheckProgramSyntax(string program) {
+            try {
+                drawer.DisableDrawer = true;
+                string programOutput = RunProgram(program);
+                if (!"Program executed successfully.".Equals(programOutput)) {
+                    string[] exceptions = programOutput.Split('\n')
+                        .Where(line => !line.Trim().Equals(string.Empty))
+                        .OrderBy(line => int.Parse(line.Split(":")[0].Split(" ")[1]))
+                        .ToArray();
+
+                    int[] lineNumbers = exceptions.Select(exception => int.Parse(exception.Split(":")[0].Replace("Line ", ""))).ToArray();
+                    drawer.DisableDrawer = false;
+
+                    return SyntaxResults.Builder()
+                        .LineNumbers(lineNumbers)
+                        .SyntaxErrors(exceptions)
+                        .Build();
+                }
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+            }
+            drawer.DisableDrawer = false;
+            return SyntaxResults.Builder().Build();
+        }
+
         private int HandleLoop(int loopIndex, List<Command> commands) {
             int endLoopIndex = commands.IndexOf(commands.Skip(loopIndex).FirstOrDefault(command => command is EndLoop, new EndLoop()));
 
@@ -109,7 +134,7 @@ namespace ProgrammingLanguageGUI.runner
 
             string loopedProgram = string.Join("\n", commands.Skip(loopIndex + 1).Take(endLoopIndex - loopIndex - 1).Select(command => command.ToString()).ToArray());
 
-            while (((ISelection) commands[loopIndex]).Evaluate()) {
+            while (((ISelection)commands[loopIndex]).Evaluate()) {
                 RunProgram(loopedProgram);
                 commands[loopIndex].Execute(drawer, variableManager);
             }
@@ -126,7 +151,7 @@ namespace ProgrammingLanguageGUI.runner
 
             string ifBlock = string.Join("\n", commands.Skip(ifIndex + 1).Take(endIfIndex - ifIndex - 1).Select(command => command.ToString()).ToArray());
 
-            if (((ISelection) commands[ifIndex]).Evaluate()) {
+            if (((ISelection)commands[ifIndex]).Evaluate()) {
                 RunProgram(ifBlock);
             }
 

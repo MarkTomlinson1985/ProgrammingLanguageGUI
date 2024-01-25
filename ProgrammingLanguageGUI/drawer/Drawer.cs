@@ -3,15 +3,18 @@
         private readonly Graphics drawingBoxGraphics;
         private readonly Cursor cursor;
         private Bitmap baseBitmap;
-        private System.Drawing.Pen pen;
+        private Pen pen;
         private Color backgroundColour;
         private bool fillModeEnabled;
+        private bool disableDrawer;
+        public bool DisableDrawer { set { disableDrawer = value; } }
 
         public Drawer(PictureBox drawingBox) {
             cursor = DrawerFactory.CreateCursor();
             baseBitmap = DrawerFactory.CreateBitmap(drawingBox.Width, drawingBox.Height);
             backgroundColour = drawingBox.BackColor;
-            pen = new System.Drawing.Pen(Color.White);
+            pen = new Pen(Color.White);
+            disableDrawer = false;
 
             using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap)) {
                 bitmapGraphics.Clear(Color.Transparent);
@@ -94,6 +97,10 @@
         }
 
         public void Draw(Action<Graphics> drawAction, bool paintCursor) {
+            if (disableDrawer) {
+                return;
+            }
+            
             drawingBoxGraphics.Clear(backgroundColour);
 
             Graphics baseGraphics = Graphics.FromImage(baseBitmap);
@@ -105,5 +112,6 @@
                 drawingBoxGraphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
             }
         }
+
     }
 }
