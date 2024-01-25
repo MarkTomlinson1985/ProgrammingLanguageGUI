@@ -1,40 +1,47 @@
-using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.drawing;
 using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 using System.Windows.Forms;
 
-namespace ProgrammingLanguageGUITest.tests.commands {
+namespace ProgrammingLanguageGUITest.tests.commands.drawing
+{
     /// <summary>
-    /// Tests relating to the Clear class.
+    /// Tests relating to the Reset class.
     /// </summary>
     [TestClass]
-    public class ClearTest {
+    public class ResetTest
+    {
         Drawer drawer = new Drawer(new PictureBox());
         VariableManager variableManager = new VariableManager();
 
         /// <summary>
-        /// Tests the creation and validation of a valid Clear command. Any exception will result
+        /// Tests the creation and validation of a valid Reset command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithValidArguments() {
-            Clear command = new Clear();
+        public void ValidateCommandShouldSucceedWithValidArguments()
+        {
+            Reset command = new Reset();
 
-            try {
+            try
+            {
                 command.Execute(drawer, variableManager);
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 Assert.Fail();
             }
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Clear object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Reset object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments() {
-            Clear command = new Clear("ARGUMENT");
+        public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments()
+        {
+            Reset command = new Reset("ARGUMENT");
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
             string expectedExceptionMessage = "Number of arguments incorrect. Expected: 0 - Actual: 1";

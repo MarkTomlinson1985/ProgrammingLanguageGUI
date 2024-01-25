@@ -1,4 +1,5 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.drawing;
 using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.commands.keywords.loop;
 using ProgrammingLanguageGUI.commands.keywords.method;

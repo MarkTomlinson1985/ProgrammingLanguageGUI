@@ -1,7 +1,9 @@
 using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.drawing;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUITest.tests.commands {
+namespace ProgrammingLanguageGUITest.tests.commands
+{
     /// <summary>
     /// Tests relating to the CommandProcessor class.
     /// </summary>

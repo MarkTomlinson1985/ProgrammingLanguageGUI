@@ -1,35 +1,41 @@
-using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.drawing;
 using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 using System.Windows.Forms;
 
-namespace ProgrammingLanguageGUITest.tests.commands {
+namespace ProgrammingLanguageGUITest.tests.commands.drawing
+{
     /// <summary>
-    /// Tests relating to the Rectangle class.
+    /// Tests relating to the Triangle class.
     /// </summary>
     [TestClass]
-    public class RectangleTest {
+    public class TriangleTest
+    {
         Drawer drawer = new Drawer(new PictureBox());
         VariableManager variableManager = new VariableManager();
 
         /// <summary>
-        /// Tests the creation and validation of a valid Rectangle command. Any exception will result
+        /// Tests the creation and validation of a valid Triangle command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithValidArguments() {
-            Rectangle command = new Rectangle("100", "100");
+        public void ValidateCommandShouldSucceedWithValidArguments()
+        {
+            Triangle command = new Triangle("100", "100");
 
-            try {
+            try
+            {
                 command.Execute(drawer, variableManager);
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 Assert.Fail();
             }
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Rectangle object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Triangle object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
@@ -38,8 +44,9 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
             string argumentTwo,
-            string expectedExceptionMessage) {
-            Rectangle command = new Rectangle(argumentOne, argumentTwo);
+            string expectedExceptionMessage)
+        {
+            Triangle command = new Triangle(argumentOne, argumentTwo);
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
 

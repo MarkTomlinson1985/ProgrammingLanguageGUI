@@ -1,11 +1,12 @@
 using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.commands.keywords;
-using ProgrammingLanguageGUI.commands.syntaxparser;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.file;
 using ProgrammingLanguageGUI.runner;
+using ProgrammingLanguageGUI.syntaxparser;
 
-namespace ProgrammingLanguageGUI {
+namespace ProgrammingLanguageGUI
+{
     public partial class Application : Form {
         private Drawer drawer;
         private CommandProcessor commandProcessor;

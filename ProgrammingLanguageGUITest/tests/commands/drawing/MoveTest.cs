@@ -1,15 +1,17 @@
-using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.drawing;
 using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 using System.Windows.Forms;
 
-namespace ProgrammingLanguageGUITest.tests.commands {
+namespace ProgrammingLanguageGUITest.tests.commands.drawing
+{
     /// <summary>
     /// Tests relating to the Move class.
     /// </summary>
     [TestClass]
-    public class MoveTest {
+    public class MoveTest
+    {
         Drawer drawer = new Drawer(new PictureBox());
         VariableManager variableManager = new VariableManager();
 
@@ -18,12 +20,16 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithValidArguments() {
+        public void ValidateCommandShouldSucceedWithValidArguments()
+        {
             Move command = new Move("100", "100");
 
-            try {
+            try
+            {
                 command.Execute(drawer, variableManager);
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 Assert.Fail();
             }
         }
@@ -38,7 +44,8 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
             string argumentTwo,
-            string expectedExceptionMessage) {
+            string expectedExceptionMessage)
+        {
             Move command = new Move(argumentOne, argumentTwo);
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));

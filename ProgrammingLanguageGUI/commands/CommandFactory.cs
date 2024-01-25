@@ -1,6 +1,8 @@
-﻿using ProgrammingLanguageGUI.commands.keywords;
+﻿using ProgrammingLanguageGUI.commands.drawing;
 using ProgrammingLanguageGUI.commands.keywords.loop;
 using ProgrammingLanguageGUI.commands.keywords.method;
+using Pen = ProgrammingLanguageGUI.commands.drawing.Pen;
+using Rectangle = ProgrammingLanguageGUI.commands.drawing.Rectangle;
 
 namespace ProgrammingLanguageGUI.commands {
     public class CommandFactory {

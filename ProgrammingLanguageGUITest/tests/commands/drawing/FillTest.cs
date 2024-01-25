@@ -1,44 +1,54 @@
-using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.drawing;
 using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 using System.Windows.Forms;
 
-namespace ProgrammingLanguageGUITest.tests.commands {
+namespace ProgrammingLanguageGUITest.tests.commands.drawing
+{
     /// <summary>
-    /// Tests relating to the Circle class.
+    /// Tests relating to the Fill class.
     /// </summary>
     [TestClass]
-    public class CircleTest {
+    public class FillTest
+    {
         Drawer drawer = new Drawer(new PictureBox());
         VariableManager variableManager = new VariableManager();
 
         /// <summary>
-        /// Tests the creation and validation of a valid Circle command. Any exception will result
+        /// Tests the creation and validation of a valid Fill command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void ValidateCommandShouldSucceedWithValidArguments() {
-            Circle command = new Circle("100");
+        [DataRow("on")]
+        [DataRow("oN")]
+        [DataRow("off")]
+        public void ValidateCommandShouldSucceedWithValidArguments(string colour)
+        {
+            Fill command = new Fill(colour);
 
-            try {
+            try
+            {
                 command.Execute(drawer, variableManager);
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 Assert.Fail();
             }
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Circle object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Fill object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]
-        [DataRow("INVALID", "Provided radius is not a valid number.")]
-        [DataRow("-100", "Provided radius must not be negative.")]
+        [DataRow("INVALID", "Provided argument invalid - expected on/off.")]
+        [DataRow("100", "Provided argument invalid - expected on/off.")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string argumentOne,
-            string expectedExceptionMessage) {
-            Circle command = new Circle($"{argumentOne}");
+            string expectedExceptionMessage)
+        {
+            Fill command = new Fill(argumentOne);
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
 
