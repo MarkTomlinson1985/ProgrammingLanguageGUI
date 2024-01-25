@@ -16,5 +16,17 @@
         public static Bitmap[] CreateDoubleBuffer(int width, int height) {
             return [CreateBitmap(width, height), CreateBitmap(width, height)];
         }
+
+        public static DrawerProperties CreateDrawerProperties() {
+            return new DrawerProperties();
+        }
+
+        public static Pen CreatePen() {
+            return new Pen(Color.White);
+        }
+
+        public static Color[] CreateColours(int length) {
+            return new Color[length];
+        }
     }
 }

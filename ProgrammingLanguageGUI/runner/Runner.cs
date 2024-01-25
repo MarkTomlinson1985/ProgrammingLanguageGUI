@@ -41,7 +41,7 @@ namespace ProgrammingLanguageGUI.runner {
 
                     if (commands[i] is ISelection) {
                         // Do not perform loop commands in realtime syntax checking.
-                        if (commands[i] is While && !drawer.DisableDrawer) {
+                        if (commands[i] is While && drawer.DrawerProperties.DrawerEnabled) {
                             i = HandleLoop(i, commands);
                             continue;
                         }
@@ -103,7 +103,7 @@ namespace ProgrammingLanguageGUI.runner {
 
         public SyntaxResults CheckProgramSyntax(string program) {
             try {
-                drawer.DisableDrawer = true;
+                drawer.DrawerProperties.DrawerEnabled = false;
                 string programOutput = RunProgram(program);
                 if (!"Program executed successfully.".Equals(programOutput)) {
                     string[] exceptions = programOutput.Split('\n')
@@ -112,7 +112,7 @@ namespace ProgrammingLanguageGUI.runner {
                         .ToArray();
 
                     int[] lineNumbers = exceptions.Select(exception => int.Parse(exception.Split(":")[0].Replace("Line ", ""))).ToArray();
-                    drawer.DisableDrawer = false;
+                    drawer.DrawerProperties.DrawerEnabled = true;
 
                     return SyntaxResults.Builder()
                         .LineNumbers(lineNumbers)
@@ -122,7 +122,7 @@ namespace ProgrammingLanguageGUI.runner {
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
             }
-            drawer.DisableDrawer = false;
+            drawer.DrawerProperties.DrawerEnabled = true;
             return SyntaxResults.Builder().Build();
         }
 

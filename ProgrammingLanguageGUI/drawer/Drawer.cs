@@ -1,34 +1,27 @@
-﻿using ProgrammingLanguageGUI.commands.keywords.loop;
-using ProgrammingLanguageGUI.runner;
+﻿using ProgrammingLanguageGUI.runner;
 
 namespace ProgrammingLanguageGUI.drawer {
     public class Drawer {
+        private readonly object bitmapLock = new();
         private readonly Graphics drawingBoxGraphics;
         private readonly Cursor cursor;
-        private Bitmap[] baseBitmap;
-        private Pen pen;
+        private readonly Pen pen;
+        private readonly Color[] multiColours;
+        public DrawerProperties DrawerProperties { get; }
         private Color backgroundColour;
-        private bool fillModeEnabled;
-        private bool disableDrawer;
-        public bool DisableDrawer { get { return disableDrawer; } set { disableDrawer = value; } }
-        private Color multiColourOne;
-        private Color multiColourTwo;
-        private bool multiColourPen;
+        private Bitmap[] baseBitmap;
+        private Bitmap[] multiColourLayers;
         private Bitmap drawingLayer;
-        private Bitmap multiLayerOne;
-        private Bitmap multiLayerTwo;
-        private bool showLayerOne;
-        private object bitmapLock = new object();
-
+ 
         public Drawer(PictureBox drawingBox) {
+            DrawerProperties = DrawerFactory.CreateDrawerProperties();
             cursor = DrawerFactory.CreateCursor();
             baseBitmap = DrawerFactory.CreateDoubleBuffer(drawingBox.Width, drawingBox.Height);
-            backgroundColour = drawingBox.BackColor;
-            pen = new Pen(Color.White);
-            disableDrawer = false;
+            pen = DrawerFactory.CreatePen();
             drawingLayer = DrawerFactory.CreateBitmap(drawingBox.Width, drawingBox.Height);
-            multiLayerOne = DrawerFactory.CreateBitmap(drawingBox.Width, drawingBox.Height);
-            multiLayerTwo = DrawerFactory.CreateBitmap(drawingBox.Width, drawingBox.Height);
+            multiColourLayers = DrawerFactory.CreateDoubleBuffer(drawingBox.Width, drawingBox.Height);
+            multiColours = DrawerFactory.CreateColours(multiColourLayers.Length);
+            backgroundColour = drawingBox.BackColor;
 
             using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap)) {
                 bitmapGraphics.Clear(Color.Transparent);
@@ -44,27 +37,28 @@ namespace ProgrammingLanguageGUI.drawer {
                     lock (bitmapLock) {
                         drawingBoxGraphics.Clear(backgroundColour);
 
-                        if (showLayerOne) {
-                            Graphics baseGraphics = Graphics.FromImage(baseBitmap[0]);
-                            baseGraphics.DrawImage(multiLayerOne, 0, 0);
-                            baseGraphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
-                            baseGraphics.DrawImage(drawingLayer, 0, 0);
+                        if (DrawerProperties.SwitchLayer) {
+                            RedrawImageOnLayer(0);
                             drawingBox.Image = baseBitmap[1];
 
                         } else {
-                            Graphics baseGraphics = Graphics.FromImage(baseBitmap[1]);
-                            baseGraphics.DrawImage(multiLayerTwo, 0, 0);
-                            baseGraphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
-                            baseGraphics.DrawImage(drawingLayer, 0, 0);
+                            RedrawImageOnLayer(1);
                             drawingBox.Image = baseBitmap[0];
                         }
-                        showLayerOne = !showLayerOne;
+                        DrawerProperties.SwitchLayer = !DrawerProperties.SwitchLayer;
                     }
                     Thread.Sleep(1000);
                 }
             });
 
             multiColourThread.Start();
+        }
+
+        private void RedrawImageOnLayer(int layer) {
+            Graphics graphics = Graphics.FromImage(baseBitmap[layer]);
+            graphics.DrawImage(multiColourLayers[layer], 0, 0);
+            graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
+            graphics.DrawImage(drawingLayer, 0, 0);
         }
 
         public void MoveTo(int toX, int toY) {
@@ -81,7 +75,7 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         public void DrawCircle(int radius) {
-            if (fillModeEnabled) {
+            if (DrawerProperties.FillMode) {
                 Draw(baseGraphics => baseGraphics.FillEllipse(new SolidBrush(pen.Color), cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius));
             } else {
                 Draw(baseGraphics => baseGraphics.DrawEllipse(pen, cursor.X - (radius / 2), cursor.Y - (radius / 2), radius, radius));
@@ -91,22 +85,19 @@ namespace ProgrammingLanguageGUI.drawer {
         public void Clear() {
             drawingBoxGraphics.Clear(backgroundColour);
             drawingLayer = DrawerFactory.CreateBitmap(baseBitmap[0].Width, baseBitmap[0].Height);
-            multiLayerOne = DrawerFactory.CreateBitmap(baseBitmap[0].Width, baseBitmap[0].Height);
-            multiLayerTwo = DrawerFactory.CreateBitmap(baseBitmap[0].Width, baseBitmap[0].Height);
+            multiColourLayers = DrawerFactory.CreateDoubleBuffer(baseBitmap[0].Width, baseBitmap[0].Height);
             baseBitmap = DrawerFactory.CreateDoubleBuffer(baseBitmap[0].Width, baseBitmap[0].Height);
-            pen.Color = Color.White;
         }
 
         public void Reset() {
             Clear();
-            fillModeEnabled = false;
-            multiColourPen = false;
+            DrawerProperties.Reset();
             pen.Color = Color.White;
             MoveTo(0, 0);
         }
 
         public void DrawRectangle(int width, int height) {
-            if (fillModeEnabled) {
+            if (DrawerProperties.FillMode) {
                 Draw(baseGraphics => baseGraphics.FillRectangle(new SolidBrush(pen.Color), cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
             } else {
                 Draw(baseGraphics => baseGraphics.DrawRectangle(pen, cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
@@ -126,7 +117,7 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         public void ChangePenColour(Color colour) {
-            multiColourPen = false;
+            DrawerProperties.MultiColours = false;
             pen.Color = colour;
             using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap)) {
                 bitmapGraphics.Clear(Color.Transparent);
@@ -136,38 +127,34 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         public void ChangePenMultiColour(Color colourOne, Color colourTwo) {
-            multiColourOne = colourOne;
-            multiColourTwo = colourTwo;
-            multiColourPen = true;
+            multiColours[0] = colourOne;
+            multiColours[1] = colourTwo;
+            DrawerProperties.MultiColours = true;
         }
 
         public void SetFillMode(bool enabled) {
-            fillModeEnabled = enabled;
+            DrawerProperties.FillMode = enabled;
         }
 
-        //MAJOR BUG TO FIX - If bitmaps are being drawn on in the thread at the same time as the
-        // Draw action is taking place, getting an 'Object is in use elesewhere message'.
         public void Draw(Action<Graphics> drawAction) {
-            if (disableDrawer) {
+            if (!DrawerProperties.DrawerEnabled) {
                 return;
             }
 
             lock (bitmapLock) {
-                if (!multiColourPen) {
-                    Graphics drawingLayerGraphics = Graphics.FromImage(drawingLayer);
-                    drawAction(drawingLayerGraphics);
+                if (DrawerProperties.MultiColours) {
+                    Graphics layerOneGraphics = Graphics.FromImage(multiColourLayers[0]);
+                    Graphics layerTwoGraphics = Graphics.FromImage(multiColourLayers[1]);
+
+                    pen.Color = multiColours[0];
+                    drawAction(layerOneGraphics);
+                    pen.Color = multiColours[1];
+                    drawAction(layerTwoGraphics);
                     return;
                 }
 
-                if (multiColourPen) {
-                    Graphics layerOneGraphics = Graphics.FromImage(multiLayerOne);
-                    Graphics layerTwoGraphics = Graphics.FromImage(multiLayerTwo);
-
-                    pen.Color = multiColourOne;
-                    drawAction(layerOneGraphics);
-                    pen.Color = multiColourTwo;
-                    drawAction(layerTwoGraphics);
-                }
+                Graphics drawingLayerGraphics = Graphics.FromImage(drawingLayer);
+                drawAction(drawingLayerGraphics);
             }
         }
     }
