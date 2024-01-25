@@ -12,5 +12,9 @@
         public static Bitmap CreateBitmap(int width, int height) {
             return new Bitmap(width, height);
         }
+
+        public static Bitmap[] CreateDoubleBuffer(int width, int height) {
+            return [CreateBitmap(width, height), CreateBitmap(width, height)];
+        }
     }
 }
