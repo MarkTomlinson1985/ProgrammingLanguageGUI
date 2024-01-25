@@ -9,14 +9,14 @@ namespace ProgrammingLanguageGUI.drawer {
         private readonly Color[] multiColours;
         public DrawerProperties DrawerProperties { get; }
         private Color backgroundColour;
-        private Bitmap[] baseBitmap;
+        private Bitmap[] baseLayers;
         private Bitmap[] multiColourLayers;
         private Bitmap drawingLayer;
  
         public Drawer(PictureBox drawingBox) {
             DrawerProperties = DrawerFactory.CreateDrawerProperties();
             cursor = DrawerFactory.CreateCursor();
-            baseBitmap = DrawerFactory.CreateDoubleBuffer(drawingBox.Width, drawingBox.Height);
+            baseLayers = DrawerFactory.CreateDoubleBuffer(drawingBox.Width, drawingBox.Height);
             pen = DrawerFactory.CreatePen();
             drawingLayer = DrawerFactory.CreateBitmap(drawingBox.Width, drawingBox.Height);
             multiColourLayers = DrawerFactory.CreateDoubleBuffer(drawingBox.Width, drawingBox.Height);
@@ -39,11 +39,11 @@ namespace ProgrammingLanguageGUI.drawer {
 
                         if (DrawerProperties.SwitchLayer) {
                             RedrawImageOnLayer(0);
-                            drawingBox.Image = baseBitmap[1];
+                            drawingBox.Image = baseLayers[1];
 
                         } else {
                             RedrawImageOnLayer(1);
-                            drawingBox.Image = baseBitmap[0];
+                            drawingBox.Image = baseLayers[0];
                         }
                         DrawerProperties.SwitchLayer = !DrawerProperties.SwitchLayer;
                     }
@@ -55,23 +55,29 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         private void RedrawImageOnLayer(int layer) {
-            Graphics graphics = Graphics.FromImage(baseBitmap[layer]);
+            Graphics graphics = Graphics.FromImage(baseLayers[layer]);
             graphics.DrawImage(multiColourLayers[layer], 0, 0);
             graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
             graphics.DrawImage(drawingLayer, 0, 0);
         }
 
         public void MoveTo(int toX, int toY) {
-            cursor.X = toX;
-            cursor.Y = toY;
+            if (DrawerProperties.DrawerEnabled) {
+                cursor.X = toX;
+                cursor.Y = toY;
+            }
+
             Draw(baseGraphics => { });
         }
 
         public void DrawLine(int toX, int toY) {
             Draw(baseGraphics => {
                 baseGraphics.DrawLine(pen, cursor.X, cursor.Y, toX, toY);});
-            cursor.X = toX;
-            cursor.Y = toY;
+
+            if (DrawerProperties.DrawerEnabled) {
+                cursor.X = toX;
+                cursor.Y = toY;
+            }
         }
 
         public void DrawCircle(int radius) {
@@ -84,9 +90,9 @@ namespace ProgrammingLanguageGUI.drawer {
 
         public void Clear() {
             drawingBoxGraphics.Clear(backgroundColour);
-            drawingLayer = DrawerFactory.CreateBitmap(baseBitmap[0].Width, baseBitmap[0].Height);
-            multiColourLayers = DrawerFactory.CreateDoubleBuffer(baseBitmap[0].Width, baseBitmap[0].Height);
-            baseBitmap = DrawerFactory.CreateDoubleBuffer(baseBitmap[0].Width, baseBitmap[0].Height);
+            drawingLayer = DrawerFactory.CreateBitmap(baseLayers[0].Width, baseLayers[0].Height);
+            multiColourLayers = DrawerFactory.CreateDoubleBuffer(baseLayers[0].Width, baseLayers[0].Height);
+            baseLayers = DrawerFactory.CreateDoubleBuffer(baseLayers[0].Width, baseLayers[0].Height);
         }
 
         public void Reset() {

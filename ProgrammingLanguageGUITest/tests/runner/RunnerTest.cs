@@ -27,7 +27,7 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         /// </summary>
         [TestMethod]
         public void RunCommandShouldReturnSuccessOutput() {
-            Assert.AreEqual("Command run successfully", runner.RunCommand("CIRCLE 50"));
+            Assert.AreEqual("Command run successfully.", runner.RunCommand("CIRCLE 50"));
         }
 
         /// <summary>
