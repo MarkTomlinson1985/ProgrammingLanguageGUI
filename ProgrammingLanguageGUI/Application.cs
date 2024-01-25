@@ -102,6 +102,7 @@ namespace ProgrammingLanguageGUI {
                 if (program != string.Empty) {
                     programEditor.Text = program;
                     outputText.Text = "Program loaded successfully.";
+                    CheckProgramSyntax();
                 }
             } catch (FileLoadException ex) {
                 outputText.Text = ex.Message;
@@ -124,21 +125,24 @@ namespace ProgrammingLanguageGUI {
         private void programEditor_KeyPress(object sender, KeyPressEventArgs e) {
             // on Enter keypress
             if (e.KeyChar == (char)13) {
-                
-                //ColorProgram();
-                SyntaxResults results = runner.CheckProgramSyntax(programEditor.Text);
-
-                if (!hasErrors && !results.HasErrors) { return; }
-
-                if (!results.HasErrors) {
-                    ColourText(0, programEditor.Text.Length);
-                    hasErrors = false;
-                    return;
-                }
-
-                ShowErrors(results);
-                hasErrors = true;
+                CheckProgramSyntax();
             }
+        }
+
+        private void CheckProgramSyntax() {
+            //ColorProgram();
+            SyntaxResults results = runner.CheckProgramSyntax(programEditor.Text);
+
+            if (!hasErrors && !results.HasErrors) { return; }
+
+            if (!results.HasErrors) {
+                ColourText(0, programEditor.Text.Length);
+                hasErrors = false;
+                return;
+            }
+
+            ShowErrors(results);
+            hasErrors = true;
         }
 
         private void ShowErrors(SyntaxResults results) {
