@@ -40,7 +40,8 @@ namespace ProgrammingLanguageGUI.runner {
                     commands[i].Execute(drawer, variableManager);
 
                     if (commands[i] is ISelection) {
-                        if (commands[i] is While) {
+                        // Do not perform loop commands in realtime syntax checking.
+                        if (commands[i] is While && !drawer.DisableDrawer) {
                             i = HandleLoop(i, commands);
                             continue;
                         }
@@ -80,7 +81,7 @@ namespace ProgrammingLanguageGUI.runner {
                             Command command = results.GetCommands().First(entry => entry.Value == j).Key;
                             command.Execute(drawer, variableManager);
                         }
-                        // Descope variables declared in method.
+                        // Descope variables declared in method. Are these being descoped incorrectly? Seems to have issues with while loops..
                         callMethod.UnassignVariables(variableManager);
                     }
 

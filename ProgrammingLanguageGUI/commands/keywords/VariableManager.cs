@@ -31,6 +31,11 @@ namespace ProgrammingLanguageGUI.commands.keywords
             return methods.FindIndex(method => method.MethodName.Equals(name)) != -1;
         }
 
+        public void Reset() {
+            variables.Clear();
+            methods.Clear();
+        }
+
         public Method GetMethod(string name) {
             Method? method = methods.Find(method => method.MethodName.Equals(name));
             

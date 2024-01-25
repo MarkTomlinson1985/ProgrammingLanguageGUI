@@ -25,6 +25,12 @@ namespace ProgrammingLanguageGUI {
             runner = new Runner(commandProcessor, drawer, variableManager);
             syntaxParser = new SyntaxParser();
             defaultColour = programEditor.ForeColor;
+
+            FormClosing += Application_FormClosing;
+        }
+
+        private void Application_FormClosing(object? sender, FormClosingEventArgs e) {
+            ThreadManager.TERMINATE_THREADS = true;
         }
 
         private static readonly string[] separator = ["\n"];
@@ -89,6 +95,7 @@ namespace ProgrammingLanguageGUI {
         private void runProgram_Click(object sender, EventArgs e) {
             string program = programEditor.Text;
             drawer.Reset();
+            variableManager.Reset();
             outputText.Text = runner.RunProgram(program);
         }
 
