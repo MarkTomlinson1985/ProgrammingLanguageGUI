@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows.Forms;
+﻿using ProgrammingLanguageGUI.commands.keywords.loop;
 
 namespace ProgrammingLanguageGUI.drawer {
     public class Drawer {
@@ -142,6 +141,8 @@ namespace ProgrammingLanguageGUI.drawer {
             fillModeEnabled = enabled;
         }
 
+        //MAJOR BUG TO FIX - If bitmaps are being drawn on in the thread at the same time as the
+        // Draw action is taking place, getting an 'Object is in use elesewhere message'.
         public void Draw(Action<Graphics> drawAction) {
             if (disableDrawer) {
                 return;
@@ -161,8 +162,7 @@ namespace ProgrammingLanguageGUI.drawer {
                 drawAction(layerOneGraphics);
                 pen.Color = multiColourTwo;
                 drawAction(layerTwoGraphics);
-            } 
-
+            }
         }
     }
 }
