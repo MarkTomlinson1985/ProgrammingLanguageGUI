@@ -41,6 +41,7 @@ namespace ProgrammingLanguageGUI.runner {
                 try {
                     if (commands[i] is TransformCommand) {
                         if (!drawer.DrawerProperties.DrawerEnabled) {
+                            commands[i].ValidateCommand(variableManager);
                             continue;
                         }
                     }
@@ -51,8 +52,7 @@ namespace ProgrammingLanguageGUI.runner {
                     // stage, e.g. defining blocks of code or calling methods.
 
                     // While command
-                    if (commands[i] is While) {
-                        
+                    if (commands[i] is While) {                        
                         // If purely checking syntax and not running program, move on to first
                         // command in code block sequentially to check syntax instead of looping.
                         if (!drawer.DrawerProperties.DrawerEnabled) {

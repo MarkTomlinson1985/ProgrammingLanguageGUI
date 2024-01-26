@@ -49,6 +49,7 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         [DataRow("CIRCLE 50\nMOVE 100 100\nIF 10 == 10 CIRCLE 50\nIF 10 != 10\nCIRCLE 50\nENDIF")]
         [DataRow("CIRCLE 50\nMOVE 100 100\nMETHOD myMethod\nMOVE 100 100\nENDMETHOD\nmyMethod()")]
         [DataRow("CIRCLE 50\nMOVE 100 100\nMETHOD myMethod(xPos,yPos)\nMOVE xPos yPos\nENDMETHOD\nmyMethod(200,200)")]
+        [DataRow("CIRCLE 50\nMOVE 100 100\nROTATE POLYGON 100 100 200 200")]
         public void RunProgramShouldReturnSuccessOutput(string program) {
             Assert.AreEqual("Program executed successfully.", runner.RunProgram(program));
         }
@@ -59,8 +60,13 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         /// </summary>
         [TestMethod]
         public void RunProgramShouldReturnExceptionOutputWithInvalidCommands() {
-            string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100\nIF 10 == 10\nCIRCLE 50";
-            string expectedMessage = "Line 2: Command INVALID not recognised.\nLine 3: Provided coordinate arguments must not be negative.\nLine 4: Loop command has no defined end.\nLine 6: If block has no defined end.\n";
+            string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100\nIF 10 == 10\nCIRCLE 50\nROTATE CIRCLE 50";
+            string expectedMessage = 
+                "Line 2: Command INVALID not recognised.\n" +
+                "Line 3: Provided coordinate arguments must not be negative.\n" +
+                "Line 4: Loop command has no defined end.\n" +
+                "Line 6: If block has no defined end.\n" +
+                "Line 8: Unsupported command defined in transform statement.\n";
             Assert.AreEqual(expectedMessage, runner.RunProgram(program));
         }
 
@@ -69,8 +75,14 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         /// </summary>
         [TestMethod]
         public void CheckProgramSyntaxShouldReturnSyntaxResults() {
-            string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100\nIF 10 == 10\nCIRCLE 50\nMETHOD myMethod(xPos,yPos)\nMOVE xPos yPos\nmyMethod(100,100)";
-            string expectedMessages = "Line 2: Command INVALID not recognised.\nLine 3: Provided coordinate arguments must not be negative.\nLine 8: Method command has no defined end.\nLine 9: Provided arguments are not valid numbers.\nLine 10: Improperly declared method: 'myMethod'.";
+            string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100\nIF 10 == 10\nCIRCLE 50\nMETHOD myMethod(xPos,yPos)\nMOVE xPos yPos\nmyMethod(100,100)\nROTATE CIRCLE 50";
+            string expectedMessages = 
+                "Line 2: Command INVALID not recognised.\n" +
+                "Line 3: Provided coordinate arguments must not be negative.\n" +
+                "Line 8: Method command has no defined end.\n" +
+                "Line 9: Provided arguments are not valid numbers.\n" +
+                "Line 10: Improperly declared method: 'myMethod'.\n" +
+                "Line 11: Unsupported command defined in transform statement.";
 
             SyntaxResults results = runner.CheckProgramSyntax(program);
             Assert.AreEqual(expectedMessages, string.Join("\n", results.SyntaxErrors));
