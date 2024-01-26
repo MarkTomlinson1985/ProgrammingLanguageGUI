@@ -42,6 +42,8 @@ namespace ProgrammingLanguageGUI.commands {
                     return new Method(arguments);
                 case "endmethod":
                     return new EndMethod(arguments);
+                case "polygon":
+                    return new Polygon(arguments);
             }
 
             if (commandType.Contains('(') && commandType.Contains(')')) {

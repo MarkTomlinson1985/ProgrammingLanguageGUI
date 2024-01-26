@@ -2,6 +2,8 @@
 
 namespace ProgrammingLanguageGUI.drawer {
     public class Drawer {
+        private static int TRANSFORM_LAYERS = 100;
+        
         private readonly object bitmapLock = new();
         private readonly Graphics drawingBoxGraphics;
         private readonly Cursor cursor;
@@ -11,6 +13,7 @@ namespace ProgrammingLanguageGUI.drawer {
         private Color backgroundColour;
         private Bitmap[] baseLayers;
         private Bitmap[] multiColourLayers;
+        private Bitmap[] transformLayers;
         private Bitmap drawingLayer;
  
         public Drawer(PictureBox drawingBox) {
@@ -21,6 +24,7 @@ namespace ProgrammingLanguageGUI.drawer {
             drawingLayer = DrawerFactory.CreateBitmap(drawingBox.Width, drawingBox.Height);
             multiColourLayers = DrawerFactory.CreateDoubleBuffer(drawingBox.Width, drawingBox.Height);
             multiColours = DrawerFactory.CreateColours(multiColourLayers.Length);
+            transformLayers = DrawerFactory.CreateBitmaps(drawingBox.Width, drawingBox.Height, TRANSFORM_LAYERS);
             backgroundColour = drawingBox.BackColor;
 
             using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap)) {
@@ -39,11 +43,11 @@ namespace ProgrammingLanguageGUI.drawer {
 
                         if (DrawerProperties.SwitchLayer) {
                             RedrawImageOnLayer(0);
-                            drawingBox.Image = baseLayers[1];
+                            drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[1]));
 
                         } else {
                             RedrawImageOnLayer(1);
-                            drawingBox.Image = baseLayers[0];
+                            drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[0]));
                         }
                         DrawerProperties.SwitchLayer = !DrawerProperties.SwitchLayer;
                     }
@@ -51,7 +55,31 @@ namespace ProgrammingLanguageGUI.drawer {
                 }
             });
 
+            Thread transformThread = new Thread(() => {
+                int count = 0;
+                while (!ThreadManager.TERMINATE_THREADS) {
+
+                    lock (bitmapLock) {
+                        if (count % 2 == 0) {
+                            RedrawTransform(0, count);
+                            drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[1]));
+                        } else {
+                            RedrawTransform(1, count);
+                            drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[0]));
+                        }
+
+                        if (count == transformLayers.Length - 1) {
+                            count = 0;
+                        } else {
+                            count++;
+                        }
+                    }
+                    Thread.Sleep(100);
+                }
+            });
+
             multiColourThread.Start();
+            transformThread.Start();
         }
 
         private void RedrawImageOnLayer(int layer) {
@@ -59,6 +87,14 @@ namespace ProgrammingLanguageGUI.drawer {
             graphics.DrawImage(multiColourLayers[layer], 0, 0);
             graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
             graphics.DrawImage(drawingLayer, 0, 0);
+        }
+
+        private void RedrawTransform(int baseLayer, int transformLayer) {
+            Graphics graphics = Graphics.FromImage(baseLayers[baseLayer]);
+            graphics.DrawImage(multiColourLayers[DrawerProperties.SwitchLayer ? 0 : 1], 0, 0);
+            graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
+            graphics.DrawImage(drawingLayer, 0, 0);
+            graphics.DrawImage(transformLayers[transformLayer], 0, 0);
         }
 
         public void MoveTo(int toX, int toY) {
@@ -108,6 +144,11 @@ namespace ProgrammingLanguageGUI.drawer {
             } else {
                 Draw(baseGraphics => baseGraphics.DrawRectangle(pen, cursor.X - (width / 2), cursor.Y - (height / 2), width, height));
             }
+        }
+
+        public void DrawPolygon(Point[] points) {
+            Point[] pointsWithOrigin = new Point[] { new(cursor.X, cursor.Y) }.Concat(points).ToArray();
+            Draw(baseGraphics => baseGraphics.DrawPolygon(pen, pointsWithOrigin));
         }
 
         public void DrawTriangle(int width, int height) {

@@ -14,7 +14,16 @@
         }
 
         public static Bitmap[] CreateDoubleBuffer(int width, int height) {
-            return [CreateBitmap(width, height), CreateBitmap(width, height)];
+            return CreateBitmaps(width, height, 2);
+        }
+
+        public static Bitmap[] CreateBitmaps(int width, int height, int amount) {
+            Bitmap[] bitmaps = new Bitmap[amount];
+            for (int i = 0;  i < amount; i++) {
+                bitmaps[i] = CreateBitmap(width, height);
+            }
+
+            return bitmaps;
         }
 
         public static DrawerProperties CreateDrawerProperties() {

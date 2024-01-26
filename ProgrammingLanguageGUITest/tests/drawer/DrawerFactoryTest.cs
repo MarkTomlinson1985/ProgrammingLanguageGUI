@@ -31,5 +31,19 @@ namespace ProgrammingLanguageGUITest.tests.file {
             Assert.AreEqual(30, bitmap.Height);
         }
 
+        /// <summary>
+        /// Tests that the CreateBitmap method returns with an invalid/not implemented
+        /// command type.
+        /// </summary>
+        [TestMethod]
+        [DataRow(1)]
+        [DataRow(3)]
+        [DataRow(10)]
+        public void CreateBitmapsShouldReturnBitmaps(int amount) {
+            Bitmap[] bitmaps = DrawerFactory.CreateBitmaps(20, 30, amount);
+            Assert.IsNotNull(bitmaps);
+            Assert.AreEqual(amount, bitmaps.Length);
+        }
+
     }
 }

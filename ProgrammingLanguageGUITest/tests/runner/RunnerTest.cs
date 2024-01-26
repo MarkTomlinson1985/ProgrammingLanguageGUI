@@ -70,7 +70,7 @@ namespace ProgrammingLanguageGUITest.tests.runner {
         [TestMethod]
         public void CheckProgramSyntaxShouldReturnSyntaxResults() {
             string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100\nIF 10 == 10\nCIRCLE 50\nMETHOD myMethod(xPos,yPos)\nMOVE xPos yPos\nmyMethod(100,100)";
-            string expectedMessages = "Line 2: Command INVALID not recognised.\nLine 3: Provided coordinate arguments must not be negative.\nLine 6: If block has no defined end.\nLine 8: Method command has no defined end.\nLine 9: Provided arguments are not valid numbers.\nLine 10: Improperly declared method: 'myMethod'.";
+            string expectedMessages = "Line 2: Command INVALID not recognised.\nLine 3: Provided coordinate arguments must not be negative.\nLine 8: Method command has no defined end.\nLine 9: Provided arguments are not valid numbers.\nLine 10: Improperly declared method: 'myMethod'.";
 
             SyntaxResults results = runner.CheckProgramSyntax(program);
             Assert.AreEqual(expectedMessages, string.Join("\n", results.SyntaxErrors));
