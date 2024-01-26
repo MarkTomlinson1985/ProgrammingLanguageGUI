@@ -17,7 +17,7 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
             variableManager.AddMethod(this);
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             if (arguments.Length < 1) {
                 throw new CommandArgumentException("Number of arguments incorrect. Provide at least 1 arguments for method declaration.");
             }

@@ -1,4 +1,5 @@
 ﻿using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.drawing;
 using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.commands.keywords.loop;
 using ProgrammingLanguageGUI.commands.keywords.method;
@@ -38,6 +39,12 @@ namespace ProgrammingLanguageGUI.runner {
 
             for (int i = 0; i < commands.Count; i++) {
                 try {
+                    if (commands[i] is TransformCommand) {
+                        if (!drawer.DrawerProperties.DrawerEnabled) {
+                            continue;
+                        }
+                    }
+
                     commands[i].Execute(drawer, variableManager);
 
                     // Special cases - These commands provide functionality beyond the execution
@@ -112,6 +119,7 @@ namespace ProgrammingLanguageGUI.runner {
                         }
                         // Descope variables declared in method.
                         callMethod.UnassignVariables(variableManager);
+                        continue;
                     }
 
                 } catch (CommandException ex) {

@@ -29,7 +29,7 @@ namespace ProgrammingLanguageGUI.commands.drawing {
 
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             base.ValidateCommand(variableManager);
 
             if (arguments[0].Contains(',')) {

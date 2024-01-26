@@ -44,6 +44,8 @@ namespace ProgrammingLanguageGUI.commands {
                     return new EndMethod(arguments);
                 case "polygon":
                     return new Polygon(arguments);
+                case "rotate":
+                    return new Rotate(arguments);
             }
 
             if (commandType.Contains('(') && commandType.Contains(')')) {

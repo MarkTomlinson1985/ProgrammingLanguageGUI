@@ -13,7 +13,7 @@ namespace ProgrammingLanguageGUI.commands
             variableManager.AddVariable(variableName, variableValue);
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             if (arguments.Length < 3) {
                 throw new CommandArgumentException(
                     "Number of arguments incorrect. Provide at least 3 arguments for variable assignment.");

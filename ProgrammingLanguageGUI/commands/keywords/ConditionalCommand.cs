@@ -6,7 +6,7 @@ namespace ProgrammingLanguageGUI.commands {
     public abstract class ConditionalCommand(params string[] arguments) : Command(arguments), ISelection {
         protected bool condition;
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             if (arguments.Length < 3) {
                 throw new CommandArgumentException(
                     "Number of arguments incorrect. Provide at least 3 arguments for comparison.");

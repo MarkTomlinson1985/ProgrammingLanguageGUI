@@ -33,7 +33,7 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         [DataRow("10 >= 10", true)]
         [DataRow("15 >= 10", true)]
         [DataRow("15 >= 100", false)]
-        public void WhileCommandShouldEvaluateCorrectlyWithValidArguments(string arguments, bool evaluation) {
+        public void IfCommandShouldEvaluateCorrectlyWithValidArguments(string arguments, bool evaluation) {
             If command = new If(arguments.Split(" "));
 
             try {
@@ -45,7 +45,12 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
             Assert.AreEqual(evaluation, command.Evaluate());
         }
 
-        public void WhileCommandShouldExecuteWithInlineCommand() {
+        /// <summary>
+        /// Tests the creation and validation of a valid If command with inline command. Any exception will result
+        /// in a failure assertion.
+        /// </summary>
+        [TestMethod]
+        public void IfCommandShouldExecuteWithInlineCommand() {
             If command = new If("10", "==", "10", "CIRCLE", "50");
 
             try {
@@ -53,6 +58,8 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
             } catch (Exception) {
                 Assert.Fail();
             }
+
+            Assert.IsTrue(command.HasInlineCommand());
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace ProgrammingLanguageGUI.commands
             ValidateCommand(variableManager);
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             base.ValidateCommand(variableManager);
         }
     }

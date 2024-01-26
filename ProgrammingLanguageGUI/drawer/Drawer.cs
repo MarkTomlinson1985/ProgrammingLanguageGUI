@@ -1,4 +1,8 @@
-﻿using ProgrammingLanguageGUI.runner;
+﻿using ProgrammingLanguageGUI.commands;
+using ProgrammingLanguageGUI.commands.drawing.transform;
+using ProgrammingLanguageGUI.commands.keywords;
+using ProgrammingLanguageGUI.exception;
+using ProgrammingLanguageGUI.runner;
 
 namespace ProgrammingLanguageGUI.drawer {
     public class Drawer {
@@ -15,6 +19,7 @@ namespace ProgrammingLanguageGUI.drawer {
         private Bitmap[] multiColourLayers;
         private Bitmap[] transformLayers;
         private Bitmap drawingLayer;
+        private int currentTransformLayer;
  
         public Drawer(PictureBox drawingBox) {
             DrawerProperties = DrawerFactory.CreateDrawerProperties();
@@ -60,6 +65,8 @@ namespace ProgrammingLanguageGUI.drawer {
                 while (!ThreadManager.TERMINATE_THREADS) {
 
                     lock (bitmapLock) {
+                        drawingBoxGraphics.Clear(backgroundColour);
+
                         if (count % 2 == 0) {
                             RedrawTransform(0, count);
                             drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[1]));
@@ -67,6 +74,7 @@ namespace ProgrammingLanguageGUI.drawer {
                             RedrawTransform(1, count);
                             drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[0]));
                         }
+                        currentTransformLayer = count;
 
                         if (count == transformLayers.Length - 1) {
                             count = 0;
@@ -74,7 +82,7 @@ namespace ProgrammingLanguageGUI.drawer {
                             count++;
                         }
                     }
-                    Thread.Sleep(100);
+                    Thread.Sleep(50);
                 }
             });
 
@@ -84,13 +92,16 @@ namespace ProgrammingLanguageGUI.drawer {
 
         private void RedrawImageOnLayer(int layer) {
             Graphics graphics = Graphics.FromImage(baseLayers[layer]);
+            graphics.Clear(Color.Transparent);
             graphics.DrawImage(multiColourLayers[layer], 0, 0);
             graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
             graphics.DrawImage(drawingLayer, 0, 0);
+            graphics.DrawImage(transformLayers[currentTransformLayer], 0, 0);
         }
 
         private void RedrawTransform(int baseLayer, int transformLayer) {
             Graphics graphics = Graphics.FromImage(baseLayers[baseLayer]);
+            graphics.Clear(Color.Transparent);
             graphics.DrawImage(multiColourLayers[DrawerProperties.SwitchLayer ? 0 : 1], 0, 0);
             graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
             graphics.DrawImage(drawingLayer, 0, 0);
@@ -129,6 +140,7 @@ namespace ProgrammingLanguageGUI.drawer {
             drawingLayer = DrawerFactory.CreateBitmap(baseLayers[0].Width, baseLayers[0].Height);
             multiColourLayers = DrawerFactory.CreateDoubleBuffer(baseLayers[0].Width, baseLayers[0].Height);
             baseLayers = DrawerFactory.CreateDoubleBuffer(baseLayers[0].Width, baseLayers[0].Height);
+            transformLayers = DrawerFactory.CreateBitmaps(baseLayers[0].Width, baseLayers[0].Height, TRANSFORM_LAYERS);
         }
 
         public void Reset() {
@@ -181,6 +193,40 @@ namespace ProgrammingLanguageGUI.drawer {
 
         public void SetFillMode(bool enabled) {
             DrawerProperties.FillMode = enabled;
+        }
+
+        public void Rotate(Command command, VariableManager variableManager) {
+            if (command is IRotatable rotatable) {
+                int degreesRotation = 360 / TRANSFORM_LAYERS;
+
+                int originX = cursor.X;
+                int originY = cursor.Y;
+                Point[] points = rotatable.GetPoints();
+                double angleInRadians = degreesRotation * Math.PI / 180;
+
+                for (int i = 0; i < TRANSFORM_LAYERS; i++) {
+                    for (int j = 0; j < points.Length; j++) {     
+                        double rotatedX = (points[j].X - originX) * Math.Cos(angleInRadians) - (points[j].Y - originY) * Math.Sin(angleInRadians) + originX;
+                        double rotatedY = (points[j].X - originX) * Math.Sin(angleInRadians) + (points[j].Y - originY) * Math.Cos(angleInRadians) + originY;
+                        points[j] = new Point((int) rotatedX, (int) rotatedY);
+                    }
+
+                    rotatable.ExecuteTransform(this, i);
+                }
+            }
+        }
+
+        public void TransformPolygon(Point[] points, int layer) {
+            Point[] pointsWithOrigin = new Point[] { new(cursor.X, cursor.Y) }.Concat(points).ToArray();
+
+            lock (bitmapLock) {
+                Graphics graphics = Graphics.FromImage(transformLayers[layer]);
+                graphics.DrawPolygon(pen, pointsWithOrigin);
+            }
+        }
+
+        public void DrawTransform(Action<Graphics> drawAction) {
+
         }
 
         public void Draw(Action<Graphics> drawAction) {

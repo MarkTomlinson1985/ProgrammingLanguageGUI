@@ -13,7 +13,7 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
             ValidateCommand(variableManager);
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             methodName = arguments[0];
 
             if (!variableManager.HasMethod(methodName)) {

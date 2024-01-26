@@ -16,7 +16,7 @@ namespace ProgrammingLanguageGUI.commands.drawing {
             drawer.DrawRectangle(width, height);
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             base.ValidateCommand(variableManager);
 
             try {

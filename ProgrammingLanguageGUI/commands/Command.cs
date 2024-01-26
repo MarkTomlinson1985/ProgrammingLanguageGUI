@@ -15,7 +15,7 @@ namespace ProgrammingLanguageGUI.commands {
             numberOfArguments = 0;
         }
 
-        protected virtual void ValidateCommand(VariableManager variableManager) {
+        public virtual void ValidateCommand(VariableManager variableManager) {
             if (arguments.Length != numberOfArguments) {
                 throw new CommandArgumentException(
                     "Number of arguments incorrect. Expected: " + numberOfArguments + " - Actual: " + arguments.Length);

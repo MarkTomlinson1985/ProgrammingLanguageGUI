@@ -16,7 +16,7 @@ namespace ProgrammingLanguageGUI.commands.drawing {
             drawer.DrawCircle(radius);
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             base.ValidateCommand(variableManager);
 
             try {

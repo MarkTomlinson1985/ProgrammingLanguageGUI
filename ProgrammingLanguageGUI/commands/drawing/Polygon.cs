@@ -1,9 +1,10 @@
-﻿using ProgrammingLanguageGUI.commands.keywords;
+﻿using ProgrammingLanguageGUI.commands.drawing.transform;
+using ProgrammingLanguageGUI.commands.keywords;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands.drawing {
-    public class Polygon : DrawCommand {
+    public class Polygon : DrawCommand, IRotatable {
         private Point[] points;
 
         public Polygon(params string[] arguments) : base(arguments) {}
@@ -13,7 +14,11 @@ namespace ProgrammingLanguageGUI.commands.drawing {
             drawer.DrawPolygon(points);
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public void ExecuteTransform(Drawer drawer, int layer) {
+            drawer.TransformPolygon(points, layer);
+        }
+
+        public override void ValidateCommand(VariableManager variableManager) {
             try {
 
                 if (arguments.Length % 2 != 0) {
@@ -43,5 +48,10 @@ namespace ProgrammingLanguageGUI.commands.drawing {
         public override string ToString() {
             return $"POLYGON {string.Join(" ", arguments)}";
         }
+
+        public Point[] GetPoints() {
+            return points;
+        }
+
     }
 }

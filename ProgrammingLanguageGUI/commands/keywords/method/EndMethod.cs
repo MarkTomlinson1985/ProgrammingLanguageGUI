@@ -11,7 +11,7 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
             ValidateCommand(variableManager);
         }
 
-        protected override void ValidateCommand(VariableManager variableManager) {
+        public override void ValidateCommand(VariableManager variableManager) {
             base.ValidateCommand(variableManager);
         }
     }
