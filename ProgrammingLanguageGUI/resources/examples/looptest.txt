@@ -1,0 +1,7 @@
+CIRCLE 50
+MOVE 100 100
+VAR a = 1
+WHILE a < 10
+CIRCLE a
+VAR a = a + 1
+ENDLOOP

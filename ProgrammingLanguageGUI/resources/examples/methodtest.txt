@@ -1,0 +1,14 @@
+VAR a = 50
+METHOD myMethod(size)
+	CIRCLE size
+ENDMETHOD
+myMethod(a)
+MOVE 100 100
+myMethod(300)
+MOVE 400 400
+METHOD otherMethod(xPos,yPos)
+	MOVE xPos yPos
+ENDMETHOD
+CIRCLE 50
+otherMethod(300,a)
+CIRCLE 50

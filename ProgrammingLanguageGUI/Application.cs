@@ -197,6 +197,7 @@ namespace ProgrammingLanguageGUI {
         private void commandText_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Up) {
                 commandText.Text = lastCommand;
+                commandText.SelectionStart = commandText.TextLength;
             }
         }
     }

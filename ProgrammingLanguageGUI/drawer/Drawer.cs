@@ -89,20 +89,20 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         private void RedrawImageOnLayer(int layer) {
-            Graphics graphics = Graphics.FromImage(baseLayers[layer]);
+            using Graphics graphics = Graphics.FromImage(baseLayers[layer]);
             graphics.Clear(Color.Transparent);
-            graphics.DrawImage(multiColourLayers[layer], 0, 0);
             graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
             graphics.DrawImage(drawingLayer, 0, 0);
+            graphics.DrawImage(multiColourLayers[layer], 0, 0);
             graphics.DrawImage(transformLayers[currentTransformLayer], 0, 0);
         }
 
         private void RedrawTransform(int baseLayer, int transformLayer) {
-            Graphics graphics = Graphics.FromImage(baseLayers[baseLayer]);
+            using Graphics graphics = Graphics.FromImage(baseLayers[baseLayer]);
             graphics.Clear(Color.Transparent);
-            graphics.DrawImage(multiColourLayers[DrawerProperties.SwitchLayer ? 0 : 1], 0, 0);
             graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
             graphics.DrawImage(drawingLayer, 0, 0);
+            graphics.DrawImage(multiColourLayers[DrawerProperties.SwitchLayer ? 0 : 1], 0, 0);
             graphics.DrawImage(transformLayers[transformLayer], 0, 0);
         }
 
@@ -195,7 +195,7 @@ namespace ProgrammingLanguageGUI.drawer {
 
         public void Rotate(Command command, VariableManager variableManager) {
             if (command is IRotatable rotatable) {
-                int degreesRotation = 360 / TRANSFORM_LAYERS;
+                double degreesRotation = 360.0 / TRANSFORM_LAYERS;
 
                 int originX = cursor.X;
                 int originY = cursor.Y;

@@ -1,0 +1,15 @@
+METHOD myMethod(xPos,yPos,size)
+	MOVE xPos yPos
+	CIRCLE size
+ENDMETHOD
+myMethod(100,150,50)
+myMethod(300,400,100)
+METHOD otherMethod
+	MOVE 400 50
+	TRIANGLE 100 100
+ENDMETHOD
+otherMethod()
+METHOD invalidMethod(xPosition,yPosition,width,height)
+	MOVE xPosition yPosition
+	RECTANGLE width height
+invalidMethod(100,400,50,50)

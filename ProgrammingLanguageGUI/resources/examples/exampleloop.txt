@@ -1,0 +1,22 @@
+VAR radius = 20
+VAR width = 20
+VAR height = 20
+VAR count = 1
+MOVE 300 300
+METHOD loopMethod
+	WHILE count < 10
+		CIRCLE radius
+		VAR radius = radius + 10
+		RECTANGLE width height
+		VAR width = width + 10
+		VAR height = height + 10
+		VAR count = count + 1
+	ENDLOOP
+ENDMETHOD
+loopMethod()
+MOVE 300 200
+VAR radius = 20
+VAR width = 20
+VAR height = 20
+VAR count = 1
+loopMethod()

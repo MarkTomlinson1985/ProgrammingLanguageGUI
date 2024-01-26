@@ -3,7 +3,7 @@
         public static Color COMMAND_WORDS_COLOUR = Color.Orange;
         public static Color KEY_WORDS_COLOUR = Color.FromArgb(218, 28, 232);
         public static Color NUMERIC_COLOUR = Color.FromArgb(27, 168, 100);
-
+        public static Color TRANSFORM_COLOUR = Color.FromArgb(27, 168, 100);
 
         public static List<string> COMMAND_WORDS = new List<string>() {
             "circle", 
@@ -14,7 +14,8 @@
             "pen", 
             "rectangle", 
             "reset", 
-            "triangle" };
+            "triangle",
+            "polygon"};
 
         public static List<string> KEY_WORDS = new List<string>() {
             "while", 
@@ -25,6 +26,7 @@
             "method",
             "endmethod"};
 
-
+        public static List<string> TRANSFORM_WORDS = new List<string>() {
+            "rotate"};
     }
 }

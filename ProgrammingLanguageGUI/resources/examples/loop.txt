@@ -1,0 +1,16 @@
+VAR a = 1
+WHILE a < 255
+	MOVE a a
+	PEN a,0,0
+	CIRCLE a
+	VAR a = a + 10
+	ENDLOOP
+MOVE 300 300
+VAR a = 1
+VAR b = 1
+WHILE a < 255
+	PEN 0,a,b
+	TRIANGLE a b
+	VAR a = a + 5
+	VAR b = b + 2
+ENDLOOP
