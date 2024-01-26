@@ -23,11 +23,11 @@ namespace ProgrammingLanguageGUI.commands {
         }
 
         public Command ParseCommand(string command) {
-            if (command.Equals(string.Empty)) {
-                return Command.Empty;
-            }
+            string parsedCommand = command.Split("//")[0].Replace("\t", "").Trim();
 
-            Command? builtCommand = CommandFactory.BuildCommand(command);
+            if (parsedCommand.Equals(string.Empty)) {  return Command.Empty; }
+
+            Command? builtCommand = CommandFactory.BuildCommand(command.Split("//")[0].Replace("\t", "").Trim());
 
             if (builtCommand != null) {
                 return builtCommand;

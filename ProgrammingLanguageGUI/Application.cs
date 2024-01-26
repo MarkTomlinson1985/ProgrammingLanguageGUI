@@ -14,6 +14,7 @@ namespace ProgrammingLanguageGUI {
         private SyntaxParser syntaxParser;
         private VariableManager variableManager;
         private Color defaultColour;
+        private string lastCommand;
 
         public Application() {
             InitializeComponent();
@@ -49,7 +50,16 @@ namespace ProgrammingLanguageGUI {
 
         private void runCommand_Click(object sender, EventArgs e) {
             string command = commandText.Text;
+
+            //DEBUG
+            if (command.ToLower().Equals("dt")) {
+                ThreadManager.TERMINATE_THREADS = true;
+                commandText.Text = "";
+                return;
+            }
+
             outputText.Text = runner.RunCommand(command);
+            lastCommand = commandText.Text;
             commandText.Text = "";
         }
 
@@ -124,9 +134,9 @@ namespace ProgrammingLanguageGUI {
 
                 if (results.LineNumbers.Contains(i + 1)) {
                     continue;
-                } 
-                    
-                ColourLine(startIndex, length);                
+                }
+
+                ColourLine(startIndex, length);
             }
         }
 
@@ -150,7 +160,7 @@ namespace ProgrammingLanguageGUI {
 
                 int indexOfSpace = programEditor.Text.IndexOf(" ", indexOfNextSpace + 1);
                 int indexOfNewLine = programEditor.Text.IndexOf("\n", indexOfNextSpace + 1);
-                
+
                 i = indexOfNextSpace;
 
                 if (indexOfSpace != -1 || indexOfNewLine != -1) {
@@ -182,6 +192,12 @@ namespace ProgrammingLanguageGUI {
 
         public static void AddComponent(Control control) {
             application.Controls.Add(control);
+        }
+
+        private void commandText_KeyUp(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Up) {
+                commandText.Text = lastCommand;
+            }
         }
     }
 }

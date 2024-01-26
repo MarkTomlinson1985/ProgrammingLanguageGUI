@@ -26,6 +26,24 @@ namespace ProgrammingLanguageGUITest.tests.commands
         }
 
         /// <summary>
+        /// Tests that the ParseCommand method returns a Command with the correct
+        /// derived type with a valid command argument with a comment.
+        /// </summary>
+        [TestMethod]
+        public void ParseCommandShouldReturnCommandWithValidCommandAndComment() {
+            Assert.IsInstanceOfType(processor.ParseCommand("CIRCLE // This is a comment"), typeof(Circle));
+        }
+
+        /// <summary>
+        /// Tests that the ParseCommand method returns a Command with the correct
+        /// derived type with a valid command argument with a comment.
+        /// </summary>
+        [TestMethod]
+        public void ParseCommandShouldReturnEmptyCommandWithComment() {
+            Assert.IsInstanceOfType(processor.ParseCommand("// This is a comment"), typeof(Empty));
+        }
+
+        /// <summary>
         /// Tests that the ParseCommand method throws a CommandNotFoundException when provided with
         /// an unknown/not implemented command argument.
         /// </summary>

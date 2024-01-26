@@ -163,6 +163,7 @@
             commandText.Size = new Size(566, 20);
             commandText.TabIndex = 6;
             commandText.KeyPress += commandText_KeyPress;
+            commandText.KeyUp += commandText_KeyUp;
             // 
             // runCommand
             // 
