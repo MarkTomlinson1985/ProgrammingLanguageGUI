@@ -44,7 +44,6 @@ namespace ProgrammingLanguageGUI.drawer {
                 while (!ThreadManager.TERMINATE_THREADS) {
 
                     lock (bitmapLock) {
-                        drawingBoxGraphics.Clear(backgroundColour);
 
                         if (DrawerProperties.SwitchLayer) {
                             RedrawImageOnLayer(0);
@@ -65,7 +64,6 @@ namespace ProgrammingLanguageGUI.drawer {
                 while (!ThreadManager.TERMINATE_THREADS) {
 
                     lock (bitmapLock) {
-                        drawingBoxGraphics.Clear(backgroundColour);
 
                         if (count % 2 == 0) {
                             RedrawTransform(0, count);
