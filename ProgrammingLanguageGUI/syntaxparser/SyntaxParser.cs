@@ -1,18 +1,15 @@
 ﻿namespace ProgrammingLanguageGUI.syntaxparser {
     public class SyntaxParser {
-        private static List<string> commandWords = new List<string>() {
-            "circle", "clear", "drawto", "fill", "move", "pen", "rectangle", "reset", "triangle" };
-        private static List<string> keyWords = new List<string>() {
-            "while", "if", "var", "method" };
-
-        public Color ParseWord(string word) {
-            if (commandWords.Contains(word.ToLower())) {
-                return Color.Orange;
-            } else if (keyWords.Contains(word.ToLower())) {
-                return Color.Purple;
+        public Color ParseWord(string word, Color defaultColour) {
+            if (ColourConfig.COMMAND_WORDS.Contains(word.ToLower())) {
+                return ColourConfig.COMMAND_WORDS_COLOUR;
+            } else if (ColourConfig.KEY_WORDS.Contains(word.ToLower())) {
+                return ColourConfig.KEY_WORDS_COLOUR;
+            } else if (int.TryParse(word, out var key)) {
+                return ColourConfig.NUMERIC_COLOUR;
             }
 
-            return Color.White;
+            return defaultColour;
         }
 
     }

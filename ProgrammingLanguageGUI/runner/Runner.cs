@@ -44,13 +44,21 @@ namespace ProgrammingLanguageGUI.runner {
                     // stage, e.g. defining blocks of code or calling methods.
 
                     // While command
-                    if (commands[i] is While && drawer.DrawerProperties.DrawerEnabled) {
+                    if (commands[i] is While) {
+                        
+                        // If purely checking syntax and not running program, move on to first
+                        // command in code block sequentially to check syntax instead of looping.
+                        if (!drawer.DrawerProperties.DrawerEnabled) {
+                            continue;
+                        }
+
                         i = HandleLoop(i, commands);
                         continue;
                     }
 
                     // If command
                     if (commands[i] is If ifCommand) {
+
                         if (ifCommand.Evaluate()) {
                             if (ifCommand.HasInlineCommand()) {
                                 Command inlineCommand = ifCommand.Retrieve();
@@ -58,6 +66,11 @@ namespace ProgrammingLanguageGUI.runner {
                                 continue;
                             }
                         }
+
+                        if (!drawer.DrawerProperties.DrawerEnabled) {
+                            continue;
+                        }
+
                         i = HandleIfBlock(i, commands);
                         continue;
                     }
@@ -73,6 +86,11 @@ namespace ProgrammingLanguageGUI.runner {
                         }
 
                         method.EndLineNumber = results.GetCommands().GetValueOrDefault(commands[endMethodIndex]) - 1;
+
+                        if (!drawer.DrawerProperties.DrawerEnabled) {
+                            continue;
+                        }
+
                         i = method.EndLineNumber;
                         continue;
                     }
@@ -82,6 +100,10 @@ namespace ProgrammingLanguageGUI.runner {
                         if (callMethod.GetMethodEnd() == -1) {
                             callMethod.UnassignVariables(variableManager);
                             throw new CommandNotFoundException($"Improperly declared method: '{callMethod.MethodName}'.");
+                        }
+
+                        if (!drawer.DrawerProperties.DrawerEnabled) {
+                            continue;
                         }
 
                         for (int j = callMethod.GetMethodStart(); j <= callMethod.GetMethodEnd(); j++) {
@@ -137,7 +159,7 @@ namespace ProgrammingLanguageGUI.runner {
                 Debug.WriteLine(ex.Message);
             }
             drawer.DrawerProperties.DrawerEnabled = true;
-            return SyntaxResults.Builder().Build();
+            return SyntaxResults.Builder().LineNumbers([]).SyntaxErrors([]).Build();
         }
 
         private int HandleLoop(int loopIndex, List<Command> commands) {

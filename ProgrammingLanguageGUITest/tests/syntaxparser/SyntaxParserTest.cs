@@ -11,16 +11,50 @@ namespace ProgrammingLanguageGUITest.tests.file {
         private SyntaxParser syntaxParser = new SyntaxParser();
 
         /// <summary>
-        /// Tests that the ParseWord method returns the expected colour.
+        /// Tests that the ParseWord method returns the expected colour for Command words.
         /// </summary>
         [TestMethod]
-        [DataRow("Orange", "circle", "clear", "drawto", "fill", "move", "pen", "rectangle", "reset", "triangle")]
-        [DataRow("Purple", "while", "if", "var", "method")]
-        [DataRow("White", "50", "INVALID", "test")]
-        public void ParseWordShouldReturnColour(string colourName, params string[] words) {
-            Color colour = Color.FromName(colourName);
+        [DataRow("circle", "clear", "drawto", "fill", "move", "pen", "rectangle", "reset", "triangle")]
+        public void ParseWordShouldReturnExpectedColourForCommandWord(params string[] words) {
+            Color colour = ColourConfig.COMMAND_WORDS_COLOUR;
             foreach (string word in words) {
-                Assert.AreEqual(colour, syntaxParser.ParseWord(word));
+                Assert.AreEqual(colour, syntaxParser.ParseWord(word, Color.Empty));
+            }
+        }
+
+        /// <summary>
+        /// Tests that the ParseWord method returns the expected colour for Key words.
+        /// </summary>
+        [TestMethod]
+        [DataRow("while", "endloop", "if", "endif", "var", "method", "endmethod")]
+        public void ParseWordShouldReturnExpectedColourForKeyWord(params string[] words) {
+            Color colour = ColourConfig.KEY_WORDS_COLOUR;
+            foreach (string word in words) {
+                Assert.AreEqual(colour, syntaxParser.ParseWord(word, Color.Empty));
+            }
+        }
+
+        /// <summary>
+        /// Tests that the ParseWord method returns the expected colour for numeric input.
+        /// </summary>
+        [TestMethod]
+        [DataRow("0", "10", "200", "-300")]
+        public void ParseWordShouldReturnExpectedColourForNumericWord(params string[] words) {
+            Color colour = ColourConfig.NUMERIC_COLOUR;
+            foreach (string word in words) {
+                Assert.AreEqual(colour, syntaxParser.ParseWord(word, Color.Empty));
+            }
+        }
+
+        /// <summary>
+        /// Tests that the ParseWord method returns the expected colour for miscellaneous input.
+        /// </summary>
+        [TestMethod]
+        [DataRow("the", "test", "INVALID")]
+        public void ParseWordShouldReturnDefaultColourForMiscellaneousWord(params string[] words) {
+            Color colour = Color.White;
+            foreach (string word in words) {
+                Assert.AreEqual(colour, syntaxParser.ParseWord(word, colour));
             }
         }
 

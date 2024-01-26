@@ -14,7 +14,6 @@ namespace ProgrammingLanguageGUI {
         private SyntaxParser syntaxParser;
         private VariableManager variableManager;
         private Color defaultColour;
-        private static bool hasErrors = false;
 
         public Application() {
             InitializeComponent();
@@ -46,44 +45,6 @@ namespace ProgrammingLanguageGUI {
                     lineText.AppendText(Environment.NewLine);
                 }
             }
-        }
-
-        private void ColorProgram() {
-            int indexOfNextSpace = programEditor.Text.IndexOf(" ");
-            programEditor.StopRepaint();
-            for (int i = 0; i < programEditor.Text.Length; i++) {
-                if (indexOfNextSpace == -1 || indexOfNextSpace < i) {
-                    break;
-                }
-
-                string word = programEditor.Text.Substring(i, indexOfNextSpace - i);
-                Color wordColour = syntaxParser.ParseWord(word);
-
-                //if (!wordColour.Equals(Color.Empty)) {
-                int currentCursorIndex = programEditor.SelectionStart;
-                programEditor.SelectionStart = i;
-                programEditor.SelectionLength = indexOfNextSpace - i;
-                programEditor.SelectionColor = wordColour;
-                programEditor.SelectionStart = currentCursorIndex;
-                //}
-
-                if (indexOfNextSpace == programEditor.Text.Length - 1) {
-                    break;
-                }
-
-                i = indexOfNextSpace;
-                int indexOfSpace = programEditor.Text.IndexOf(" ", indexOfNextSpace + 1);
-                int indexOfNewLine = programEditor.Text.IndexOf("\n", indexOfNextSpace + 1);
-
-                if (indexOfSpace != -1 || indexOfNewLine != -1) {
-                    if (indexOfSpace != -1 && indexOfNewLine != -1) {
-                        indexOfNextSpace = Math.Min(programEditor.Text.IndexOf(" ", indexOfNextSpace + 1), programEditor.Text.IndexOf("\n", indexOfNextSpace + 1));
-                    } else {
-                        indexOfNextSpace = Math.Max(indexOfSpace, indexOfNewLine);
-                    }
-                }
-            }
-            programEditor.StartRepaint();
         }
 
         private void runCommand_Click(object sender, EventArgs e) {
@@ -139,33 +100,67 @@ namespace ProgrammingLanguageGUI {
         }
 
         private void CheckProgramSyntax() {
-            //ColorProgram();
             SyntaxResults results = runner.CheckProgramSyntax(programEditor.Text);
-
-            if (!hasErrors && !results.HasErrors) { return; }
-
-            if (!results.HasErrors) {
-                ColourText(0, programEditor.Text.Length);
-                hasErrors = false;
-                return;
-            }
-
+            ColourProgram(results);
             ShowErrors(results);
-            hasErrors = true;
         }
 
         private void ShowErrors(SyntaxResults results) {
             outputText.Text = string.Join("\n", results.SyntaxErrors);
 
             for (int i = 0; i < programEditor.Lines.Length; i++) {
+                if (results.LineNumbers.Contains(i + 1)) {
+                    int startIndex = programEditor.GetFirstCharIndexFromLine(i);
+                    int length = programEditor.Lines[i].Length;
+                    ColourText(startIndex, length, Color.Red);
+                }
+            }
+        }
+
+        private void ColourProgram(SyntaxResults results) {
+            for (int i = 0; i < programEditor.Lines.Length; i++) {
                 int startIndex = programEditor.GetFirstCharIndexFromLine(i);
                 int length = programEditor.Lines[i].Length;
 
                 if (results.LineNumbers.Contains(i + 1)) {
-                    ColourText(startIndex, length, Color.Red);
-                } else {
-                    ColourText(startIndex, length);
+                    continue;
+                } 
+                    
+                ColourLine(startIndex, length);                
+            }
+        }
+
+        private void ColourLine(int startIndex, int lineLength) {
+            int indexOfNextSpace = programEditor.Text.IndexOf(" ", startIndex);
+
+            for (int i = startIndex; i < startIndex + lineLength; i++) {
+                if (indexOfNextSpace == -1 || indexOfNextSpace < i || indexOfNextSpace > startIndex + lineLength) {
+                    indexOfNextSpace = startIndex + lineLength;
                 }
+
+                string word = programEditor.Text.Substring(i, indexOfNextSpace - i);
+                Color wordColour = syntaxParser.ParseWord(word.Trim(), defaultColour);
+
+                ColourText(i, word.Length, wordColour);
+
+                // Last word in the program
+                if (indexOfNextSpace == programEditor.Text.Length) {
+                    break;
+                }
+
+                int indexOfSpace = programEditor.Text.IndexOf(" ", indexOfNextSpace + 1);
+                int indexOfNewLine = programEditor.Text.IndexOf("\n", indexOfNextSpace + 1);
+                
+                i = indexOfNextSpace;
+
+                if (indexOfSpace != -1 || indexOfNewLine != -1) {
+                    if (indexOfSpace != -1 && indexOfNewLine != -1) {
+                        indexOfNextSpace = Math.Min(programEditor.Text.IndexOf(" ", indexOfNextSpace + 1), programEditor.Text.IndexOf("\n", indexOfNextSpace + 1));
+                    } else {
+                        indexOfNextSpace = Math.Max(indexOfSpace, indexOfNewLine);
+                    }
+                }
+
             }
         }
 
