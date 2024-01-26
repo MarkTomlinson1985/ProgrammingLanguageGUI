@@ -7,7 +7,6 @@ using ProgrammingLanguageGUI.syntaxparser;
 
 namespace ProgrammingLanguageGUI {
     public partial class Application : Form {
-        private static Application application;
         private Drawer drawer;
         private CommandProcessor commandProcessor;
         private Runner runner;
@@ -18,13 +17,13 @@ namespace ProgrammingLanguageGUI {
 
         public Application() {
             InitializeComponent();
-            application = this;
             drawer = new Drawer(drawingBox);
             variableManager = new VariableManager();
             commandProcessor = new CommandProcessor();
             runner = new Runner(commandProcessor, drawer, variableManager);
             syntaxParser = new SyntaxParser();
             defaultColour = programEditor.ForeColor;
+            lastCommand = "";
 
             FormClosing += Application_FormClosing;
         }
@@ -188,10 +187,6 @@ namespace ProgrammingLanguageGUI {
             programEditor.SelectionStart = currentIndex;
             programEditor.SelectionLength = 0;
             programEditor.StartRepaint();
-        }
-
-        public static void AddComponent(Control control) {
-            application.Controls.Add(control);
         }
 
         private void commandText_KeyUp(object sender, KeyEventArgs e) {
