@@ -11,59 +11,62 @@ VAR targetG = 155
 VAR targetB = 65
 VAR redUp = 1
 VAR greenUp = 1
+METHOD drawRectangle(xPos,yPos,red,green,blue)
+	MOVE xPos yPos
+	PEN red,green,blue
+	RECTANGLE 30 30
+ENDMETHOD
 // start with 114, 129, 247  -- sky
 // then 240, 155, 65  -- sunset
 // then 65, 94, 19  -- ground
 FILL ON
 WHILE i < 800
 	WHILE j < 700
-		MOVE j i
 		VAR r = r + 2
 		VAR g = g + 1
 		VAR b = b - 1
-		PEN r,g,b
-		RECTANGLE 30 30
+		drawRectangle(j,i,r,g,b)
 		VAR j = j + 30
 	ENDLOOP
-VAR r = baseR
-VAR g = baseG
-VAR b = baseB
-VAR i = i + 30
-VAR j = 0
+	VAR r = baseR
+	VAR g = baseG
+	VAR b = baseB
+	VAR i = i + 30
+	VAR j = 0
 
-IF r > 240
-	IF redUp == 1 
-		VAR redUp = 0
+	IF r > 240
+		IF redUp == 1 
+			VAR redUp = 0
+		ENDIF
 	ENDIF
-ENDIF
 
-IF redUp == 1
-	VAR r = r + 20
-ENDIF
-
-IF redUp == 0
-	VAR r = r - 22
-ENDIF
-
-IF g > 155
-	IF greenUp == 1 
-		VAR greenUp = 0
+	IF redUp == 1
+		VAR r = r + 20
 	ENDIF
-ENDIF
 
-IF greenUp == 1
-	VAR g = g + 4
-	VAR b = b - 20
-ENDIF
+	IF redUp == 0
+		VAR r = r - 22
+	ENDIF
 
-IF greenUp == 0
-	VAR g = g - 7
-	VAR b = b - 4
-ENDIF
+	IF g > 155
+		IF greenUp == 1 
+			VAR greenUp = 0
+		ENDIF
+	ENDIF
 
-VAR baseR = r
-VAR baseG = g
-VAR baseB = b
+	IF greenUp == 1
+		VAR g = g + 4
+		VAR b = b - 20
+	ENDIF
+
+	IF greenUp == 0
+		VAR g = g - 7
+		VAR b = b - 4
+	ENDIF
+
+	VAR baseR = r
+	VAR baseG = g
+	VAR baseB = b
 ENDLOOP
 MOVE 600 270
 PEN 252,220,182
@@ -84,7 +87,6 @@ CIRCLE 100
 	// CIRCLE size
 	// VAR count = count + 1
 // ENDLOOP
-
 MOVE 570 300
 PEN 225,155,45
 RECTANGLE 30 30

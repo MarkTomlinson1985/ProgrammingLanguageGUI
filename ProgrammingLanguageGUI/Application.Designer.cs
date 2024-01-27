@@ -26,8 +26,10 @@
         ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Application));
             runPanel = new Panel();
+            toggleSyntaxButton = new Button();
             newButton = new Button();
             saveButton = new Button();
             openButton = new Button();
@@ -38,6 +40,7 @@
             commandText = new TextBox();
             runCommand = new Button();
             drawingBox = new PictureBox();
+            buttonTooltip = new ToolTip(components);
             runPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)drawingBox).BeginInit();
             SuspendLayout();
@@ -45,6 +48,7 @@
             // runPanel
             // 
             runPanel.BackColor = Color.FromArgb(84, 86, 109);
+            runPanel.Controls.Add(toggleSyntaxButton);
             runPanel.Controls.Add(newButton);
             runPanel.Controls.Add(saveButton);
             runPanel.Controls.Add(openButton);
@@ -54,6 +58,23 @@
             runPanel.Name = "runPanel";
             runPanel.Size = new Size(1246, 39);
             runPanel.TabIndex = 2;
+            // 
+            // toggleSyntaxButton
+            // 
+            toggleSyntaxButton.BackColor = Color.FromArgb(84, 86, 109);
+            toggleSyntaxButton.BackgroundImageLayout = ImageLayout.Stretch;
+            toggleSyntaxButton.FlatAppearance.BorderSize = 0;
+            toggleSyntaxButton.FlatStyle = FlatStyle.Flat;
+            toggleSyntaxButton.ForeColor = Color.LimeGreen;
+            toggleSyntaxButton.Location = new Point(105, 3);
+            toggleSyntaxButton.Margin = new Padding(0);
+            toggleSyntaxButton.Name = "toggleSyntaxButton";
+            toggleSyntaxButton.Size = new Size(43, 30);
+            toggleSyntaxButton.TabIndex = 4;
+            toggleSyntaxButton.Text = "</>";
+            toggleSyntaxButton.UseVisualStyleBackColor = false;
+            toggleSyntaxButton.Click += toggleSyntaxButton_Click;
+            toggleSyntaxButton.MouseHover += toggleSyntaxButton_MouseHover;
             // 
             // newButton
             // 
@@ -189,6 +210,12 @@
             drawingBox.TabIndex = 7;
             drawingBox.TabStop = false;
             // 
+            // buttonTooltip
+            // 
+            buttonTooltip.AutoPopDelay = 5000;
+            buttonTooltip.InitialDelay = 200;
+            buttonTooltip.ReshowDelay = 100;
+            // 
             // Application
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -222,5 +249,7 @@
         private Button openButton;
         private Button saveButton;
         private Button newButton;
+        private Button toggleSyntaxButton;
+        private ToolTip buttonTooltip;
     }
 }

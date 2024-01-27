@@ -109,9 +109,11 @@ namespace ProgrammingLanguageGUI {
         }
 
         private void CheckProgramSyntax() {
-            SyntaxResults results = runner.CheckProgramSyntax(programEditor.Text);
-            ColourProgram(results);
-            ShowErrors(results);
+            if (Configuration.EnableSyntaxChecking) {
+                SyntaxResults results = runner.CheckProgramSyntax(programEditor.Text);
+                ColourProgram(results);
+                ShowErrors(results);
+            }
         }
 
         private void ShowErrors(SyntaxResults results) {
@@ -199,6 +201,33 @@ namespace ProgrammingLanguageGUI {
                 commandText.Text = lastCommand;
                 commandText.SelectionStart = commandText.TextLength;
             }
+        }
+
+        private void toggleSyntaxButton_Click(object sender, EventArgs e) {
+            Configuration.EnableSyntaxChecking = !Configuration.EnableSyntaxChecking;
+            toggleSyntaxButton.ForeColor = 
+                Configuration.EnableSyntaxChecking == true 
+                    ? Color.LimeGreen
+                    : Color.LightGray;
+
+            if (!Configuration.EnableSyntaxChecking) {
+                int currentSelectionIndex = programEditor.SelectionStart;
+                programEditor.StopRepaint();
+                programEditor.SelectAll();
+                programEditor.SelectionColor = defaultColour;
+                programEditor.SelectionStart = currentSelectionIndex;
+                programEditor.StartRepaint();
+            } else {
+                CheckProgramSyntax();
+            }
+        }
+
+        private void toggleSyntaxButton_MouseHover(object sender, EventArgs e) {
+            buttonTooltip.SetToolTip(
+                toggleSyntaxButton,
+                Configuration.EnableSyntaxChecking == true
+                    ? "Disable syntax checking"
+                    : "Enable syntax checking");
         }
     }
 }

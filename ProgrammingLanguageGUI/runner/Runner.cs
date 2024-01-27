@@ -110,6 +110,9 @@ namespace ProgrammingLanguageGUI.runner {
                         }
 
                         for (int j = callMethod.GetMethodStart(); j <= callMethod.GetMethodEnd(); j++) {
+                            // Declared method does not exist within the while loop program. The commands within
+                            // the method don't exist. May need to store the commands within the method itself so
+                            // they can be executed from anywhere.
                             Command command = results.GetCommands().First(entry => entry.Value == j).Key;
                             command.Execute(drawer, variableManager);
                         }

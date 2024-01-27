@@ -53,7 +53,7 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
         }
 
         public override string ToString() {
-            return arguments[0];
+            return $"{arguments[0]}({string.Join(",", arguments.Skip(1).ToArray())})";
         }
     }
 }
