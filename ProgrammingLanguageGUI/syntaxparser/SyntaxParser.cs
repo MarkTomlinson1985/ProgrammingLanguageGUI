@@ -1,4 +1,6 @@
-﻿namespace ProgrammingLanguageGUI.syntaxparser {
+﻿using System.Text.RegularExpressions;
+
+namespace ProgrammingLanguageGUI.syntaxparser {
     public class SyntaxParser {
         public Color ParseWord(string word, Color defaultColour) {
             if (ColourConfig.COMMAND_WORDS.Contains(word.ToLower())) {
@@ -9,6 +11,8 @@
                 return ColourConfig.TRANSFORM_COLOUR;
             } else if (int.TryParse(word, out var key)) {
                 return ColourConfig.NUMERIC_COLOUR;
+            } else if (Regex.IsMatch(word, @"^(.*\(\)|.*\(.*\))$")) {
+                return ColourConfig.METHOD_COLOUR;
             }
             return defaultColour;
         }

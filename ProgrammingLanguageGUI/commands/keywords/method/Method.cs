@@ -46,5 +46,9 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
 
             parameterNames = [];
         }
+
+        public override string ToString() {
+            return $"METHOD {arguments[0]}";
+        }
     }
 }

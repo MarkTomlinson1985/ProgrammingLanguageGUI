@@ -51,5 +51,9 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
         public int GetMethodEnd() {
             return method.EndLineNumber;
         }
+
+        public override string ToString() {
+            return arguments[0];
+        }
     }
 }

@@ -4,6 +4,7 @@
         public static Color KEY_WORDS_COLOUR = Color.FromArgb(218, 28, 232);
         public static Color NUMERIC_COLOUR = Color.FromArgb(27, 168, 100);
         public static Color TRANSFORM_COLOUR = Color.FromArgb(27, 168, 100);
+        public static Color METHOD_COLOUR = Color.LightBlue;
 
         public static List<string> COMMAND_WORDS = new List<string>() {
             "circle", 

@@ -1,0 +1,108 @@
+VAR i = 0
+VAR j = 0 
+VAR r = 114
+VAR g = 129
+VAR b = 247
+VAR baseR = 114
+VAR baseG = 129
+VAR baseB = 247
+VAR targetR = 240
+VAR targetG = 155
+VAR targetB = 65
+VAR redUp = 1
+VAR greenUp = 1
+// start with 114, 129, 247  -- sky
+// then 240, 155, 65  -- sunset
+// then 65, 94, 19  -- ground
+FILL ON
+WHILE i < 800
+	WHILE j < 700
+		MOVE j i
+		VAR r = r + 2
+		VAR g = g + 1
+		VAR b = b - 1
+		PEN r,g,b
+		RECTANGLE 30 30
+		VAR j = j + 30
+	ENDLOOP
+VAR r = baseR
+VAR g = baseG
+VAR b = baseB
+VAR i = i + 30
+VAR j = 0
+
+IF r > 240
+	IF redUp == 1 
+		VAR redUp = 0
+	ENDIF
+ENDIF
+
+IF redUp == 1
+	VAR r = r + 20
+ENDIF
+
+IF redUp == 0
+	VAR r = r - 22
+ENDIF
+
+IF g > 155
+	IF greenUp == 1 
+		VAR greenUp = 0
+	ENDIF
+ENDIF
+
+IF greenUp == 1
+	VAR g = g + 4
+	VAR b = b - 20
+ENDIF
+
+IF greenUp == 0
+	VAR g = g - 7
+	VAR b = b - 4
+ENDIF
+
+VAR baseR = r
+VAR baseG = g
+VAR baseB = b
+ENDLOOP
+MOVE 600 270
+PEN 252,220,182
+CIRCLE 100
+
+// Broken until fixed loop scopes.
+// VAR size = 100
+// VAR r = 255
+// VAR g = 202
+// VAR b = 138
+// VAR count = 0
+// WHILE count < 10
+	// VAR r = r - 1
+	// VAR g = g + 1
+	// VAR b = b + 3
+	// VAR size = size - 5
+	// PEN r,g,b
+	// CIRCLE size
+	// VAR count = count + 1
+// ENDLOOP
+
+MOVE 570 300
+PEN 225,155,45
+RECTANGLE 30 30
+MOVE 600 300
+PEN 230,160,40
+RECTANGLE 30 30
+MOVE 630 300
+PEN 235,163,38
+RECTANGLE 30 30
+MOVE 600 330
+PEN 215,155,30
+RECTANGLE 30 30
+MOVE 630 330
+PEN 230,160,40
+RECTANGLE 30 30
+MOVE 540 300
+PEN 230,160,40
+RECTANGLE 30 30
+MOVE 570 330
+PEN 215,150,38
+RECTANGLE 30 30

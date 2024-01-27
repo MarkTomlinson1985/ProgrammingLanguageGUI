@@ -1,5 +1,4 @@
-﻿using ProgrammingLanguageGUI.commands.keywords;
-using ProgrammingLanguageGUI.drawer;
+﻿using ProgrammingLanguageGUI.drawer;
 
 namespace ProgrammingLanguageGUI.commands.keywords.method {
     public class EndMethod : Command {
@@ -13,6 +12,10 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
 
         public override void ValidateCommand(VariableManager variableManager) {
             base.ValidateCommand(variableManager);
+        }
+
+        public override string ToString() {
+            return "ENDMETHOD";
         }
     }
 }

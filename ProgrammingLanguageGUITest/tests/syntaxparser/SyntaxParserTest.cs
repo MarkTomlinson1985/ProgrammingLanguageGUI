@@ -59,6 +59,18 @@ namespace ProgrammingLanguageGUITest.tests.file {
         }
 
         /// <summary>
+        /// Tests that the ParseWord method returns the expected colour for numeric input.
+        /// </summary>
+        [TestMethod]
+        [DataRow("myMethod()", "myMethod(100,100)")]
+        public void ParseWordShouldReturnExpectedColourForMethod(params string[] words) {
+            Color colour = ColourConfig.METHOD_COLOUR;
+            foreach (string word in words) {
+                Assert.AreEqual(colour, syntaxParser.ParseWord(word, Color.Empty));
+            }
+        }
+
+        /// <summary>
         /// Tests that the ParseWord method returns the expected colour for miscellaneous input.
         /// </summary>
         [TestMethod]

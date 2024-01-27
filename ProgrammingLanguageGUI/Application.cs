@@ -135,6 +135,11 @@ namespace ProgrammingLanguageGUI {
                     continue;
                 }
 
+                if (length > 2 && programEditor.Lines[i].Trim().StartsWith("//")) {
+                    ColourText(startIndex, length, Color.LightGreen);
+                    continue;
+                }
+
                 ColourLine(startIndex, length);
             }
         }

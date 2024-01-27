@@ -1,6 +1,7 @@
 ﻿namespace ProgrammingLanguageGUI.file {
     public static class FileManager {
         private static string activePath = string.Empty;
+        private static string DEFAULT_PATH = "C:\\Users\\m_tom\\source\\repos\\ProgrammingLanguageGUI\\ProgrammingLanguageGUI\\resources\\examples\\";
 
         public static string SaveTextToFile(string text) {
             try {
@@ -14,7 +15,7 @@
                 saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
                 saveFileDialog.Title = "Save Program File";
                 saveFileDialog.FileName = "output.txt";
-                saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
+                saveFileDialog.InitialDirectory = DEFAULT_PATH;
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK) {
                     using StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName);
@@ -34,7 +35,7 @@
                 openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
                 openFileDialog.Title = "Open Program File";
                 openFileDialog.FileName = "";
-                openFileDialog.InitialDirectory = Environment.CurrentDirectory;
+                openFileDialog.InitialDirectory = DEFAULT_PATH;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK) {
                     string program = File.ReadAllText(openFileDialog.FileName);

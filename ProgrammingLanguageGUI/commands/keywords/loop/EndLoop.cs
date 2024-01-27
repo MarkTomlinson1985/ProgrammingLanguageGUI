@@ -15,5 +15,9 @@ namespace ProgrammingLanguageGUI.commands
         public override void ValidateCommand(VariableManager variableManager) {
             base.ValidateCommand(variableManager);
         }
+
+        public override string ToString() {
+            return "ENDLOOP";
+        }
     }
 }

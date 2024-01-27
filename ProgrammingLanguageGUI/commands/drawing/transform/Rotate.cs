@@ -41,5 +41,9 @@ namespace ProgrammingLanguageGUI.commands.keywords.loop {
         public bool HasInlineCommand() {
             return !(inlineCommand is Empty);
         }
+
+        public override string ToString() {
+            return $"ROTATE {string.Join(" ", arguments)}";
+        }
     }
 }

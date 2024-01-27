@@ -94,10 +94,6 @@ namespace ProgrammingLanguageGUI.runner {
 
                         method.EndLineNumber = results.GetCommands().GetValueOrDefault(commands[endMethodIndex]) - 1;
 
-                        if (!drawer.DrawerProperties.DrawerEnabled) {
-                            continue;
-                        }
-
                         i = method.EndLineNumber;
                         continue;
                     }
@@ -174,7 +170,7 @@ namespace ProgrammingLanguageGUI.runner {
             int endLoopIndex = 
                     commands.IndexOf(
                         commands.Skip(loopIndex)
-                            .FirstOrDefault(command => command is EndLoop, new EndLoop()));
+                            .LastOrDefault(command => command is EndLoop, new EndLoop()));
 
             if (endLoopIndex == -1) {
                 throw new CommandNotFoundException("Loop command has no defined end.");

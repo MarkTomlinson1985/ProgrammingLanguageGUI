@@ -7,7 +7,7 @@ using ProgrammingLanguageGUI.runner;
 namespace ProgrammingLanguageGUI.drawer {
     public class Drawer {
         private static int TRANSFORM_LAYERS = 100;
-        
+
         private readonly object bitmapLock = new();
         private readonly Graphics drawingBoxGraphics;
         private readonly Cursor cursor;
@@ -20,7 +20,7 @@ namespace ProgrammingLanguageGUI.drawer {
         private Bitmap[] transformLayers;
         private Bitmap drawingLayer;
         private int currentTransformLayer;
- 
+
         public Drawer(PictureBox drawingBox) {
             DrawerProperties = DrawerFactory.CreateDrawerProperties();
             cursor = DrawerFactory.CreateCursor();
@@ -31,20 +31,17 @@ namespace ProgrammingLanguageGUI.drawer {
             multiColours = DrawerFactory.CreateColours(multiColourLayers.Length);
             transformLayers = DrawerFactory.CreateBitmaps(drawingBox.Width, drawingBox.Height, TRANSFORM_LAYERS);
             backgroundColour = drawingBox.BackColor;
-
-            using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap)) {
-                bitmapGraphics.Clear(Color.Transparent);
-                bitmapGraphics.DrawEllipse(pen, 0, 0, 5, 5);
-            }
+            
+            using Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap);
+            bitmapGraphics.Clear(Color.Transparent);
+            bitmapGraphics.DrawEllipse(pen, 0, 0, 5, 5);
 
             drawingBoxGraphics = drawingBox.CreateGraphics();
             drawingBoxGraphics.DrawImage(cursor.Bitmap, 0, 0);
 
             Thread multiColourThread = new Thread(() => {
                 while (!ThreadManager.TERMINATE_THREADS) {
-
-                    lock (bitmapLock) {
-
+                    if (DrawerProperties.DrawerEnabled) {
                         if (DrawerProperties.SwitchLayer) {
                             RedrawImageOnLayer(0);
                             drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[1]));
@@ -54,7 +51,8 @@ namespace ProgrammingLanguageGUI.drawer {
                             drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[0]));
                         }
                         DrawerProperties.SwitchLayer = !DrawerProperties.SwitchLayer;
-                    }
+                    }         
+                    
                     Thread.Sleep(1000);
                 }
             });
@@ -62,9 +60,7 @@ namespace ProgrammingLanguageGUI.drawer {
             Thread transformThread = new Thread(() => {
                 int count = 0;
                 while (!ThreadManager.TERMINATE_THREADS) {
-
-                    lock (bitmapLock) {
-
+                    if (DrawerProperties.DrawerEnabled) {
                         if (count % 2 == 0) {
                             RedrawTransform(0, count);
                             drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[1]));
@@ -80,7 +76,9 @@ namespace ProgrammingLanguageGUI.drawer {
                             count++;
                         }
                     }
+                        
                     Thread.Sleep(50);
+                    
                 }
             });
 
@@ -89,21 +87,25 @@ namespace ProgrammingLanguageGUI.drawer {
         }
 
         private void RedrawImageOnLayer(int layer) {
-            using Graphics graphics = Graphics.FromImage(baseLayers[layer]);
-            graphics.Clear(Color.Transparent);
-            graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
-            graphics.DrawImage(drawingLayer, 0, 0);
-            graphics.DrawImage(multiColourLayers[layer], 0, 0);
-            graphics.DrawImage(transformLayers[currentTransformLayer], 0, 0);
+            lock (bitmapLock) {
+                using Graphics graphics = Graphics.FromImage(baseLayers[layer]);
+                graphics.Clear(Color.Transparent);
+                graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
+                graphics.DrawImage(drawingLayer, 0, 0);
+                graphics.DrawImage(multiColourLayers[layer], 0, 0);
+                graphics.DrawImage(transformLayers[currentTransformLayer], 0, 0);
+            }
         }
 
         private void RedrawTransform(int baseLayer, int transformLayer) {
-            using Graphics graphics = Graphics.FromImage(baseLayers[baseLayer]);
-            graphics.Clear(Color.Transparent);
-            graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
-            graphics.DrawImage(drawingLayer, 0, 0);
-            graphics.DrawImage(multiColourLayers[DrawerProperties.SwitchLayer ? 0 : 1], 0, 0);
-            graphics.DrawImage(transformLayers[transformLayer], 0, 0);
+            lock (bitmapLock) {
+                using Graphics graphics = Graphics.FromImage(baseLayers[baseLayer]);
+                graphics.Clear(Color.Transparent);
+                graphics.DrawImage(cursor.Bitmap, cursor.X - (cursor.Width / 4), cursor.Y - (cursor.Height / 4));
+                graphics.DrawImage(drawingLayer, 0, 0);
+                graphics.DrawImage(multiColourLayers[DrawerProperties.SwitchLayer ? 0 : 1], 0, 0);
+                graphics.DrawImage(transformLayers[transformLayer], 0, 0);
+            }
         }
 
         public void MoveTo(int toX, int toY) {
@@ -117,7 +119,8 @@ namespace ProgrammingLanguageGUI.drawer {
 
         public void DrawLine(int toX, int toY) {
             Draw(baseGraphics => {
-                baseGraphics.DrawLine(pen, cursor.X, cursor.Y, toX, toY);});
+                baseGraphics.DrawLine(pen, cursor.X, cursor.Y, toX, toY);
+            });
 
             if (DrawerProperties.DrawerEnabled) {
                 cursor.X = toX;
@@ -176,9 +179,10 @@ namespace ProgrammingLanguageGUI.drawer {
         public void ChangePenColour(Color colour) {
             DrawerProperties.MultiColours = false;
             pen.Color = colour;
-            using (Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap)) {
+            lock (bitmapLock) {
+                using Graphics bitmapGraphics = Graphics.FromImage(cursor.Bitmap);
                 bitmapGraphics.Clear(Color.Transparent);
-                bitmapGraphics.DrawEllipse(pen, 0, 0, 5, 5);
+                bitmapGraphics.DrawEllipse(pen, 0, 0, 5, 5);                
             }
             MoveTo(cursor.X, cursor.Y);
         }
@@ -203,10 +207,10 @@ namespace ProgrammingLanguageGUI.drawer {
                 double angleInRadians = degreesRotation * Math.PI / 180;
 
                 for (int i = 0; i < TRANSFORM_LAYERS; i++) {
-                    for (int j = 0; j < points.Length; j++) {     
+                    for (int j = 0; j < points.Length; j++) {
                         double rotatedX = (points[j].X - originX) * Math.Cos(angleInRadians) - (points[j].Y - originY) * Math.Sin(angleInRadians) + originX;
                         double rotatedY = (points[j].X - originX) * Math.Sin(angleInRadians) + (points[j].Y - originY) * Math.Cos(angleInRadians) + originY;
-                        points[j] = new Point((int) rotatedX, (int) rotatedY);
+                        points[j] = new Point((int)rotatedX, (int)rotatedY);
                     }
 
                     rotatable.ExecuteTransform(this, i);
@@ -218,7 +222,7 @@ namespace ProgrammingLanguageGUI.drawer {
             Point[] pointsWithOrigin = new Point[] { new(cursor.X, cursor.Y) }.Concat(points).ToArray();
 
             lock (bitmapLock) {
-                Graphics graphics = Graphics.FromImage(transformLayers[layer]);
+                using Graphics graphics = Graphics.FromImage(transformLayers[layer]);
                 graphics.DrawPolygon(pen, pointsWithOrigin);
             }
         }
@@ -234,8 +238,8 @@ namespace ProgrammingLanguageGUI.drawer {
 
             lock (bitmapLock) {
                 if (DrawerProperties.MultiColours) {
-                    Graphics layerOneGraphics = Graphics.FromImage(multiColourLayers[0]);
-                    Graphics layerTwoGraphics = Graphics.FromImage(multiColourLayers[1]);
+                    using Graphics layerOneGraphics = Graphics.FromImage(multiColourLayers[0]);
+                    using Graphics layerTwoGraphics = Graphics.FromImage(multiColourLayers[1]);
 
                     pen.Color = multiColours[0];
                     drawAction(layerOneGraphics);
@@ -244,7 +248,7 @@ namespace ProgrammingLanguageGUI.drawer {
                     return;
                 }
 
-                Graphics drawingLayerGraphics = Graphics.FromImage(drawingLayer);
+                using Graphics drawingLayerGraphics = Graphics.FromImage(drawingLayer);
                 drawAction(drawingLayerGraphics);
             }
         }

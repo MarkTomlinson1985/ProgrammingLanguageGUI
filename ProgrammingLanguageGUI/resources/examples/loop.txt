@@ -4,13 +4,92 @@ WHILE a < 255
 	PEN a,0,0
 	CIRCLE a
 	VAR a = a + 10
-	ENDLOOP
-MOVE 300 300
+ENDLOOP
+VAR a = 355
+VAR b = 255
+VAR c = 255
+WHILE a < 650
+	MOVE a b
+	PEN 0,0,b
+	CIRCLE c
+	VAR a = a + 10
+	VAR b = b - 10
+	VAR c = c - 10
+ENDLOOP
+MOVE 255 300
+VAR a = 255
+VAR b = 300
+VAR c = 255
+WHILE a < 255
+	MOVE a b
+	PEN 0,c,0
+	CIRCLE c
+	VAR a = a - 10
+	VAR b = b + 10
+	VAR c = c - 10
+ENDLOOP
+MOVE 255 300
+VAR a = 355
+VAR b = 300
+VAR c = 255
+WHILE a < 700
+	MOVE a b
+	PEN 0,c,0
+	CIRCLE c
+	VAR a = a + 10
+	VAR b = b + 10
+	VAR c = c - 10
+ENDLOOP
+MOVE 255 300
+VAR a = 255
+VAR b = 300
+VAR c = 255
+WHILE a > 0
+	MOVE a b
+	PEN a,c,50
+	CIRCLE c
+	VAR a = a - 10
+	VAR b = b + 10
+	VAR c = c - 10
+ENDLOOP
+
 VAR a = 1
 VAR b = 1
-WHILE a < 255
-	PEN 0,a,b
-	TRIANGLE a b
-	VAR a = a + 5
-	VAR b = b + 2
+VAR c = 1
+WHILE a < 700
+	MOVE a a
+	PEN 50,a,b
+	DRAWTO a 700
+	VAR a = a + 10
+	VAR b = b + 10
 ENDLOOP
+VAR a = 1
+VAR b = 1
+VAR c = 1
+WHILE a < 700
+	MOVE a 0
+	PEN a,50,b
+	DRAWTO a a
+	VAR a = a + 10
+	VAR b = b + 10
+ENDLOOP
+VAR a = 1
+VAR b = 1
+WHILE a < 700
+	MOVE 0 a
+	PEN a,b,150
+	DRAWTO a 700
+	VAR a = a + 15
+	VAR b = b + 10
+ENDLOOP
+VAR a = 700
+VAR b = 1
+WHILE a > 0
+	MOVE 700 a
+	PEN 150,b,b
+	DRAWTO a 0
+	VAR a = a - 15
+	VAR b = b + 10
+ENDLOOP
+
+

@@ -9,6 +9,19 @@ METHOD otherMethod
 	TRIANGLE 100 100
 ENDMETHOD
 otherMethod()
+METHOD drawTriangles(xPos,yPos,size)
+	MOVE xPos yPos
+	TRIANGLE size size
+	VAR size = size * 2
+	TRIANGLE size size
+	VAR size = size * 2
+ENDMETHOD
+drawTriangles(200,200,20)
+drawTriangles(300,200,40)
+VAR a = 400
+VAR b = 200
+VAR c = a - b
+drawTriangles(a,b,c)
 METHOD invalidMethod(xPosition,yPosition,width,height)
 	MOVE xPosition yPosition
 	RECTANGLE width height
