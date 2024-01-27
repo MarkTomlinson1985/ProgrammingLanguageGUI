@@ -13,6 +13,31 @@ VAR redUp = 1
 VAR greenUp = 1
 METHOD drawRectangle(xPos,yPos,red,green,blue)
 	MOVE xPos yPos
+
+	IF red < 0
+		VAR red = 0
+	ENDIF
+
+	IF red > 255
+		VAR red = 255
+	ENDIF
+
+	IF green < 0
+		VAR green = 0
+	ENDIF
+
+	IF green > 255
+		VAR green = 255
+	ENDIF
+	
+	IF blue < 0
+		VAR blue = 0
+	ENDIF
+
+	IF blue > 255
+		VAR blue = 255
+	ENDIF
+
 	PEN red,green,blue
 	RECTANGLE 30 30
 ENDMETHOD
@@ -22,10 +47,9 @@ ENDMETHOD
 FILL ON
 WHILE i < 800
 	WHILE j < 700
-		VAR r = r + 2
+		drawRectangle(j,i,r,g,b)
 		VAR g = g + 1
 		VAR b = b - 1
-		drawRectangle(j,i,r,g,b)
 		VAR j = j + 30
 	ENDLOOP
 	VAR r = baseR
@@ -87,24 +111,10 @@ CIRCLE 100
 	// CIRCLE size
 	// VAR count = count + 1
 // ENDLOOP
-MOVE 570 300
-PEN 225,155,45
-RECTANGLE 30 30
-MOVE 600 300
-PEN 230,160,40
-RECTANGLE 30 30
-MOVE 630 300
-PEN 235,163,38
-RECTANGLE 30 30
-MOVE 600 330
-PEN 215,155,30
-RECTANGLE 30 30
-MOVE 630 330
-PEN 230,160,40
-RECTANGLE 30 30
-MOVE 540 300
-PEN 230,160,40
-RECTANGLE 30 30
-MOVE 570 330
-PEN 215,150,38
-RECTANGLE 30 30
+drawRectangle(570,300,225,155,45)
+drawRectangle(600,300,230,160,40)
+drawRectangle(630,300,235,163,38)
+drawRectangle(600,330,215,155,30)
+drawRectangle(630,330,230,160,40)
+drawRectangle(540,300,230,160,40)
+drawRectangle(570,330,215,150,38)

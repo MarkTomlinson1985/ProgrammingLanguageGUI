@@ -84,38 +84,44 @@ namespace ProgrammingLanguageGUI.runner {
 
                     // Method command
                     if (commands[i] is Method method) {
-                        method.StartLineNumber = results.GetCommands().GetValueOrDefault(method) + 1;
+                        int startLineNumber = i + 1;
                         int endMethodIndex = commands.IndexOf(commands.Skip(i).FirstOrDefault(command => command is EndMethod, new EndMethod()));
 
                         if (endMethodIndex == -1) {
-                            method.EndLineNumber = -1;
                             throw new CommandNotFoundException("Method command has no defined end.");
                         }
 
-                        method.EndLineNumber = results.GetCommands().GetValueOrDefault(commands[endMethodIndex]) - 1;
+                        int endLineNumber = endMethodIndex;
 
-                        i = method.EndLineNumber;
+                        Command[] methodCommands = commands.GetRange(startLineNumber, endLineNumber - startLineNumber).ToArray();
+                        method.Commands = methodCommands;
+
+                        i = endLineNumber;
                         continue;
                     }
 
                     // CallMethod command
                     if (commands[i] is CallMethod callMethod) {
-                        if (callMethod.GetMethodEnd() == -1) {
+                        Command[] methodCommands = callMethod.GetMethodCommands();
+
+                        if (methodCommands == null || methodCommands.Length == 0) {
                             callMethod.UnassignVariables(variableManager);
                             throw new CommandNotFoundException($"Improperly declared method: '{callMethod.MethodName}'.");
                         }
+
 
                         if (!drawer.DrawerProperties.DrawerEnabled) {
                             continue;
                         }
 
-                        for (int j = callMethod.GetMethodStart(); j <= callMethod.GetMethodEnd(); j++) {
-                            // Declared method does not exist within the while loop program. The commands within
-                            // the method don't exist. May need to store the commands within the method itself so
-                            // they can be executed from anywhere.
-                            Command command = results.GetCommands().First(entry => entry.Value == j).Key;
-                            command.Execute(drawer, variableManager);
-                        }
+                        string methodProgram =
+                            string.Join(
+                                "\n",
+                                methodCommands
+                                    .Select(command => command.ToString())
+                                    .ToArray());
+                        
+                        RunProgram(methodProgram);
                         // Descope variables declared in method.
                         callMethod.UnassignVariables(variableManager);
                         continue;

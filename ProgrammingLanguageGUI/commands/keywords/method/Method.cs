@@ -5,12 +5,9 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
     public class Method(params string[] arguments) : Command(arguments) {
         private string methodName;
         public string MethodName { get { return methodName; } }
-        private int startLineNumber;
-        private int endLineNumber;
-        public int StartLineNumber { get { return startLineNumber; } set { startLineNumber = value; } }
-        public int EndLineNumber { get { return endLineNumber; } set { endLineNumber = value; } }
         private string[] parameterNames;
         public string[] Parameters { get { return parameterNames; } }
+        public Command[] Commands { get; set; }
 
         public override void Execute(Drawer drawer, VariableManager variableManager) {
             ValidateCommand(variableManager);

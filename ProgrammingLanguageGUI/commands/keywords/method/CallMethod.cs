@@ -44,12 +44,8 @@ namespace ProgrammingLanguageGUI.commands.keywords.method {
             }
         }
 
-        public int GetMethodStart() {
-            return method.StartLineNumber;
-        }
-
-        public int GetMethodEnd() {
-            return method.EndLineNumber;
+        public Command[] GetMethodCommands() {
+            return method.Commands;
         }
 
         public override string ToString() {
