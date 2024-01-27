@@ -97,24 +97,24 @@ PEN 252,220,182
 CIRCLE 100
 
 // Broken until fixed loop scopes.
-// VAR size = 100
-// VAR r = 255
-// VAR g = 202
-// VAR b = 138
-// VAR count = 0
-// WHILE count < 10
-	// VAR r = r - 1
-	// VAR g = g + 1
-	// VAR b = b + 3
-	// VAR size = size - 5
-	// PEN r,g,b
-	// CIRCLE size
-	// VAR count = count + 1
-// ENDLOOP
-drawRectangle(570,300,225,155,45)
-drawRectangle(600,300,230,160,40)
-drawRectangle(630,300,235,163,38)
-drawRectangle(600,330,215,155,30)
-drawRectangle(630,330,230,160,40)
-drawRectangle(540,300,230,160,40)
-drawRectangle(570,330,215,150,38)
+VAR size = 110
+VAR r = 255
+VAR g = 202
+VAR b = 138
+VAR count = 0
+WHILE count < 10
+	VAR r = r - 1
+	VAR g = g + 1
+	VAR b = b + 3
+	VAR size = size - 5
+	PEN r,g,b
+	CIRCLE size
+	VAR count = count + 1
+ENDLOOP
+drawRectangle(540,300,188,153,78)
+drawRectangle(570,300,187,154,81)
+drawRectangle(600,300,186,155,84)
+drawRectangle(630,300,185,156,87)
+drawRectangle(570,330,166,147,73)
+drawRectangle(600,330,165,148,76)
+drawRectangle(630,330,164,149,79)

@@ -27,7 +27,7 @@ namespace ProgrammingLanguageGUI.commands.keywords.loop {
                 throw new CommandArgumentException("Invalid command defined in selection statement.");
             }
 
-            if (command is ConditionalCommand) {
+            if (command is ConditionalCommand && command is not Var) {
                 throw new CommandArgumentException("Unsupported command defined in selection statement.");
             }
 

@@ -1,0 +1,61 @@
+VAR i = 0
+VAR j = 0 
+
+METHOD setRGB(red,green,blue)
+	VAR r = red
+	VAR g = green
+	VAR b = blue
+
+	IF r > 255 VAR r = 255
+	IF g > 255 VAR g = 255
+	IF b > 255 VAR b = 255
+	IF r < 0 VAR r = 0
+	IF g < 0 VAR g = 0
+	IF b < 0 VAR b = 0
+ENDMETHOD
+
+setRGB(1,17,68)
+
+METHOD drawRectangle(xPos,yPos,red,green,blue)
+	MOVE xPos yPos
+	PEN red,green,blue
+	RECTANGLE 30 30
+ENDMETHOD
+
+// Layers
+// start with 1, 17, 68  
+// to 6, 82, 158  
+// then at halfway:
+// 26, 66, 138
+// to 26, 31, 99 
+VAR halfway = 0
+FILL ON
+WHILE i < 800
+	WHILE j < 700
+		drawRectangle(j,i,r,g,b)
+		VAR j = j + 20
+	ENDLOOP
+	VAR i = i + 20
+	VAR j = 0
+
+	// every so many, throw in 'star' before halfway and 'dark wave' 	after
+	
+	IF i < 400
+		VAR g = g + 1
+		VAR b = b + 1
+	ENDIF
+
+	IF i > 400
+		IF halfway == 0
+			setRGB(26,66,138)	
+		ENDIF 
+		VAR halfway = 1
+	ENDIF
+
+	IF halfway == 1
+		VAR g = g - 1
+		VAR b = b - 1
+	ENDIF
+	
+	setRGB(r,g,b)
+ENDLOOP

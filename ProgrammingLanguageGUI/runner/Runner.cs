@@ -5,6 +5,7 @@ using ProgrammingLanguageGUI.commands.keywords.loop;
 using ProgrammingLanguageGUI.commands.keywords.method;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
+using System;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.runner {
@@ -66,12 +67,12 @@ namespace ProgrammingLanguageGUI.runner {
                     // If command
                     if (commands[i] is If ifCommand) {
 
-                        if (ifCommand.Evaluate()) {
-                            if (ifCommand.HasInlineCommand()) {
+                        if (ifCommand.HasInlineCommand()) {
+                            if (ifCommand.Evaluate()) {
                                 Command inlineCommand = ifCommand.Retrieve();
                                 inlineCommand.Execute(drawer, variableManager);
-                                continue;
                             }
+                            continue;
                         }
 
                         if (!drawer.DrawerProperties.DrawerEnabled) {
@@ -120,7 +121,7 @@ namespace ProgrammingLanguageGUI.runner {
                                 methodCommands
                                     .Select(command => command.ToString())
                                     .ToArray());
-                        
+
                         RunProgram(methodProgram);
                         // Descope variables declared in method.
                         callMethod.UnassignVariables(variableManager);
@@ -176,10 +177,7 @@ namespace ProgrammingLanguageGUI.runner {
         }
 
         private int HandleLoop(int loopIndex, List<Command> commands) {
-            int endLoopIndex = 
-                    commands.IndexOf(
-                        commands.Skip(loopIndex)
-                            .LastOrDefault(command => command is EndLoop, new EndLoop()));
+            int endLoopIndex = FindBlockEnd(loopIndex, commands, typeof(While), typeof(EndLoop));
 
             if (endLoopIndex == -1) {
                 throw new CommandNotFoundException("Loop command has no defined end.");
@@ -202,10 +200,7 @@ namespace ProgrammingLanguageGUI.runner {
         }
 
         private int HandleIfBlock(int ifIndex, List<Command> commands) {
-            int endIfIndex = 
-                commands.IndexOf(
-                    commands.Skip(ifIndex)
-                        .FirstOrDefault(command => command is EndIf, new EndIf()));
+            int endIfIndex = FindBlockEnd(ifIndex, commands, typeof(If), typeof(EndIf));
 
             if (endIfIndex == -1) {
                 throw new CommandNotFoundException("If block has no defined end.");
@@ -224,6 +219,33 @@ namespace ProgrammingLanguageGUI.runner {
             }
 
             return endIfIndex;
+        }
+
+        private int FindBlockEnd(int startIndex, List<Command> commands, Type blockStartType, Type blockEndType) {
+            int blockStartCommands = 1;
+            int blockEndCommands = 0;
+            int endIndex = -1;
+
+            for (int i = startIndex + 1; i < commands.Count(); i++) {
+                if (commands[i].GetType().Equals(blockEndType)) {
+                    blockEndCommands++;
+
+                    if (blockEndCommands == blockStartCommands) {
+                        endIndex = i;
+                        break;
+                    }
+                }
+
+                if (commands[i].GetType().Equals(blockStartType)) {
+                    blockStartCommands++;
+                }
+            }
+
+            if (endIndex == -1) {
+                throw new CommandNotFoundException("Block command has no defined end.");
+            }
+
+            return endIndex;
         }
     }
 }

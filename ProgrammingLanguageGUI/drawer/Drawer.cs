@@ -44,11 +44,17 @@ namespace ProgrammingLanguageGUI.drawer {
                     if (DrawerProperties.DrawerEnabled) {
                         if (DrawerProperties.SwitchLayer) {
                             RedrawImageOnLayer(0);
-                            drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[1]));
+                            drawingBox.BeginInvoke(new Action(() => {
+                                lock (bitmapLock) {
+                                    drawingBox.Image = baseLayers[1];
+                                }}));
 
                         } else {
                             RedrawImageOnLayer(1);
-                            drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[0]));
+                            drawingBox.BeginInvoke(new Action(() => {
+                                lock (bitmapLock) {
+                                    drawingBox.Image = baseLayers[0];
+                                }}));
                         }
                         DrawerProperties.SwitchLayer = !DrawerProperties.SwitchLayer;
                     }         
