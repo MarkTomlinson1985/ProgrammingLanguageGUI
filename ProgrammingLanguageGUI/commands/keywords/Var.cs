@@ -52,6 +52,7 @@ namespace ProgrammingLanguageGUI.commands
                     "-" => (argumentOne - argumentTwo).ToString(),
                     "*" => (argumentOne * argumentTwo).ToString(),
                     "/" => (argumentOne / argumentTwo).ToString(),
+                    "%" => (argumentOne % argumentTwo).ToString(),
                     _ => throw new CommandArgumentException("Invalid operator in variable assignment."),
                 };
             } catch (FormatException) {

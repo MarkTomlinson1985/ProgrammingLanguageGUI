@@ -64,8 +64,8 @@ namespace ProgrammingLanguageGUITest.tests.runner {
             string expectedMessage = 
                 "Line 2: Command INVALID not recognised.\n" +
                 "Line 3: Provided coordinate arguments must not be negative.\n" +
-                "Line 4: Loop command has no defined end.\n" +
-                "Line 6: If block has no defined end.\n" +
+                "Line 4: Block command has no defined end.\n" +
+                "Line 6: Block command has no defined end.\n" +
                 "Line 8: Unsupported command defined in transform statement.\n";
             Assert.AreEqual(expectedMessage, runner.RunProgram(program));
         }

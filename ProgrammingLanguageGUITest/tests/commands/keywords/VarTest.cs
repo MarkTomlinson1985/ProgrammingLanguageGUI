@@ -22,6 +22,7 @@ namespace ProgrammingLanguageGUITest.tests.commands {
         [DataRow("variable = 10 - 3")]
         [DataRow("variable = 10 * 2")]
         [DataRow("variable = 10 / 5")]
+        [DataRow("variable = 10 % 5")]
         public void ValidateCommandShouldSucceedWithValidArguments(string arguments) {
             Var command = new Var(arguments.Split(" "));
 

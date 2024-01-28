@@ -1,5 +1,8 @@
 VAR i = 0
 VAR j = 0 
+VAR r = 0
+VAR g = 0
+VAR b = 0
 
 METHOD setRGB(red,green,blue)
 	VAR r = red
@@ -30,16 +33,37 @@ ENDMETHOD
 // to 26, 31, 99 
 VAR halfway = 0
 FILL ON
+// SKY AND SEA WITH STARS AND WAVES
 WHILE i < 800
+	VAR count = i
 	WHILE j < 700
 		drawRectangle(j,i,r,g,b)
+		IF halfway == 0
+			VAR sum = count + i
+			VAR sum = sum % 17
+			IF sum == 0
+				PEN 182,192,227
+				CIRCLE 5
+			ENDIF
+		ENDIF
+		IF halfway == 1
+			VAR sum = count + i
+			VAR sum = sum % 9
+			VAR variation = j / 7
+			VAR width = 50 + variation
+			VAR height = j % 3
+			IF sum == 0
+				PEN 31,35,83
+				RECTANGLE width height
+			ENDIF
+		ENDIF
+
 		VAR j = j + 20
+		VAR count = count + 1
 	ENDLOOP
 	VAR i = i + 20
 	VAR j = 0
 
-	// every so many, throw in 'star' before halfway and 'dark wave' 	after
-	
 	IF i < 400
 		VAR g = g + 1
 		VAR b = b + 1
@@ -59,3 +83,55 @@ WHILE i < 800
 	
 	setRGB(r,g,b)
 ENDLOOP
+
+// MOON
+MOVE 320 340
+VAR k = 220
+setRGB(5,50,107)
+WHILE k > 190
+	PEN r,g,b
+	CIRCLE k
+	VAR g = g + 2
+	VAR b = b + 2 
+	VAR k = k - 2
+ENDLOOP
+CIRCLE 210
+PEN 244,249,253
+CIRCLE 190
+
+// COVER MOON WITH SEA
+VAR x = 240
+WHILE x <= 400
+	drawRectangle(x,420,26,65,137)
+	drawRectangle(x,440,26,64,136)
+	VAR x = x + 20
+ENDLOOP
+
+// MOON DETAILS
+PEN 217,226,243
+MOVE 270 340
+CIRCLE 70
+
+// MOON REFLECTIONS ON OCEAN
+METHOD drawHorizontalRectangle(startX,startY,red,green,blue,width)
+	MOVE startX startY
+	PEN red,green,blue
+	IF width >= 0 RECTANGLE width 2
+ENDMETHOD
+
+setRGB(245,250,254)
+
+VAR y = 410
+VAR count = 0
+WHILE y <= 600
+	VAR width = 570 - y
+	VAR variance = y % 17
+	VAR variance = variance * 3
+	VAR width = width + variance
+	drawHorizontalRectangle(320,y,r,g,b,width)
+	VAR count = count + 1
+	VAR verticalVariance = count % 3
+	VAR y = y + 5
+	VAR y = y + verticalVariance
+ENDLOOP
+

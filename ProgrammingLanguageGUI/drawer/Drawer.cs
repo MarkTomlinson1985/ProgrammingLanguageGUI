@@ -1,7 +1,6 @@
 ﻿using ProgrammingLanguageGUI.commands;
 using ProgrammingLanguageGUI.commands.drawing.transform;
 using ProgrammingLanguageGUI.commands.keywords;
-using ProgrammingLanguageGUI.exception;
 using ProgrammingLanguageGUI.runner;
 
 namespace ProgrammingLanguageGUI.drawer {
@@ -66,13 +65,20 @@ namespace ProgrammingLanguageGUI.drawer {
             Thread transformThread = new Thread(() => {
                 int count = 0;
                 while (!ThreadManager.TERMINATE_THREADS) {
-                    if (DrawerProperties.DrawerEnabled) {
+                    if (DrawerProperties.DrawerEnabled && DrawerProperties.TransformEnabled) {
                         if (count % 2 == 0) {
                             RedrawTransform(0, count);
-                            drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[1]));
+                            drawingBox.BeginInvoke(new Action(() => { 
+                                lock (bitmapLock) { 
+                                    drawingBox.Image = baseLayers[1]; 
+                                }}));
                         } else {
                             RedrawTransform(1, count);
-                            drawingBox.BeginInvoke(new Action(() => drawingBox.Image = baseLayers[0]));
+                            drawingBox.BeginInvoke(new Action(() => {
+                                lock (bitmapLock) {
+                                    drawingBox.Image = baseLayers[0];
+                                }
+                            }));
                         }
                         currentTransformLayer = count;
 
@@ -226,15 +232,15 @@ namespace ProgrammingLanguageGUI.drawer {
 
         public void TransformPolygon(Point[] points, int layer) {
             Point[] pointsWithOrigin = new Point[] { new(cursor.X, cursor.Y) }.Concat(points).ToArray();
-
-            lock (bitmapLock) {
-                using Graphics graphics = Graphics.FromImage(transformLayers[layer]);
-                graphics.DrawPolygon(pen, pointsWithOrigin);
-            }
+            DrawTransform(graphics => graphics.DrawPolygon(pen, pointsWithOrigin), layer);
         }
 
-        public void DrawTransform(Action<Graphics> drawAction) {
-
+        public void DrawTransform(Action<Graphics> drawAction, int layer) {
+            DrawerProperties.TransformEnabled = true;
+            lock (bitmapLock) {
+                using Graphics graphics = Graphics.FromImage(transformLayers[layer]);
+                drawAction(graphics);
+            }
         }
 
         public void Draw(Action<Graphics> drawAction) {
