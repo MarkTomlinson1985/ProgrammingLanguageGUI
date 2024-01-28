@@ -34,7 +34,7 @@ ENDMETHOD
 VAR halfway = 0
 FILL ON
 // SKY AND SEA WITH STARS AND WAVES
-WHILE i < 800
+WHILE i < 600
 	VAR count = i
 	WHILE j < 700
 		drawRectangle(j,i,r,g,b)
@@ -65,8 +65,8 @@ WHILE i < 800
 	VAR j = 0
 
 	IF i < 400
-		VAR g = g + 1
-		VAR b = b + 1
+		VAR g = g + 2
+		VAR b = b + 2
 	ENDIF
 
 	IF i > 400
@@ -77,8 +77,8 @@ WHILE i < 800
 	ENDIF
 
 	IF halfway == 1
-		VAR g = g - 1
-		VAR b = b - 1
+		VAR g = g - 2
+		VAR b = b - 2
 	ENDIF
 	
 	setRGB(r,g,b)

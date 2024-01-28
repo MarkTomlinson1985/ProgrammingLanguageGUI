@@ -1,10 +1,10 @@
 VAR i = 0
 VAR j = 0 
-VAR r = 114
-VAR g = 129
+VAR r = 100
+VAR g = 120
 VAR b = 247
-VAR baseR = 114
-VAR baseG = 129
+VAR baseR = 100
+VAR baseG = 120
 VAR baseB = 247
 VAR targetR = 240
 VAR targetG = 155
@@ -48,6 +48,7 @@ FILL ON
 WHILE i < 800
 	WHILE j < 700
 		drawRectangle(j,i,r,g,b)
+		VAR r = r + 2
 		VAR g = g + 1
 		VAR b = b - 1
 		VAR j = j + 30
@@ -92,11 +93,10 @@ WHILE i < 800
 	VAR baseG = g
 	VAR baseB = b
 ENDLOOP
-MOVE 600 270
+MOVE 580 255
 PEN 252,220,182
 CIRCLE 100
 
-// Broken until fixed loop scopes.
 VAR size = 110
 VAR r = 255
 VAR g = 202
@@ -111,10 +111,3 @@ WHILE count < 10
 	CIRCLE size
 	VAR count = count + 1
 ENDLOOP
-drawRectangle(540,300,188,153,78)
-drawRectangle(570,300,187,154,81)
-drawRectangle(600,300,186,155,84)
-drawRectangle(630,300,185,156,87)
-drawRectangle(570,330,166,147,73)
-drawRectangle(600,330,165,148,76)
-drawRectangle(630,330,164,149,79)
