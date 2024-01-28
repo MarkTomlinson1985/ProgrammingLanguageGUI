@@ -63,10 +63,10 @@ namespace ProgrammingLanguageGUITest.tests.runner {
             string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100\nIF 10 == 10\nCIRCLE 50\nROTATE CIRCLE 50";
             string expectedMessage = 
                 "Line 2: Command INVALID not recognised.\n" +
-                "Line 3: Provided coordinate arguments must not be negative.\n" +
-                "Line 4: Block command has no defined end.\n" +
-                "Line 6: Block command has no defined end.\n" +
-                "Line 8: Unsupported command defined in transform statement.\n";
+                "Line 3: DRAWTO -100 100 - Provided coordinate arguments must not be negative.\n" +
+                "Line 4: WHILE 100 == 100 - Block command has no defined end.\n" +
+                "Line 6: IF 10 == 10 - Block command has no defined end.\n" +
+                "Line 8: ROTATE CIRCLE 50 - Unsupported command defined in transform statement.\n";
             Assert.AreEqual(expectedMessage, runner.RunProgram(program));
         }
 
@@ -78,11 +78,11 @@ namespace ProgrammingLanguageGUITest.tests.runner {
             string program = "CIRCLE 50\nINVALID 100\nDRAWTO -100 100\nWHILE 100 == 100\nCIRCLE 100\nIF 10 == 10\nCIRCLE 50\nMETHOD myMethod(xPos,yPos)\nMOVE xPos yPos\nmyMethod(100,100)\nROTATE CIRCLE 50";
             string expectedMessages = 
                 "Line 2: Command INVALID not recognised.\n" +
-                "Line 3: Provided coordinate arguments must not be negative.\n" +
-                "Line 8: Method command has no defined end.\n" +
-                "Line 9: Provided arguments are not valid numbers.\n" +
-                "Line 10: Improperly declared method: 'myMethod'.\n" +
-                "Line 11: Unsupported command defined in transform statement.";
+                "Line 3: DRAWTO -100 100 - Provided coordinate arguments must not be negative.\n" +
+                "Line 8: METHOD myMethod(xPos,yPos) - Method command has no defined end.\n" +
+                "Line 9: MOVE xPos yPos - Provided arguments are not valid numbers.\n" +
+                "Line 10: myMethod(100,100) - Improperly declared method: 'myMethod'.\n" +
+                "Line 11: ROTATE CIRCLE 50 - Unsupported command defined in transform statement.";
 
             SyntaxResults results = runner.CheckProgramSyntax(program);
             Assert.AreEqual(expectedMessages, string.Join("\n", results.SyntaxErrors));

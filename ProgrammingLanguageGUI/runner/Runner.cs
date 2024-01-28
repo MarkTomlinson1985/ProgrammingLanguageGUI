@@ -6,6 +6,7 @@ using ProgrammingLanguageGUI.commands.keywords.method;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 using System;
+using System.CodeDom;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.runner {
@@ -60,7 +61,7 @@ namespace ProgrammingLanguageGUI.runner {
                             continue;
                         }
 
-                        i = HandleLoop(i, commands);
+                        i = HandleLoop(i, commands, exceptions);
                         continue;
                     }
 
@@ -79,7 +80,7 @@ namespace ProgrammingLanguageGUI.runner {
                             continue;
                         }
 
-                        i = HandleIfBlock(i, commands);
+                        i = HandleIfBlock(i, commands, exceptions);
                         continue;
                     }
 
@@ -122,14 +123,21 @@ namespace ProgrammingLanguageGUI.runner {
                                     .Select(command => command.ToString())
                                     .ToArray());
 
-                        RunProgram(methodProgram);
+                        string output = RunProgram(methodProgram);
+                        if (!PROGRAM_SUCCESS_MESSAGE.Equals(output)) {
+                            foreach (string exception in output.Split("\n")) {
+                                exceptions.Add(new CommandException(exception));
+                            }
+                        }
+
+
                         // Descope variables declared in method.
                         callMethod.UnassignVariables(variableManager);
                         continue;
                     }
 
                 } catch (CommandException ex) {
-                    exceptions.Add(new CommandException($"Line {results.GetCommands()[commands[i]]}: {ex.Message}"));
+                    exceptions.Add(new CommandException($"Line {results.GetCommands()[commands[i]]}: {commands[i]} - {ex.Message}"));
                 }
             }
 
@@ -176,7 +184,7 @@ namespace ProgrammingLanguageGUI.runner {
             return SyntaxResults.Builder().LineNumbers([]).SyntaxErrors([]).Build();
         }
 
-        private int HandleLoop(int loopIndex, List<Command> commands) {
+        private int HandleLoop(int loopIndex, List<Command> commands, List<CommandException> exceptions) {
             int endLoopIndex = FindBlockEnd(loopIndex, commands, typeof(While), typeof(EndLoop));
 
             if (endLoopIndex == -1) {
@@ -192,14 +200,21 @@ namespace ProgrammingLanguageGUI.runner {
                         .ToArray());
 
             while (((While)commands[loopIndex]).Evaluate()) {
-                RunProgram(loopedProgram);
+                string output = RunProgram(loopedProgram);
+                if (!PROGRAM_SUCCESS_MESSAGE.Equals(output)) {
+                    foreach (string exception in output.Split("\n")) {
+                        if (!exceptions.Any(savedException => savedException.Message.Equals(exception))) {
+                            exceptions.Add(new CommandException(exception));
+                        }
+                    }
+                }
                 commands[loopIndex].Execute(drawer, variableManager);
             }
 
             return endLoopIndex;
         }
 
-        private int HandleIfBlock(int ifIndex, List<Command> commands) {
+        private int HandleIfBlock(int ifIndex, List<Command> commands, List<CommandException> exceptions) {
             int endIfIndex = FindBlockEnd(ifIndex, commands, typeof(If), typeof(EndIf));
 
             if (endIfIndex == -1) {
@@ -215,7 +230,12 @@ namespace ProgrammingLanguageGUI.runner {
                         .ToArray());
 
             if (((If)commands[ifIndex]).Evaluate()) {
-                RunProgram(ifBlock);
+                string output = RunProgram(ifBlock);
+                if (!PROGRAM_SUCCESS_MESSAGE.Equals(output)) {
+                    foreach (string exception in output.Split("\n")) {
+                        exceptions.Add(new CommandException(exception));
+                    }
+                }
             }
 
             return endIfIndex;
