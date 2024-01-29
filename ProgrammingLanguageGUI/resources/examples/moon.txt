@@ -107,10 +107,26 @@ WHILE x <= 400
 	VAR x = x + 20
 ENDLOOP
 
+METHOD drawCircle(circleX,circleY,circleSize)
+	MOVE circleX circleY
+	CIRCLE circleSize
+ENDMETHOD
+
 // MOON DETAILS
 PEN 217,226,243
-MOVE 270 340
-CIRCLE 70
+drawCircle(270,340,60)
+drawCircle(300,310,50)
+drawCircle(290,290,30)
+drawCircle(320,310,30)
+drawCircle(275,370,20)
+drawCircle(250,310,20)
+
+drawCircle(370,300,30)
+drawCircle(375,320,10)
+drawCircle(350,320,30)
+drawCircle(360,330,30)
+drawCircle(350,270,30)
+drawCircle(330,265,20)
 
 // MOON REFLECTIONS ON OCEAN
 METHOD drawHorizontalRectangle(startX,startY,red,green,blue,width)
@@ -119,8 +135,31 @@ METHOD drawHorizontalRectangle(startX,startY,red,green,blue,width)
 	IF width >= 0 RECTANGLE width 2
 ENDMETHOD
 
-setRGB(245,250,254)
+METHOD drawWave(startX,startY,length)
+	VAR interval = length / 8
+	VAR point1 = startX + interval
+	VAR point2 = point1 + interval
+	VAR point3 = point2 + interval
+	VAR point4 = point3 + interval
+	VAR point5 = point4 + interval
+	VAR point6 = point5 + interval
+	
+	MOVE startX startY
+	WAVE POLYGON startX startY point1 startY point2 startY point3 startY point4 startY point5 startY point6 startY point5 startY point4 startY point3 startY point2 startY point1 startY startX startY
 
+	VAR point1 = startX - interval
+	VAR point2 = point1 - interval
+	VAR point3 = point2 - interval
+	VAR point4 = point3 - interval
+	VAR point5 = point4 - interval
+	VAR point6 = point5 - interval
+
+	MOVE startX startY
+	WAVE POLYGON startX startY point1 startY point2 startY point3 startY point4 startY point5 startY point6 startY point5 startY point4 startY point3 startY point2 startY point1 startY startX startY
+ENDMETHOD
+
+setRGB(245,250,254)
+PEN r,g,b
 VAR y = 410
 VAR count = 0
 WHILE y <= 600
@@ -128,7 +167,8 @@ WHILE y <= 600
 	VAR variance = y % 17
 	VAR variance = variance * 3
 	VAR width = width + variance
-	drawHorizontalRectangle(320,y,r,g,b,width)
+	// drawHorizontalRectangle(320,y,r,g,b,width)
+	drawWave(320,y,width)
 	VAR count = count + 1
 	VAR verticalVariance = count % 3
 	VAR y = y + 5

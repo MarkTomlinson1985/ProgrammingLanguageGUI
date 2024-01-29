@@ -55,6 +55,8 @@ namespace ProgrammingLanguageGUI.commands {
                     return new Polygon(arguments);
                 case "rotate":
                     return new Rotate(arguments);
+                case "wave":
+                    return new Wave(arguments);
             }
 
             if (commandType.Contains('(') && commandType.Contains(')')) {

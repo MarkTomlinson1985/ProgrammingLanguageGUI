@@ -5,19 +5,19 @@ using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
     /// <summary>
-    /// Tests relating to the Rotate class.
+    /// Tests relating to the Wave class.
     /// </summary>
     [TestClass]
-    public class RotateTest {
+    public class WaveTest {
         Drawer drawer = new Drawer(new System.Windows.Forms.PictureBox());
         VariableManager variableManager = new VariableManager();
 
         /// <summary>
-        /// Tests the creation and validation of a valid Rotate command with inline command. Any exception will result
+        /// Tests the creation and validation of a valid Wave command with inline command. Any exception will result
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        public void RotateCommandShouldExecuteWithInlineCommand() {
+        public void WaveCommandShouldExecuteWithInlineCommand() {
             Rotate command = new Rotate("POLYGON 100 50 200 500");
 
             try {
@@ -30,7 +30,7 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         }
 
         /// <summary>
-        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Rotate object is
+        /// Tests that the ValidateCommand method throws specific exceptions and messages when a Wave object is
         /// created and validated with invalid arguments.
         /// </summary>
         [TestMethod]

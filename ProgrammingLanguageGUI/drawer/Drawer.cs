@@ -307,6 +307,29 @@ namespace ProgrammingLanguageGUI.drawer {
             }
         }
 
+        public void Wave(Command command) {
+            if (command is IWaveable waveable) {
+                Point[] points = waveable.GetPoints();
+                Point[] basePoints = new Point[points.Length];
+
+                for (int k = 0; k < basePoints.Length; k++) {
+                    basePoints[k] = new Point(points[k].X, points[k].Y);
+                }
+
+                Random random = new Random();
+
+                for (int i = 0; i < TRANSFORM_LAYERS; i++) {
+                    for (int j = 0; j < basePoints.Length; j++) {
+                        double randomVariance = (random.NextDouble() * 2) - 1;
+                        double yPosition = basePoints[j].Y + randomVariance;
+                        points[j] = new Point(points[j].X, (int)yPosition);
+                    }
+
+                    waveable.ExecuteTransform(this, i);
+                }
+            }
+        }
+
         /// <summary>
         /// Draws a polygon to the given transform layer.
         /// </summary>

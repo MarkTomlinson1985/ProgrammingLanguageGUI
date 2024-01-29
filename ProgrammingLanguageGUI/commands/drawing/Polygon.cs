@@ -8,7 +8,7 @@ namespace ProgrammingLanguageGUI.commands.drawing {
     /// Derived command class. Contains methods to validate and execute the command, and custom
     /// toString impelmentation for reverse engineering commands back into text.
     /// </summary>
-    public class Polygon : DrawCommand, IRotatable {
+    public class Polygon : DrawCommand, IRotatable, IWaveable {
         private Point[] points;
 
         public Polygon(params string[] arguments) : base(arguments) {}
@@ -33,8 +33,8 @@ namespace ProgrammingLanguageGUI.commands.drawing {
 
                 int pointIndex = 0;
                 for (int i = 0; i < arguments.Length; i += 2) {
-                    int pointOne = int.Parse(arguments[i]);
-                    int pointTwo = int.Parse(arguments[i + 1]);
+                    int pointOne = int.Parse(GetVariableOrValue(arguments[i], variableManager));
+                    int pointTwo = int.Parse(GetVariableOrValue(arguments[i + 1], variableManager));
 
                     if (pointOne < 0 || pointTwo < 0) {
                         throw new CommandArgumentException("Provided coordinates must not be negative.");

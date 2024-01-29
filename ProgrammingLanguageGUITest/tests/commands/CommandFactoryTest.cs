@@ -36,6 +36,8 @@ namespace ProgrammingLanguageGUITest.tests.commands
         [DataRow("ENDMETHOD", typeof(EndMethod))]
         [DataRow("myMethod()", typeof(CallMethod))]
         [DataRow("POLYGON", typeof(Polygon))]
+        [DataRow("ROTATE", typeof(Rotate))]
+        [DataRow("WAVE", typeof(Wave))]
         public void CommandFactoryShouldReturnCommandWithValidCommandType(string command, Type expectedType) {
             Assert.IsInstanceOfType(CommandFactory.BuildCommand(command), expectedType);
         }
