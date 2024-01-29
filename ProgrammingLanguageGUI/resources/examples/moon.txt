@@ -163,7 +163,7 @@ PEN r,g,b
 VAR y = 410
 VAR count = 0
 WHILE y <= 600
-	VAR width = 540 - y
+	VAR width = 530 - y
 	VAR variance = y % 17
 	VAR variance = variance * 3
 	VAR width = width + variance

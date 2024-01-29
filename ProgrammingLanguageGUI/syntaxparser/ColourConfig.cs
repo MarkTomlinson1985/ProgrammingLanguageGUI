@@ -31,6 +31,7 @@
             "endmethod"};
 
         public static List<string> TRANSFORM_WORDS = new List<string>() {
-            "rotate"};
+            "rotate",
+            "wave"};
     }
 }

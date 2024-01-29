@@ -50,7 +50,7 @@ namespace ProgrammingLanguageGUITest.tests.file {
         /// Tests that the ParseWord method returns the expected colour for numeric input.
         /// </summary>
         [TestMethod]
-        [DataRow("rotate")]
+        [DataRow("rotate", "wave")]
         public void ParseWordShouldReturnExpectedColourForTransformWord(params string[] words) {
             Color colour = ColourConfig.TRANSFORM_COLOUR;
             foreach (string word in words) {
