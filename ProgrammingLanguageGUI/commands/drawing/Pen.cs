@@ -4,10 +4,17 @@ using ProgrammingLanguageGUI.exception;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.commands.drawing {
+    /// <summary>
+    /// Derived command class. Contains methods to validate and execute the command, and custom
+    /// toString impelmentation for reverse engineering commands back into text.
+    /// </summary>
     public class Pen : DrawCommand {
         private Color colour;
         private Color multiColour = Color.Empty;
 
+        /// <summary>
+        /// Enum describing valid multi-colour options.
+        /// </summary>
         enum MultiColour {
             REDGREEN,
             BLUEYELLOW,
@@ -40,6 +47,11 @@ namespace ProgrammingLanguageGUI.commands.drawing {
             ValidateColourFromName();
         }
 
+        /// <summary>
+        /// Validates the colour using RGB values rather than by name.
+        /// </summary>
+        /// <param name="variableManager"></param>
+        /// <exception cref="CommandArgumentException"></exception>
         private void ValidateRGBParameters(VariableManager variableManager) {
             try {
                 int[] rgbValues = arguments[0].Split(',').Select(value => int.Parse(GetVariableOrValue(value, variableManager))).ToArray();
@@ -57,6 +69,10 @@ namespace ProgrammingLanguageGUI.commands.drawing {
             }
         }
 
+        /// <summary>
+        /// Validates the colour is a valid named colour.
+        /// </summary>
+        /// <exception cref="CommandArgumentException"></exception>
         private void ValidateColourFromName() {
             if (MatchesMultiColour(arguments[0])) {
                 ValidateMultiColour();
@@ -70,10 +86,19 @@ namespace ProgrammingLanguageGUI.commands.drawing {
             }
         }
 
+        /// <summary>
+        /// Returns true if the provided string matches the valid multi-colour options defined in the 
+        /// MultiColour enum.
+        /// </summary>
+        /// <param name="multiColour"></param>
+        /// <returns></returns>
         private bool MatchesMultiColour(string multiColour) {
             return Enum.GetNames<MultiColour>().Any(colour => colour.ToLower().Equals(multiColour));
         }
 
+        /// <summary>
+        /// Validates and sets multiple colours for use with multi-colour commands.
+        /// </summary>
         private void ValidateMultiColour() {
             MultiColour multi = GetMultiColourType(arguments[0]);
             switch (multi) {
@@ -92,6 +117,12 @@ namespace ProgrammingLanguageGUI.commands.drawing {
             }
         }
 
+        /// <summary>
+        /// Converts a string into a multi-colour enum.
+        /// </summary>
+        /// <param name="multiColour"></param>
+        /// <returns></returns>
+        /// <exception cref="CommandArgumentException"></exception>
         private MultiColour GetMultiColourType(string multiColour) {
             switch (multiColour) {
                 case "redgreen":

@@ -14,29 +14,12 @@ VAR greenUp = 1
 METHOD drawRectangle(xPos,yPos,red,green,blue)
 	MOVE xPos yPos
 
-	IF red < 0
-		VAR red = 0
-	ENDIF
-
-	IF red > 255
-		VAR red = 255
-	ENDIF
-
-	IF green < 0
-		VAR green = 0
-	ENDIF
-
-	IF green > 255
-		VAR green = 255
-	ENDIF
-	
-	IF blue < 0
-		VAR blue = 0
-	ENDIF
-
-	IF blue > 255
-		VAR blue = 255
-	ENDIF
+	IF red < 0 VAR red = 0
+	IF red > 255 VAR red = 255	
+	IF green < 0 VAR green = 0	
+	IF green > 255 VAR green = 255	
+	IF blue < 0 VAR blue = 0
+	IF blue > 255 VAR blue = 255
 
 	PEN red,green,blue
 	RECTANGLE 30 30
@@ -65,13 +48,8 @@ WHILE i < 800
 		ENDIF
 	ENDIF
 
-	IF redUp == 1
-		VAR r = r + 20
-	ENDIF
-
-	IF redUp == 0
-		VAR r = r - 22
-	ENDIF
+	IF redUp == 1 VAR r = r + 20
+	IF redUp == 0 VAR r = r - 22
 
 	IF g > 155
 		IF greenUp == 1 
