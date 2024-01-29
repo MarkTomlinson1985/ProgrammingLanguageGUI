@@ -286,12 +286,10 @@ namespace ProgrammingLanguageGUI.drawer {
         /// the calculated points.
         /// </summary>
         /// <param name="command"></param>
-        public void Rotate(Command command) {
+        public void Rotate(Command command, int originX, int originY) {
             if (command is IRotatable rotatable) {
                 double degreesRotation = 360.0 / TRANSFORM_LAYERS;
 
-                int originX = cursor.X;
-                int originY = cursor.Y;
                 Point[] points = rotatable.GetPoints();
                 double angleInRadians = degreesRotation * Math.PI / 180;
 
@@ -336,8 +334,8 @@ namespace ProgrammingLanguageGUI.drawer {
         /// <param name="points"></param>
         /// <param name="layer"></param>
         public void TransformPolygon(Point[] points, int layer) {
-            Point[] pointsWithOrigin = new Point[] { new(cursor.X, cursor.Y) }.Concat(points).ToArray();
-            DrawTransform(graphics => graphics.DrawPolygon(pen, pointsWithOrigin), layer);
+            //Point[] pointsWithOrigin = new Point[] { new(cursor.X, cursor.Y) }.Concat(points).ToArray();
+            DrawTransform(graphics => graphics.DrawPolygon(pen, points), layer);
         }
 
         /// <summary>

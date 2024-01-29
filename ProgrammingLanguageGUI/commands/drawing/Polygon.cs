@@ -31,6 +31,10 @@ namespace ProgrammingLanguageGUI.commands.drawing {
 
                 points = new Point[arguments.Length / 2];
 
+                if (points.Length <= 1) {
+                    throw new CommandArgumentException("Invalid number of arguments: polygon requires at least 2 points.");
+                }
+
                 int pointIndex = 0;
                 for (int i = 0; i < arguments.Length; i += 2) {
                     int pointOne = int.Parse(GetVariableOrValue(arguments[i], variableManager));

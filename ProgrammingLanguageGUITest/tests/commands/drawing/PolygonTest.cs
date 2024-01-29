@@ -18,7 +18,7 @@ namespace ProgrammingLanguageGUITest.tests.commands.drawing {
         /// in a failure assertion.
         /// </summary>
         [TestMethod]
-        [DataRow("100", "100")]
+        [DataRow("0", "0", "100", "100")]
         [DataRow("100", "100", "200", "300")]
         [DataRow("100", "100", "300", "10", "0", "20")]
         public void ValidateCommandShouldSucceedWithValidArguments(params string[] arguments) {
@@ -37,8 +37,9 @@ namespace ProgrammingLanguageGUITest.tests.commands.drawing {
         /// </summary>
         [TestMethod]
         [DataRow("Invalid number of arguments: odd number of coordinates.", "100", "100", "100")]
-        [DataRow("Provided coordinates must not be negative.", "-100", "100")]
-        [DataRow("Provided coordinates are not valid numbers.", "-100", "test")]
+        [DataRow("Provided coordinates must not be negative.", "-100", "100", "100", "120")]
+        [DataRow("Provided coordinates are not valid numbers.", "0", "0", "100", "test")]
+        [DataRow("Invalid number of arguments: polygon requires at least 2 points.", "100", "100")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string expectedExceptionMessage, params string[] arguments) {
             Polygon command = new Polygon(arguments);

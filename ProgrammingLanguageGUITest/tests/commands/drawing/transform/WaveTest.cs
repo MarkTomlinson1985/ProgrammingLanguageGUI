@@ -18,7 +18,7 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         /// </summary>
         [TestMethod]
         public void WaveCommandShouldExecuteWithInlineCommand() {
-            Rotate command = new Rotate("POLYGON 100 50 200 500");
+            Wave command = new Wave("POLYGON 100 50 200 500");
 
             try {
                 command.Execute(drawer, variableManager);
@@ -39,7 +39,7 @@ namespace ProgrammingLanguageGUITest.tests.commands.keywords.loop {
         [DataRow(" ", "Invalid command defined in transform statement.")]
         public void ValidateCommandShouldThrowArgumentExceptionWithInvalidArguments(
             string arguments, string expectedExceptionMessage) {
-            Rotate command = new Rotate(arguments.Split(" "));
+            Wave command = new Wave(arguments.Split(" "));
 
             Exception ex = Assert.ThrowsException<CommandArgumentException>(() => command.Execute(drawer, variableManager));
 

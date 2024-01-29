@@ -163,7 +163,7 @@ PEN r,g,b
 VAR y = 410
 VAR count = 0
 WHILE y <= 600
-	VAR width = 570 - y
+	VAR width = 540 - y
 	VAR variance = y % 17
 	VAR variance = variance * 3
 	VAR width = width + variance
@@ -175,3 +175,6 @@ WHILE y <= 600
 	VAR y = y + verticalVariance
 ENDLOOP
 
+// SHOOTING STAR
+PEN lightblue
+ROTATE 0 900 POLYGON 300 50 305 50
