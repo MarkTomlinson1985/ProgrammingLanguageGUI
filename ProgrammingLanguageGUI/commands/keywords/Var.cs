@@ -4,6 +4,10 @@ using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands
 {
+    /// <summary>
+    /// Derived command class. For declaring and validating custom variables.
+    /// </summary>
+    /// <param name="arguments"></param>
     public class Var(params string[] arguments) : ConditionalCommand(arguments) {
         private string variableName;
         private string variableValue;
@@ -39,7 +43,6 @@ namespace ProgrammingLanguageGUI.commands
                     throw new CommandArgumentException("Invalid number of arguments for variable assignment.");
                 }
 
-                // Limit to 5 arguments for now. a = 1 * 2
                 if (arguments.Length > 5) {
                     throw new CommandArgumentException("Invalid number of arguments for variable assignment.");
                 }

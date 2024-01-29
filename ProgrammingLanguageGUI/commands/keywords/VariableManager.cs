@@ -1,8 +1,11 @@
 ﻿using ProgrammingLanguageGUI.commands.keywords.method;
 using ProgrammingLanguageGUI.exception;
 
-namespace ProgrammingLanguageGUI.commands.keywords
-{
+namespace ProgrammingLanguageGUI.commands.keywords {
+    /// <summary>
+    /// Manages variable and method declarations. Reads and writes
+    /// methods and variables.
+    /// </summary>
     public class VariableManager {
         Dictionary<string, string> variables = new Dictionary<string, string>();
         List<Method> methods = new List<Method>();
@@ -36,9 +39,15 @@ namespace ProgrammingLanguageGUI.commands.keywords
             methods.Clear();
         }
 
+        /// <summary>
+        /// Retrieves method if given method name exists.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="CommandNotFoundException">If method does not exist.</exception>
         public Method GetMethod(string name) {
             Method? method = methods.Find(method => method.MethodName.Equals(name));
-            
+
             if (method == null) {
                 throw new CommandNotFoundException($"Method {method} not declared.");
             }

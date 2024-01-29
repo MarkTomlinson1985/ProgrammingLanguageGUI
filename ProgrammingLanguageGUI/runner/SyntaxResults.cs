@@ -1,6 +1,8 @@
 ﻿namespace ProgrammingLanguageGUI.runner {
-    // Maybe look at implementing the builder pattern here, or try making a
-    // builder that uses generics that can be used anywhere.
+    /// <summary>
+    /// Record class containing the results of syntax checking a program.
+    /// Utilizes builder pattern for construction the SyntaxResults object.
+    /// </summary>
     public class SyntaxResults {
         private string[] syntaxErrors;
         private int[] lineNumbers;

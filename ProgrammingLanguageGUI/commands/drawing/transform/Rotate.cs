@@ -4,6 +4,9 @@ using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands.keywords.loop {
+    /// Derived command class. Contains methods to validate and execute the command, and custom
+    /// toString impelmentation for reverse engineering commands back into text.
+    /// </summary>
     public class Rotate : TransformCommand, IInlineCommand {
         private Command inlineCommand = Empty;
 
@@ -12,7 +15,7 @@ namespace ProgrammingLanguageGUI.commands.keywords.loop {
         public override void Execute(Drawer drawer, VariableManager variableManager) {
             ValidateCommand(variableManager);
             inlineCommand.ValidateCommand(variableManager);
-            drawer.Rotate(inlineCommand, variableManager);
+            drawer.Rotate(inlineCommand);
         }
 
         public override void ValidateCommand(VariableManager variableManager) {

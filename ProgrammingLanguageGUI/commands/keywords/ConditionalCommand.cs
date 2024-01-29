@@ -3,6 +3,10 @@ using ProgrammingLanguageGUI.commands.keywords.loop;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
+    /// <summary>
+    /// Abstract command class. For commands that implement conditional logic.
+    /// </summary>
+    /// <param name="arguments"></param>
     public abstract class ConditionalCommand(params string[] arguments) : Command(arguments), ISelection {
         protected bool condition;
 
@@ -21,6 +25,7 @@ namespace ProgrammingLanguageGUI.commands {
                 string conditionOperator = arguments[1];
                 int rightValue = int.Parse(GetVariableOrValue(arguments[2], variableManager));
 
+                // Evaluates the arguments of the condition.
                 condition = conditionOperator switch {
                     "!=" => leftValue != rightValue,
                     "==" => leftValue == rightValue,
@@ -35,6 +40,10 @@ namespace ProgrammingLanguageGUI.commands {
             }
         }
 
+        /// <summary>
+        /// Returns the result of the condition evaluation.
+        /// </summary>
+        /// <returns></returns>
         public bool Evaluate() {
             return condition;
         }

@@ -1,4 +1,8 @@
 ﻿namespace ProgrammingLanguageGUI.drawer {
+    /// <summary>
+    /// Derived PictureBox class. Stored Bitmap and positional data for
+    /// on-screen cursor.
+    /// </summary>
     public class Cursor : PictureBox {
         private Bitmap bitmap;
         public Bitmap Bitmap { 

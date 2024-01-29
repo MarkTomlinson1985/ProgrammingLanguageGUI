@@ -1,5 +1,8 @@
 ﻿namespace ProgrammingLanguageGUI.exception {
-    public class CommandNotFoundException : CommandException {
-        public CommandNotFoundException(string message) : base(message) { }
+    /// <summary>
+    /// Derived command exception class relating to commands with invalid arguments.
+    /// </summary>
+    public class CommandArgumentException : CommandException {
+        public CommandArgumentException(string message) : base(message) { }
     }
 }

@@ -4,6 +4,10 @@ using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands.drawing {
+    /// <summary>
+    /// Derived command class. Contains methods to validate and execute the command, and custom
+    /// toString impelmentation for reverse engineering commands back into text.
+    /// </summary>
     public class Polygon : DrawCommand, IRotatable {
         private Point[] points;
 
@@ -49,6 +53,10 @@ namespace ProgrammingLanguageGUI.commands.drawing {
             return $"POLYGON {string.Join(" ", arguments)}";
         }
 
+        /// <summary>
+        /// Returns the Point information for the polygon.
+        /// </summary>
+        /// <returns></returns>
         public Point[] GetPoints() {
             return points;
         }

@@ -1,4 +1,7 @@
 ﻿namespace ProgrammingLanguageGUI.syntaxparser {
+    /// <summary>
+    /// Contains defined variables for use in the SyntaxParser class.
+    /// </summary>
     public class ColourConfig {
         public static Color COMMAND_WORDS_COLOUR = Color.Orange;
         public static Color KEY_WORDS_COLOUR = Color.FromArgb(218, 28, 232);

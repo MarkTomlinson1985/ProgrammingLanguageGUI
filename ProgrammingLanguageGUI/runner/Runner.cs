@@ -5,11 +5,12 @@ using ProgrammingLanguageGUI.commands.keywords.loop;
 using ProgrammingLanguageGUI.commands.keywords.method;
 using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
-using System;
-using System.CodeDom;
 using System.Diagnostics;
 
 namespace ProgrammingLanguageGUI.runner {
+    /// <summary>
+    /// Runner class for the execution of commands and programs.
+    /// </summary>
     public class Runner {
         private const string PROGRAM_SUCCESS_MESSAGE = "Program executed successfully.";
         private CommandProcessor processor;
@@ -22,6 +23,11 @@ namespace ProgrammingLanguageGUI.runner {
             this.variableManager = variableManager;
         }
 
+        /// <summary>
+        /// Run the provided string argument as an invidual command.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public string RunCommand(string input) {
             try {
                 Command command = processor.ParseCommand(input);
@@ -33,6 +39,12 @@ namespace ProgrammingLanguageGUI.runner {
             }
         }
 
+        /// <summary>
+        /// Runs the provided new-line separated string argument as a program.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="CommandNotFoundException"></exception>
         public string RunProgram(string input) {
             ProgramResults results = processor.ParseProgram(input);
 
@@ -67,7 +79,6 @@ namespace ProgrammingLanguageGUI.runner {
 
                     // If command
                     if (commands[i] is If ifCommand) {
-
                         if (ifCommand.HasInlineCommand()) {
                             if (ifCommand.Evaluate()) {
                                 Command inlineCommand = ifCommand.Retrieve();
@@ -141,6 +152,8 @@ namespace ProgrammingLanguageGUI.runner {
                 }
             }
 
+            // If there are any exceptions return these as the output.
+            // Otherwise return a success message.
             if (exceptions.Count > 0) {
                 string exceptionOutput = string.Empty;
                 foreach (CommandException ex in exceptions) {
@@ -152,6 +165,12 @@ namespace ProgrammingLanguageGUI.runner {
             return PROGRAM_SUCCESS_MESSAGE;
         }
 
+        /// <summary>
+        /// Checks the syntax of a program. Runs the program to validate commands
+        /// but does not draw any output to the screen.
+        /// </summary>
+        /// <param name="program"></param>
+        /// <returns>Syntax results, containing syntax errors and line numbers with syntax errors.</returns>
         public SyntaxResults CheckProgramSyntax(string program) {
             try {
                 drawer.DrawerProperties.DrawerEnabled = false;
@@ -184,6 +203,14 @@ namespace ProgrammingLanguageGUI.runner {
             return SyntaxResults.Builder().LineNumbers([]).SyntaxErrors([]).Build();
         }
 
+        /// <summary>
+        /// Validates and executes a code block contained within a loop command.
+        /// </summary>
+        /// <param name="loopIndex"></param>
+        /// <param name="commands"></param>
+        /// <param name="exceptions"></param>
+        /// <returns></returns>
+        /// <exception cref="CommandNotFoundException">If loop has no declared endloop command.</exception>
         private int HandleLoop(int loopIndex, List<Command> commands, List<CommandException> exceptions) {
             int endLoopIndex = FindBlockEnd(loopIndex, commands, typeof(While), typeof(EndLoop));
 
@@ -191,6 +218,8 @@ namespace ProgrammingLanguageGUI.runner {
                 throw new CommandNotFoundException("Loop command has no defined end.");
             }
 
+            // Converts the commands inbetween the loop and endloop commands into 
+            // the string representations of the commands.
             string loopedProgram = 
                 string.Join(
                     "\n", 
@@ -199,6 +228,10 @@ namespace ProgrammingLanguageGUI.runner {
                         .Select(command => command.ToString())
                         .ToArray());
 
+            // Executes the code block whilever the loop command evaluates to true.
+            // Any exceptions within the block are added to the list of exceptions, unless
+            // an identical exception message already exists. Prevents the same errors from
+            // being logged every time round the loop.
             while (((While)commands[loopIndex]).Evaluate()) {
                 string output = RunProgram(loopedProgram);
                 if (!PROGRAM_SUCCESS_MESSAGE.Equals(output)) {
@@ -214,6 +247,14 @@ namespace ProgrammingLanguageGUI.runner {
             return endLoopIndex;
         }
 
+        /// <summary>
+        /// Validates and executes a code block contained within an If command.
+        /// </summary>
+        /// <param name="ifIndex"></param>
+        /// <param name="commands"></param>
+        /// <param name="exceptions"></param>
+        /// <returns></returns>
+        /// <exception cref="CommandNotFoundException"></exception>
         private int HandleIfBlock(int ifIndex, List<Command> commands, List<CommandException> exceptions) {
             int endIfIndex = FindBlockEnd(ifIndex, commands, typeof(If), typeof(EndIf));
 
@@ -229,6 +270,8 @@ namespace ProgrammingLanguageGUI.runner {
                         .Select(command => command.ToString())
                         .ToArray());
 
+            // Runs the block of code within the If block if the If command
+            // condition evaluates as true.
             if (((If)commands[ifIndex]).Evaluate()) {
                 string output = RunProgram(ifBlock);
                 if (!PROGRAM_SUCCESS_MESSAGE.Equals(output)) {
@@ -241,6 +284,16 @@ namespace ProgrammingLanguageGUI.runner {
             return endIfIndex;
         }
 
+        /// <summary>
+        /// Finds the corresponding end command index to for a given command that contains a block
+        /// of code. 
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="commands"></param>
+        /// <param name="blockStartType"></param>
+        /// <param name="blockEndType"></param>
+        /// <returns></returns>
+        /// <exception cref="CommandNotFoundException"></exception>
         private int FindBlockEnd(int startIndex, List<Command> commands, Type blockStartType, Type blockEndType) {
             int blockStartCommands = 1;
             int blockEndCommands = 0;
@@ -257,7 +310,10 @@ namespace ProgrammingLanguageGUI.runner {
                 }
 
                 if (commands[i].GetType().Equals(blockStartType)) {
-                    blockStartCommands++;
+                    if (commands[i] is not IInlineCommand
+                        || (commands[i] is IInlineCommand inlineCommand && !inlineCommand.HasInlineCommand())) {
+                        blockStartCommands++;
+                    }
                 }
             }
 

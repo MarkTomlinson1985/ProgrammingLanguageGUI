@@ -3,6 +3,10 @@ using ProgrammingLanguageGUI.drawer;
 using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands.drawing {
+    /// <summary>
+    /// Derived command class. Contains methods to validate and execute the command, and custom
+    /// toString impelmentation for reverse engineering commands back into text.
+    /// </summary>
     public class Triangle : DrawCommand {
         private int width;
         private int height;

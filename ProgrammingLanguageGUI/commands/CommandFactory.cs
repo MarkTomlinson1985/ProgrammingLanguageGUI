@@ -5,7 +5,16 @@ using Pen = ProgrammingLanguageGUI.commands.drawing.Pen;
 using Rectangle = ProgrammingLanguageGUI.commands.drawing.Rectangle;
 
 namespace ProgrammingLanguageGUI.commands {
+    /// <summary>
+    /// Factory class for the construction of Command objects.
+    /// </summary>
     public class CommandFactory {
+        /// <summary>
+        /// Constructs a Command object based on the provided command text.
+        /// If command text does not match any defined commands, returns null.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public static Command? BuildCommand(string command) {
             string commandType = command.Split(" ")[0].Trim();
             string[] arguments = command.Split(" ").Skip(1).Select(argument => argument.Trim()).ToArray();

@@ -6,7 +6,11 @@ using ProgrammingLanguageGUI.runner;
 using ProgrammingLanguageGUI.syntaxparser;
 
 namespace ProgrammingLanguageGUI {
+    /// <summary>
+    /// Partial class for the top-level form application.
+    /// </summary>
     public partial class Application : Form {
+        private static readonly string[] separator = ["\n"];
         private Drawer drawer;
         private CommandProcessor commandProcessor;
         private Runner runner;
@@ -28,12 +32,13 @@ namespace ProgrammingLanguageGUI {
             FormClosing += Application_FormClosing;
         }
 
-        private void Application_FormClosing(object? sender, FormClosingEventArgs e) {
-            ThreadManager.TERMINATE_THREADS = true;
-        }
-
-        private static readonly string[] separator = ["\n"];
-
+        /// <summary>
+        /// Event that fires when the text editor text changes.
+        /// Populates the line number column with the corresponding number of lines
+        /// in the text editor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextEditor_TextChanged(object sender, EventArgs e) {
             int numberOfLines = programEditor.Text.Split("\n").Length;
             int lineNumbersLength = lineText.Text.Split(separator, StringSplitOptions.None).Length - 1;
@@ -47,21 +52,24 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Event that fires when the 'Run command' button is pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void runCommand_Click(object sender, EventArgs e) {
             string command = commandText.Text;
-
-            //DEBUG
-            if (command.ToLower().Equals("dt")) {
-                ThreadManager.TERMINATE_THREADS = true;
-                commandText.Text = "";
-                return;
-            }
 
             outputText.Text = runner.RunCommand(command);
             lastCommand = commandText.Text;
             commandText.Text = "";
         }
 
+        /// <summary>
+        /// Event that fires when the 'Run program' button is pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void runProgram_Click(object sender, EventArgs e) {
             string program = programEditor.Text;
             drawer.Reset();
@@ -69,12 +77,22 @@ namespace ProgrammingLanguageGUI {
             outputText.Text = runner.RunProgram(program);
         }
 
-
+        /// <summary>
+        /// Event that fires when the 'Save' button is pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveButton_Click(object sender, EventArgs e) {
             string program = programEditor.Text;
             outputText.Text = FileManager.SaveTextToFile(program);
         }
 
+
+        /// <summary>
+        /// Event that fires when the 'Load' button is pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openButton_Click(object sender, EventArgs e) {
             try {
                 string program = FileManager.LoadFile();
@@ -88,12 +106,22 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Event that fires when the 'New' button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void newButton_Click(object sender, EventArgs e) {
             programEditor.Text = "";
             drawer.Reset();
             FileManager.NewFile();
         }
 
+        /// <summary>
+        /// Event that fires when a key is pressed in the command text box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void commandText_KeyPress(object sender, KeyPressEventArgs e) {
             // on Enter keypress
             if (e.KeyChar == (char)13) {
@@ -101,6 +129,11 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Event that fires when a key is pressed in the program editor text box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void programEditor_KeyPress(object sender, KeyPressEventArgs e) {
             // on Enter keypress
             if (e.KeyChar == (char)13) {
@@ -108,6 +141,9 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Calls the runner class to perform program syntax checking.
+        /// </summary>
         private void CheckProgramSyntax() {
             if (Configuration.EnableSyntaxChecking) {
                 SyntaxResults results = runner.CheckProgramSyntax(programEditor.Text);
@@ -116,6 +152,10 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Uses syntax results to highlight lines with syntax errors on them in red.
+        /// </summary>
+        /// <param name="results"></param>
         private void ShowErrors(SyntaxResults results) {
             outputText.Text = string.Join("\n", results.SyntaxErrors);
 
@@ -128,15 +168,21 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Colours the program text with syntax highlighting.
+        /// </summary>
+        /// <param name="results"></param>
         private void ColourProgram(SyntaxResults results) {
             for (int i = 0; i < programEditor.Lines.Length; i++) {
                 int startIndex = programEditor.GetFirstCharIndexFromLine(i);
                 int length = programEditor.Lines[i].Length;
 
+                // Skip line numbers with errors.
                 if (results.LineNumbers.Contains(i + 1)) {
                     continue;
                 }
 
+                // Ignore individual word syntax on commented lines.
                 if (length > 2 && programEditor.Lines[i].Trim().StartsWith("//")) {
                     ColourText(startIndex, length, Color.LightGreen);
                     continue;
@@ -146,6 +192,11 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Colours the individual words in a line based on defined syntax colours.
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="lineLength"></param>
         private void ColourLine(int startIndex, int lineLength) {
             int indexOfNextSpace = programEditor.Text.IndexOf(" ", startIndex);
 
@@ -180,10 +231,21 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Colours text with default colour.
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
         private void ColourText(int startIndex, int length) {
             ColourText(startIndex, length, defaultColour);
         }
 
+        /// <summary>
+        /// Colours text with provided colour.
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
+        /// <param name="colour"></param>
         private void ColourText(int startIndex, int length, Color colour) {
             programEditor.StopRepaint();
             int currentIndex = programEditor.SelectionStart;
@@ -196,6 +258,11 @@ namespace ProgrammingLanguageGUI {
             programEditor.StartRepaint();
         }
 
+        /// <summary>
+        /// Event that fires when a key is released in the command text box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void commandText_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Up) {
                 commandText.Text = lastCommand;
@@ -203,6 +270,11 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Event that fires when the 'Toggle syntax' button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toggleSyntaxButton_Click(object sender, EventArgs e) {
             Configuration.EnableSyntaxChecking = !Configuration.EnableSyntaxChecking;
             toggleSyntaxButton.ForeColor = 
@@ -222,12 +294,27 @@ namespace ProgrammingLanguageGUI {
             }
         }
 
+        /// <summary>
+        /// Event that fires when the 'Toggle syntax' is hovered over with the mouse.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toggleSyntaxButton_MouseHover(object sender, EventArgs e) {
             buttonTooltip.SetToolTip(
                 toggleSyntaxButton,
                 Configuration.EnableSyntaxChecking == true
                     ? "Disable syntax checking"
                     : "Enable syntax checking");
+        }
+
+        /// <summary>
+        /// Event that terminates any child threads within the application. Allows
+        /// the program to close.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Application_FormClosing(object? sender, FormClosingEventArgs e) {
+            ThreadManager.TERMINATE_THREADS = true;
         }
     }
 }

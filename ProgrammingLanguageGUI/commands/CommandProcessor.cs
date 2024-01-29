@@ -1,9 +1,16 @@
-﻿using ProgrammingLanguageGUI.commands.keywords;
-using ProgrammingLanguageGUI.exception;
+﻿using ProgrammingLanguageGUI.exception;
 
 namespace ProgrammingLanguageGUI.commands {
-    public class CommandProcessor {
 
+    /// <summary>
+    /// Class for parsing programs and individual commands.
+    /// </summary>
+    public class CommandProcessor {
+        /// <summary>
+        /// Parses a program. Returns parsed commands and exceptions.
+        /// </summary>
+        /// <param name="program">New-line separated program string.</param>
+        /// <returns></returns>
         public ProgramResults ParseProgram(string program) {
             string[] textCommands = program.Split("\n");
             Dictionary<Command, int> commands = new Dictionary<Command, int>();
@@ -22,6 +29,12 @@ namespace ProgrammingLanguageGUI.commands {
             return new ProgramResults(commands, exceptions);
         }
 
+        /// <summary>
+        /// Parses an individual string-based command.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns>The corresponding Command object.</returns>
+        /// <exception cref="CommandNotFoundException"></exception>
         public Command ParseCommand(string command) {
             string parsedCommand = command.Split("//")[0].Replace("\t", "").Trim();
 
